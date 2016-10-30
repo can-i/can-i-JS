@@ -1,0 +1,28 @@
+{
+  "devDependencies": {
+    "express": "^4.14.0",
+    "superagent": "^2.3.0",
+    "typings": "^1.5.0"
+  },
+  "name": "can-i",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "bu"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/shavyg2/can-i.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/shavyg2/can-i#readme",
+  "description": "",
+  "peerDependencies": {
+    "express": "^4.14.0"
+  }
+}
