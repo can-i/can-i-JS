@@ -34,32 +34,76 @@ function Route(route = "/") {
 }
 exports.Route = Route;
 function Get(route = '') {
-    return function (target, key, d) {
-        const original = d.value;
-        let constructor = target.constructor;
-        constructor.methods = constructor.methods || {};
-        let get = constructor.methods.get = constructor.methods.get || [];
-        get.push({
-            route_name: route,
-            route_function: function (req, res, next) {
-                return __awaiter(this, void 0, void 0, function* () {
-                    let controller = new target.constructor();
-                    setter.set_up_controller(controller, req, res, next);
-                    yield Promise.resolve(controller.onInit());
-                    original.apply(controller);
-                });
-            }
-        });
-    };
+    return ExtendRequest(route, 'get');
 }
 exports.Get = Get;
 function Post(route = '') {
+    return ExtendRequest(route, 'post');
+}
+exports.Post = Post;
+function Use(route = '') {
+    return ExtendRequest(route, 'use');
+}
+exports.Use = Use;
+function Checkout(route = '') {
+    return ExtendRequest(route, 'checkout');
+}
+exports.Checkout = Checkout;
+function Copy(route = '') {
+    return ExtendRequest(route, 'copy');
+}
+exports.Copy = Copy;
+function Delete(route = '') {
+    return ExtendRequest(route, 'delete');
+}
+exports.Delete = Delete;
+function Head(route = '') {
+    return ExtendRequest(route, 'head');
+}
+exports.Head = Head;
+function Lock(route = '') {
+    return ExtendRequest(route, 'lock');
+}
+exports.Lock = Lock;
+function Merge(route = '') {
+    return ExtendRequest(route, 'merge');
+}
+exports.Merge = Merge;
+function MkActivity(route = '') {
+    return ExtendRequest(route, 'mkactivity');
+}
+exports.MkActivity = MkActivity;
+function MkCol(route = '') {
+    return ExtendRequest(route, 'mkcol');
+}
+exports.MkCol = MkCol;
+function Move(route = '') {
+    return ExtendRequest(route, 'move');
+}
+exports.Move = Move;
+function MSearch(route = '') {
+    return ExtendRequest(route, 'm-search');
+}
+exports.MSearch = MSearch;
+function Notify(route = '') {
+    return ExtendRequest(route, 'notify');
+}
+exports.Notify = Notify;
+function MkActivity(route = '') {
+    return ExtendRequest(route, 'mkactivity');
+}
+exports.MkActivity = MkActivity;
+function MkActivity(route = '') {
+    return ExtendRequest(route, 'move');
+}
+exports.MkActivity = MkActivity;
+function ExtendRequest(route, type) {
     return function (target, key, d) {
         const original = d.value;
         let constructor = target.constructor;
         constructor.methods = constructor.methods || {};
-        let post = constructor.methods.post = (constructor.methods.post || []);
-        post.push({
+        let handler = constructor.methods[type] = (constructor.methods[type] || []);
+        handler.push({
             route_name: route,
             route_function: function (req, res, next) {
                 return __awaiter(this, void 0, void 0, function* () {
@@ -72,5 +116,4 @@ function Post(route = '') {
         });
     };
 }
-exports.Post = Post;
 //# sourceMappingURL=index.js.map
