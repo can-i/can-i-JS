@@ -11,7 +11,9 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "betterunit": "^1.2.2"
+  },
   "scripts": {
     "test": "bu"
   },
