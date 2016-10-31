@@ -14,8 +14,6 @@ export function Route(route: string="/") {
 
     return function (constructor: new () => BaseController) {
 
-        console.log("route");
-
         let router = Express.Router();
 
         if ('methods' in constructor) {
@@ -48,9 +46,9 @@ export function Get(route: string = '') {
 
         constructor.methods = constructor.methods || {};
 
-        constructor.methods.get = constructor.methods.get || [];
+        let get = constructor.methods.get = <RouteOption[]>constructor.methods.get || [];
 
-        constructor.methods.get.push({
+        get.push({
             route_name: route,
             route_function: async function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
                 let controller: BaseController = new (<any>target).constructor();
@@ -71,10 +69,10 @@ export function Post(route: string = '') {
 
         constructor.methods = constructor.methods || {};
 
-        constructor.methods.post = constructor.methods.post || [];
+        let post=constructor.methods.post = <RouteOption[]>(constructor.methods.post || []);
 
-        constructor.methods.post.push({
-            routename: route,
+        post.push({
+            route_name: route,
             route_function: async function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
                 let controller: BaseController = new (<any>target).constructor();
                 setter.set_up_controller(controller, req, res, next);

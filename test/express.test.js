@@ -12,6 +12,7 @@ const request = require("superagent");
 const must = require("must");
 describe("Can-I", function () {
     before(function () {
+        this.timeout(5000);
         let TestController = class TestController extends index_1.BaseController {
             hello() {
                 this.send("hello world");
@@ -23,9 +24,19 @@ describe("Can-I", function () {
         TestController = __decorate([
             route_1.Route("/api")
         ], TestController);
+        let TestController2 = class TestController2 extends TestController {
+            hello() {
+                return super.hello();
+            }
+        };
+        __decorate([
+            route_1.Post("/hello")
+        ], TestController2.prototype, "hello", null);
+        TestController2 = __decorate([
+            route_1.Route("/api")
+        ], TestController2);
         return new Promise((resolve) => {
             win_1.Listen(3000, function () {
-                console.log("server booted");
                 resolve();
             });
         });
@@ -35,7 +46,23 @@ describe("Can-I", function () {
             request.get("http://localhost:3000/api/hello").end(function (err, res) {
                 let { text } = res;
                 must(text).equal("hello world");
-                resolve();
+                if (err) {
+                    reject(err);
+                }
+                else
+                    resolve();
+            });
+        });
+    });
+    it("should be able to make a request to the server", function () {
+        return new Promise((resolve, reject) => {
+            request.post("http://localhost:3000/api/hello").end(function (err, res) {
+                let { text } = res;
+                must(text).equal("hello world");
+                if (err)
+                    reject(err);
+                else
+                    resolve();
             });
         });
     });

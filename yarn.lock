@@ -69,8 +69,8 @@ balanced-match@^0.4.1:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
 
 betterunit:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/betterunit/-/betterunit-1.2.3.tgz#3177a0e3203052d6a608b57a9a05ab9baf1ef7b0"
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/betterunit/-/betterunit-1.2.4.tgz#615902e8e64a34a2909ac81c865de566b05ea559"
   dependencies:
     chalk "^1.1.3"
     debug "^2.2.0"
@@ -274,6 +274,12 @@ duplexer2@^0.1.4:
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
+
+"egal@>= 1.3.0 < 2":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/egal/-/egal-1.3.0.tgz#20a19cfa80ce9733f8413635d0042641f429187b"
+  dependencies:
+    kindof ">= 2.0.0 < 3"
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -580,6 +586,14 @@ js-tokens@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-2.0.0.tgz#79903f5563ee778cc1162e6dcf1a0027c97f9cb5"
 
+"json-stringify-safe@>= 5 < 6":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
+
+"kindof@>= 2.0.0 < 3":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/kindof/-/kindof-2.0.0.tgz#c335baf603a77cc37f8b406b73b6463fdbdf1abe"
+
 latest-version@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/latest-version/-/latest-version-2.0.0.tgz#56f8d6139620847b8017f8f1f4d78e211324168b"
@@ -597,6 +611,22 @@ listify@^1.0.0:
 lockfile@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/lockfile/-/lockfile-1.0.2.tgz#97e1990174f696cbe0a3acd58a43b84aa30c7c83"
+
+lodash._createwrapper@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/lodash._createwrapper/-/lodash._createwrapper-3.2.0.tgz#df453e664163217b895a454065af1c47a0ea3c4d"
+  dependencies:
+    lodash._root "^3.0.0"
+
+lodash._root@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/lodash._root/-/lodash._root-3.0.1.tgz#fba1c4524c19ee9a5f8136b4609f017cf4ded692"
+
+"lodash.wrap@>= 3 < 4":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/lodash.wrap/-/lodash.wrap-3.0.1.tgz#3fcd8bef867b2ec8c21bac638d816180593f71ab"
+  dependencies:
+    lodash._createwrapper "^3.0.0"
 
 log-update@^1.0.2:
   version "1.0.2"
@@ -675,6 +705,16 @@ ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
 
+must:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/must/-/must-0.13.2.tgz#89592e7f687ecbc77746c3e742ec24d4f32b4c35"
+  dependencies:
+    egal ">= 1.3.0 < 2"
+    json-stringify-safe ">= 5 < 6"
+    kindof ">= 2.0.0 < 3"
+    lodash.wrap ">= 3 < 4"
+    oolong ">= 1.11.0 < 2"
+
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
@@ -718,6 +758,10 @@ once@^1.3.0:
 onetime@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/onetime/-/onetime-1.1.0.tgz#a1f7838f8314c516f05ecefcbc4ccfe04b4ed789"
+
+"oolong@>= 1.11.0 < 2":
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/oolong/-/oolong-1.15.1.tgz#90bac9e7ce52f60906ab2228d9e2b115f1086cea"
 
 os-homedir@^1.0.0:
   version "1.0.2"

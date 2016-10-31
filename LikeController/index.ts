@@ -34,7 +34,6 @@ export class BaseController extends Controller {
         return app;
     }
 
-
     constructor() {
         super();
     }
@@ -42,9 +41,6 @@ export class BaseController extends Controller {
     onInit() {
 
     }
-
-
-
 
     sendFile(...args: any[]) {
         this.res.sendFile.apply(this.res, args);

@@ -12,7 +12,6 @@ const index_2 = require('./../win/index');
 let setter = new index_1.PublicController();
 function Route(route = "/") {
     return function (constructor) {
-        console.log("route");
         let router = index_2.Express.Router();
         if ('methods' in constructor) {
             let keys = Object.keys(constructor.methods);
@@ -39,8 +38,8 @@ function Get(route = '') {
         const original = d.value;
         let constructor = target.constructor;
         constructor.methods = constructor.methods || {};
-        constructor.methods.get = constructor.methods.get || [];
-        constructor.methods.get.push({
+        let get = constructor.methods.get = constructor.methods.get || [];
+        get.push({
             route_name: route,
             route_function: function (req, res, next) {
                 return __awaiter(this, void 0, void 0, function* () {
@@ -59,9 +58,9 @@ function Post(route = '') {
         const original = d.value;
         let constructor = target.constructor;
         constructor.methods = constructor.methods || {};
-        constructor.methods.post = constructor.methods.post || [];
-        constructor.methods.post.push({
-            routename: route,
+        let post = constructor.methods.post = (constructor.methods.post || []);
+        post.push({
+            route_name: route,
             route_function: function (req, res, next) {
                 return __awaiter(this, void 0, void 0, function* () {
                     let controller = new target.constructor();
