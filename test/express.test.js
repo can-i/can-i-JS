@@ -17,8 +17,17 @@ const help_1 = require("../help");
 const MiddleWare_1 = require("../MiddleWare");
 const request = require("superagent");
 var must = require("must");
+var sinon = require("sinon");
+let method_pre = sinon.spy();
+let method_post = sinon.spy();
 var parser = require("body-parser");
-let BaseApi = MiddleWare_1.Stack(parser.json());
+let BaseApi = MiddleWare_1.Stack(function (req, res, next) {
+    method_pre();
+    next();
+}, parser.json(), function (req, res, next) {
+    method_post();
+    next();
+});
 describe("Can-I", function () {
     before(function () {
         win_1.BootStrap(null);
@@ -66,7 +75,6 @@ describe("Can-I", function () {
             __metadata('design:returntype', void 0)
         ], UserController.prototype, "User", null);
         UserController = __decorate([
-            MiddleWare_1.MiddleWare(BaseApi),
             help_1.Document({
                 title: "User Controller",
                 description: `Contains information about the user`
@@ -94,6 +102,25 @@ describe("Can-I", function () {
             }), 
             __metadata('design:paramtypes', [])
         ], ItemController);
+        let CanPost = class CanPost extends index_1.BaseController {
+            test() {
+                console.log(this.req.headers);
+                if (Object.keys(this.req.body).length) {
+                    this.send("success");
+                }
+            }
+        };
+        __decorate([
+            route_1.Post("/test"), 
+            __metadata('design:type', Function), 
+            __metadata('design:paramtypes', []), 
+            __metadata('design:returntype', void 0)
+        ], CanPost.prototype, "test", null);
+        CanPost = __decorate([
+            MiddleWare_1.MiddleWare(BaseApi),
+            route_1.Route("/test"), 
+            __metadata('design:paramtypes', [])
+        ], CanPost);
         return new Promise((resolve) => {
             Config_1.Configure({
                 features: [
@@ -130,11 +157,30 @@ describe("Can-I", function () {
             });
         });
     });
+    it("It should be able to get the author information", function () {
+        must(method_pre.called).true;
+    });
+    it("It should be able to get the author information", function () {
+        must(method_post.called).true;
+    });
+    it("It should be able to get the author information", function () {
+        return new Promise((resolve, reject) => {
+            request.post("http://localhost:3000/test/test").send({
+                "key": "value"
+            }).end(function (err, res) {
+                let { text } = res;
+                must(text).equal("success");
+                if (err)
+                    reject(err);
+                else
+                    resolve();
+            });
+        });
+    });
     it("Document", function () {
         return new Promise((resolve, reject) => {
             request.get("http://localhost:3000/can-i/document").end(function (err, res) {
                 let { body } = res;
-                console.log(body);
                 must(body).true;
                 if (err)
                     reject(err);

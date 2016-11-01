@@ -7,16 +7,15 @@ import { Express } from "../Win";
 
 export function Stack(...middleware: MiddleWareFunction[]): MiddleWareFunction {
     return function (req: Express.Request, res: Express.Response, next?: Express.NextFunction) {
-        let i = middleware.length;
-        let j= 0
+
+        let i =-1, len=middleware.length;
         function again() {
-            if (i > 1) {
-                middleware[j](req, res, again);
-            } else if(i===1){
-                middleware[j](req, res, next);
+            i++;
+            if (i<len-1) {
+                middleware[i](req, res, again);
+            } else if(i===len-1){
+                middleware[i](req, res, next);
             }
-            j++;
-            i--;
         }
 
         again();
