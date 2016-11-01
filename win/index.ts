@@ -1,5 +1,6 @@
 import { Server } from 'http';
 import { InternalDocumentationStructure } from "../help/Document";
+import {MiddleWareFunction} from "../MiddleWare/Stack";
 
 
 export import Express = require("express");
@@ -95,6 +96,7 @@ export type InternalAccessorStructure = {
     methods: any,
     route_prefix: string
     documentation: InternalDocumentationStructure;
+    middleware:{global?:MiddleWareFunction[],route?:{[key:string]:MiddleWareFunction[]}}
 }
 
 
@@ -104,10 +106,10 @@ let map = new Map<any, any>();
 
 export var Accessor = function (obj: any): InternalAccessorStructure {
     let o: any = obj.constructor === Function ? obj : obj.constructor;
-    let r = map.get(o.name)
+    let r = map.get(o)
     if (!r) {
         r = {};
-        map.set(o.name, r)
+        map.set(o, r)
     }
     return r;
 }

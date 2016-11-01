@@ -1,6 +1,7 @@
 import { Constructor } from './../node_modules/make-error/index.d';
 import { BaseController, PublicController, IController } from './../LikeController/index';
 import { app, Express, Accessor, InternalAccessorStructure } from './../win/index';
+import {Stack} from "../MiddleWare";
 
 let setter = new PublicController();
 
@@ -146,13 +147,44 @@ function ExtendRequest(route: string, type: string) {
                                 try {
                                         let constructor = (<Object>target).constructor;
 
+                                        
+
                                         let access = Accessor(constructor);
+                                        
+                                        if(access.middleware && access.middleware.global && access.middleware.global.length){
+                                                let middleware = Stack.apply(this,access.middleware.global);
+                                                await new Promise((reject,resolve)=>{
+                                                        middleware(req,res,function(response:any){
+                                                                if(response instanceof String){
+                                                                        next(response);
+                                                                }else{
+                                                                        reject(response);
+                                                                }
+                                                        });
+                                                })
+                                        }
+                                        
                                         let controller_instance: BaseController = new (<any>target).constructor();
 
 
 
                                         setter.set_up_controller(controller_instance, req, res, next);
                                         controller_instance.onInit();
+
+
+                                        if(access.middleware && access.middleware.route && access.middleware.route[key] && access.middleware.route[key].length){
+                                                
+                                                let middleware = Stack.apply(this,access.middleware.route[key]);
+                                                await new Promise((reject,resolve)=>{
+                                                        middleware(req,res,function(response:any){
+                                                                if(response instanceof String){
+                                                                        next(response);
+                                                                }else{
+                                                                        reject(response);
+                                                                }
+                                                        });
+                                                })
+                                        }
 
                                         let controller_method = (<any>controller_instance)[key];
                                         var injectable_names = Object.keys(access.inject || {})

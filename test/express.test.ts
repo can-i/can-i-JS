@@ -58,6 +58,7 @@ describe("Can-I", function () {
         class ItemController extends BaseController {
 
             @Get("/detail")
+            @Inject
             public detail(service:ItemService) {
                 this.send(service.getItem())
             }
@@ -111,6 +112,8 @@ describe("Can-I", function () {
         return new Promise((resolve, reject) => {
             request.get("http://localhost:3000/can-i/document").end(function (err, res) {
                 let {body} = res;
+                console.log(body);
+                
                 must(body).true
 
                 if (err)

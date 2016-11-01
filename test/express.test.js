@@ -74,7 +74,8 @@ describe("Can-I", function () {
             }
         };
         __decorate([
-            route_1.Get("/detail"), 
+            route_1.Get("/detail"),
+            IOC_1.Inject, 
             __metadata('design:type', Function), 
             __metadata('design:paramtypes', [ItemService]), 
             __metadata('design:returntype', void 0)
@@ -127,6 +128,7 @@ describe("Can-I", function () {
         return new Promise((resolve, reject) => {
             request.get("http://localhost:3000/can-i/document").end(function (err, res) {
                 let { body } = res;
+                console.log(body);
                 must(body).true;
                 if (err)
                     reject(err);
