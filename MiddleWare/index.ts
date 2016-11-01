@@ -1,12 +1,14 @@
-
-import { Accessor } from "../win";
-
+import { Accessor,Express } from "../win";
 export { Stack } from "./Stack";
 
-import { MiddleWareFunction } from "./Stack";
+
+export type MiddleWareFunction = (req: Express.Request, res: Express.Response, next?: Express.NextFunction) => any
 
 export function MiddleWare(func: MiddleWareFunction) {
-    return function (target: Object, key: string) {
+
+
+    function MiddlewareStack(target:Function|Object):void;
+    function MiddlewareStack(target: Function|Object,key?:string):void {
         let access = Accessor(target);
         access.middleware = access.middleware || [];
         let store: MiddleWareFunction[];
@@ -19,4 +21,6 @@ export function MiddleWare(func: MiddleWareFunction) {
         }
         store.push(func);
     }
+
+    return MiddlewareStack;
 }

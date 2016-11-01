@@ -1,5 +1,5 @@
 
-import { app, Accessor, Express } from "../win";
+import { App, Accessor, Express } from "../win";
 
 export type APIDetail = {
     title: string
@@ -66,7 +66,7 @@ export function Document(info: APIDetail) {
         (function (target) {
 
             let klass: InternalDocumentationStructure = Accessor(target).documentation;
-            app.use(`/can-i/document`, function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
+            App().use(`/can-i/document`, function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
                 res.locals[target.name] = klass;
                 next();
             })

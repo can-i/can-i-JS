@@ -8,15 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const index_1 = require('./../LikeController/index');
 const win_1 = require("../win");
+const index_1 = require('./../LikeController/index');
+const Config_1 = require("../Config");
 const route_1 = require("../route");
 const IOC_1 = require("../IOC");
 const help_1 = require("../help");
+const MiddleWare_1 = require("../MiddleWare");
 const request = require("superagent");
 var must = require("must");
+var parser = require("body-parser");
+let BaseApi = MiddleWare_1.Stack(parser.json());
 describe("Can-I", function () {
     before(function () {
+        win_1.BootStrap(null);
         let UserService = class UserService {
             getUser() {
                 return {
@@ -61,6 +66,7 @@ describe("Can-I", function () {
             __metadata('design:returntype', void 0)
         ], UserController.prototype, "User", null);
         UserController = __decorate([
+            MiddleWare_1.MiddleWare(BaseApi),
             help_1.Document({
                 title: "User Controller",
                 description: `Contains information about the user`
@@ -89,7 +95,7 @@ describe("Can-I", function () {
             __metadata('design:paramtypes', [])
         ], ItemController);
         return new Promise((resolve) => {
-            win_1.Configure({
+            Config_1.Configure({
                 features: [
                     'documentation'
                 ]

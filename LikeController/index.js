@@ -20,7 +20,7 @@ class BaseController extends Controller {
         return win_1.GetServer();
     }
     get App() {
-        return win_1.app;
+        return win_1.App();
     }
     onInit() {
     }

@@ -1,6 +1,6 @@
 import express = require('express');
 
-import {GetServer,app} from "../win";
+import {GetServer,App} from "../win";
 
 export interface IController{
     new():BaseController
@@ -34,7 +34,7 @@ export class BaseController extends Controller {
     }
 
     protected get App(){
-        return app;
+        return App();
     }
 
     constructor() {

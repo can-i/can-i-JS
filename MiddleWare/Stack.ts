@@ -1,21 +1,24 @@
+import { MiddleWareFunction } from '.';
 import { Express } from "../Win";
 
-
-export type MiddleWareFunction = (req: Express.Request, res: Express.Response, next?: Express.NextFunction) => any
 
 
 //This is useful for stacking up middleware functions to place on your routes
 
 export function Stack(...middleware: MiddleWareFunction[]): MiddleWareFunction {
     return function (req: Express.Request, res: Express.Response, next?: Express.NextFunction) {
+        let i = middleware.length;
+        let j= 0
         function again() {
-            if (middleware.length > 1) {
-                middleware[0](req, res, again);
-            } else {
-                middleware[0](req, res, next);
+            if (i > 1) {
+                middleware[j](req, res, again);
+            } else if(i===1){
+                middleware[j](req, res, next);
             }
-            middleware.shift()
+            j++;
+            i--;
         }
+
         again();
     }
 }

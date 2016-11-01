@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const index_1 = require('./../LikeController/index');
 const index_2 = require('./../win/index');
+const MiddleWare_1 = require("../MiddleWare");
 let setter = new index_1.PublicController();
 function Route(route = "/") {
     return function RouteAttacher(constructor) {
@@ -29,7 +30,7 @@ function Route(route = "/") {
                 }
             }
         }
-        index_2.app.use(route, router);
+        index_2.App().use(route, router);
     };
 }
 exports.Route = Route;
@@ -106,9 +107,35 @@ function ExtendRequest(route, type) {
                     try {
                         let constructor = target.constructor;
                         let access = index_2.Accessor(constructor);
+                        if (access.middleware && access.middleware.global && access.middleware.global.length) {
+                            let middleware = MiddleWare_1.Stack.apply(this, access.middleware.global);
+                            yield new Promise((reject, resolve) => {
+                                middleware(req, res, function (response) {
+                                    if (response instanceof String) {
+                                        next(response);
+                                    }
+                                    else {
+                                        reject(response);
+                                    }
+                                });
+                            });
+                        }
                         let controller_instance = new target.constructor();
                         setter.set_up_controller(controller_instance, req, res, next);
                         controller_instance.onInit();
+                        if (access.middleware && access.middleware.route && access.middleware.route[key] && access.middleware.route[key].length) {
+                            let middleware = MiddleWare_1.Stack.apply(this, access.middleware.route[key]);
+                            yield new Promise((reject, resolve) => {
+                                middleware(req, res, function (response) {
+                                    if (response instanceof String) {
+                                        next(response);
+                                    }
+                                    else {
+                                        reject(response);
+                                    }
+                                });
+                            });
+                        }
                         let controller_method = controller_instance[key];
                         var injectable_names = Object.keys(access.inject || {});
                         let params = [];

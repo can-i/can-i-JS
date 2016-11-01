@@ -1,6 +1,6 @@
 import { Constructor } from './../node_modules/make-error/index.d';
 import { BaseController, PublicController, IController } from './../LikeController/index';
-import { app, Express, Accessor, InternalAccessorStructure } from './../win/index';
+import { App, Express, Accessor, InternalAccessorStructure } from './../win/index';
 import {Stack} from "../MiddleWare";
 
 let setter = new PublicController();
@@ -39,7 +39,7 @@ export function Route(route: string = "/") {
                         }
                 }
 
-                app.use(route, router);
+                App().use(route, router);
         }
 }
 

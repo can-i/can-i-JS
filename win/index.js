@@ -1,58 +1,45 @@
 "use strict";
 exports.Express = require("express");
-exports.app = exports.Express();
+let app;
+exports.App = function () {
+    if (!app) {
+        throw new Error("Application has not been bootstrapped");
+    }
+    return app;
+};
+const index_1 = require('./../Config/index');
+const _ = require("lodash");
+const glob = require("glob");
+const Path = require("path");
 let server;
-function Features() {
-    return ["documentation"];
-}
-exports.Features = Features;
-function Configure(options = {}) {
-    let features = options.features || [];
-    for (let f of features) {
-        exports.ConfigurationManager.feature.enable(f);
-    }
-}
-exports.Configure = Configure;
-class Feature {
-    constructor(app) {
-        this.app = app;
-    }
-    convert(f) {
-        return `can-i feature ${f}`;
-    }
-    enable(f) {
-        return this.app.enable(this.convert(f));
-    }
-    enabled(f) {
-        return this.app.enabled(this.convert(f));
-    }
-    disable(f) {
-        return this.app.disable(this.convert(f));
-    }
-    disabled(f) {
-        return this.app.disabled(this.convert(f));
-    }
-}
-class _ConfigurationManager {
-    constructor(app) {
-        this.app = app;
-        this.feature = new Feature(this.app);
-    }
-}
-exports.ConfigurationManager = new _ConfigurationManager(exports.app);
 function Listen(...args) {
-    exports.app.get("/can-i/document", function (req, res, next) {
+    app.get("/can-i/document", function (req, res, next) {
         process.nextTick(() => {
-            if (exports.ConfigurationManager.feature.enabled('documentation'))
+            if (index_1.ConfigurationManager.feature.enabled('documentation'))
                 res.send(res.locals);
             else {
                 next();
             }
         });
     });
-    server = exports.app.listen.apply(exports.app, args);
+    server = app.listen.apply(app, args);
 }
 exports.Listen = Listen;
+function BootStrap(options) {
+    app = exports.Express();
+    if (options === null) {
+        return console.warn(`No BootStrapping config.\nThe only excuse is Unit Testing!!`);
+    }
+    options = options || {};
+    let defaults = {
+        controllers: Path.join(process.cwd(), "controllers"),
+        services: Path.join(process.cwd(), "services")
+    };
+    options = _.defaultsDeep(options, defaults);
+    glob.sync(options.controllers).map(require);
+    glob.sync(options.services).map(require);
+}
+exports.BootStrap = BootStrap;
 function Close() {
     return server.close();
 }

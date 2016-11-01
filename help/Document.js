@@ -37,7 +37,7 @@ function Document(info) {
         }
         (function (target) {
             let klass = win_1.Accessor(target).documentation;
-            win_1.app.use(`/can-i/document`, function (req, res, next) {
+            win_1.App().use(`/can-i/document`, function (req, res, next) {
                 res.locals[target.name] = klass;
                 next();
             });

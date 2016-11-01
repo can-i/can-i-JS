@@ -1,14 +1,23 @@
+import { Listen, Close,BootStrap} from "../win";
 import { BaseController } from './../LikeController/index';
-import { Listen, Close, Configure } from "../win";
+
+import {Configure} from "../Config"
 import { Route, Get, Post } from "../route";
 import { Inject, Injectable } from "../IOC";
 import { Document } from "../help";
+import {MiddleWare,Stack} from "../MiddleWare";
 import request = require("superagent");
 var must = require("must");
+
+
+var parser = require("body-parser");
+let BaseApi = Stack(parser.json());
 
 describe("Can-I", function () {
 
     before(function () {
+
+        BootStrap(null);
 
         @Injectable
         class UserService {
@@ -29,7 +38,7 @@ describe("Can-I", function () {
         }
 
 
-
+        @MiddleWare(BaseApi)
         @Document({
             title: "User Controller",
             description: `Contains information about the user`
