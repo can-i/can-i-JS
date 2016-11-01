@@ -21,7 +21,8 @@ export function Route(route: string = "/") {
 
 
                 let access = Accessor(constructor);
-                let keys = Object.keys(access.methods);
+                let keys = Object.keys(access.methods || {});
+                access.route_prefix = route;
                 for (let key of keys) {
 
                         let routeOption: RouteOption[] = access.methods[key];
@@ -140,41 +141,54 @@ function ExtendRequest(route: string, type: string) {
                         route_name: route,
                         route_function: async function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
 
+
                                 //Must check is has dependencies
-                                let constructor = (<Object>target).constructor;
+                                try {
+                                        let constructor = (<Object>target).constructor;
 
-                                let access = Accessor(constructor);
-                                let controller_instance: BaseController = new (<any>target).constructor();
+                                        let access = Accessor(constructor);
+                                        let controller_instance: BaseController = new (<any>target).constructor();
 
 
 
-                                setter.set_up_controller(controller_instance, req, res, next);
-                                await Promise.resolve(controller_instance.onInit());
+                                        setter.set_up_controller(controller_instance, req, res, next);
+                                        controller_instance.onInit();
 
-                                let controller_method = (<any>controller_instance)[key];
-                                var injectable_names = Object.keys(access.inject)
-                                let params: any = [];
+                                        let controller_method = (<any>controller_instance)[key];
+                                        var injectable_names = Object.keys(access.inject || {})
+                                        let params: any = [];
 
-                                if (~injectable_names.indexOf(key)) {
-                                        params = access.inject[key];
-                                        params = params.map(function (x: any) {
+                                        if (~injectable_names.indexOf(key)) {
+                                                params = access.inject[key];
+                                                params = params.map(function (x: any) {
 
-                                                //should i trust the user?
-                                                //trust is for flowers and suckers!!!
-                                                let instance: any;
-                                                try {
-                                                        instance = new x();
-                                                } catch (e) {
-                                                        instance = x;
-                                                }
-                                                return instance;
-                                        })
+                                                        //should i trust the user?
+                                                        //trust is for flowers and suckers!!!
+                                                        let instance: any;
+                                                        try {
+                                                                instance = new x();
+                                                        } catch (e) {
+                                                                instance = x;
+                                                        }
+                                                        return instance;
+                                                })
+                                        }
+
+                                        try {
+
+                                                await Promise.resolve(controller_method.apply(controller_instance, params));
+                                        } catch (e) {
+                                                console.log(e.stack);
+                                                next(e)
+                                        }
+                                } catch (e) {
+                                        console.log(e.stack);
                                 }
 
-                                controller_method.apply(controller_instance, params);
+                                return d;
+
                         }
                 })
-
-                return d;
         }
+
 }

@@ -14,7 +14,8 @@ function Route(route = "/") {
     return function RouteAttacher(constructor) {
         let router = index_2.Express.Router();
         let access = index_2.Accessor(constructor);
-        let keys = Object.keys(access.methods);
+        let keys = Object.keys(access.methods || {});
+        access.route_prefix = route;
         for (let key of keys) {
             let routeOption = access.methods[key];
             for (let o of routeOption) {
@@ -102,32 +103,43 @@ function ExtendRequest(route, type) {
             route_name: route,
             route_function: function (req, res, next) {
                 return __awaiter(this, void 0, void 0, function* () {
-                    let constructor = target.constructor;
-                    let access = index_2.Accessor(constructor);
-                    let controller_instance = new target.constructor();
-                    setter.set_up_controller(controller_instance, req, res, next);
-                    yield Promise.resolve(controller_instance.onInit());
-                    let controller_method = controller_instance[key];
-                    var injectable_names = Object.keys(access.inject);
-                    let params = [];
-                    if (~injectable_names.indexOf(key)) {
-                        params = access.inject[key];
-                        params = params.map(function (x) {
-                            let instance;
-                            try {
-                                instance = new x();
-                            }
-                            catch (e) {
-                                instance = x;
-                            }
-                            return instance;
-                        });
+                    try {
+                        let constructor = target.constructor;
+                        let access = index_2.Accessor(constructor);
+                        let controller_instance = new target.constructor();
+                        setter.set_up_controller(controller_instance, req, res, next);
+                        controller_instance.onInit();
+                        let controller_method = controller_instance[key];
+                        var injectable_names = Object.keys(access.inject || {});
+                        let params = [];
+                        if (~injectable_names.indexOf(key)) {
+                            params = access.inject[key];
+                            params = params.map(function (x) {
+                                let instance;
+                                try {
+                                    instance = new x();
+                                }
+                                catch (e) {
+                                    instance = x;
+                                }
+                                return instance;
+                            });
+                        }
+                        try {
+                            yield Promise.resolve(controller_method.apply(controller_instance, params));
+                        }
+                        catch (e) {
+                            console.log(e.stack);
+                            next(e);
+                        }
                     }
-                    controller_method.apply(controller_instance, params);
+                    catch (e) {
+                        console.log(e.stack);
+                    }
+                    return d;
                 });
             }
         });
-        return d;
     };
 }
 //# sourceMappingURL=index.js.map
