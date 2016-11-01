@@ -20,7 +20,7 @@ export type InternalDocumentationStructure = {
 
 function SetupFromConstructor(constructor: Function) {
 
-    
+
     let access = Accessor(constructor);
     let d = access.documentation = access.documentation || { "classname": constructor.name, methods: {} }
 
@@ -33,7 +33,7 @@ function SetupFromPrototype(target: any) {
     else return null;
 }
 
-function SetUp(t: any): InternalDocumentationStructure {    
+function SetUp(t: any): InternalDocumentationStructure {
     return SetupFromPrototype(t) || SetupFromConstructor(t);
 }
 
@@ -46,7 +46,7 @@ export function Document(info: APIDetail) {
 
         const d = SetUp(target);
         let key: string;
-        
+
         switch (args.length) {
             case 1:
                 DocumentClass.call(this, d, info)
@@ -63,9 +63,9 @@ export function Document(info: APIDetail) {
                 }
                 break;
         }
-        (function(target){
-            
-            let klass:InternalDocumentationStructure = Accessor(target).documentation;
+        (function (target) {
+
+            let klass: InternalDocumentationStructure = Accessor(target).documentation;
             app.use(`/can-i/document`, function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
                 res.locals[target.name] = klass;
                 next();

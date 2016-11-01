@@ -1,4 +1,4 @@
-var must = require("must");
+let must = require("must");
 describe("A Node Test", function () {
     let number;
     before(function () {

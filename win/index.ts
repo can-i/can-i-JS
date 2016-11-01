@@ -58,8 +58,10 @@ class _ConfigurationManager {
     public feature = new Feature(this.app);
 }
 
-
 export const ConfigurationManager = new _ConfigurationManager(app);
+
+
+
 
 
 

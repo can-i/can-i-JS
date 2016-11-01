@@ -14,7 +14,7 @@ const route_1 = require("../route");
 const IOC_1 = require("../IOC");
 const help_1 = require("../help");
 const request = require("superagent");
-const must = require("must");
+var must = require("must");
 describe("Can-I", function () {
     before(function () {
         let UserService = class UserService {
@@ -28,7 +28,18 @@ describe("Can-I", function () {
             IOC_1.Injectable, 
             __metadata('design:paramtypes', [])
         ], UserService);
-        let WolfController = class WolfController extends index_1.BaseController {
+        let ItemService = class ItemService {
+            getItem() {
+                return {
+                    name: "GTX Titan PASCAL"
+                };
+            }
+        };
+        ItemService = __decorate([
+            IOC_1.Injectable, 
+            __metadata('design:paramtypes', [])
+        ], ItemService);
+        let UserController = class UserController extends index_1.BaseController {
             hello() {
                 this.send("Hello, World");
             }
@@ -37,164 +48,59 @@ describe("Can-I", function () {
             }
         };
         __decorate([
-            route_1.Get("/patiences"), 
+            route_1.Get("/greeting"), 
             __metadata('design:type', Function), 
             __metadata('design:paramtypes', []), 
             __metadata('design:returntype', void 0)
-        ], WolfController.prototype, "hello", null);
+        ], UserController.prototype, "hello", null);
         __decorate([
             IOC_1.Inject,
-            route_1.Get("/Author"), 
+            route_1.Get("/info"), 
             __metadata('design:type', Function), 
             __metadata('design:paramtypes', [UserService]), 
             __metadata('design:returntype', void 0)
-        ], WolfController.prototype, "User", null);
-        WolfController = __decorate([
+        ], UserController.prototype, "User", null);
+        UserController = __decorate([
             help_1.Document({
-                title: "The Wolf",
-                description: `The Wolf travelled by the moon light.
-            As i stepped to look outside it frightened me.
-            Filled with fear i ran for the door to protect my self.
-            The wolf gazed at me, Majestic, panting softly in the direction
-            of the abrupt movement.
-            Seeing me however it does no react
-            it lazily turns it's gaze back to the world.
-            
-            The Wolf will guide you as it has guided me.
-            Once you eyes are open you too will see.
-            
-            In the shadows of the night the Wolf was my ally.
-            and he remains...`
+                title: "User Controller",
+                description: `Contains information about the user`
             }),
-            route_1.Route("/Wolf"), 
+            route_1.Route("/user"), 
             __metadata('design:paramtypes', [])
-        ], WolfController);
-        let FoxController = class FoxController extends WolfController {
-            hello() {
-                return super.hello();
+        ], UserController);
+        let ItemController = class ItemController extends index_1.BaseController {
+            detail(service) {
+                this.send(service.getItem());
             }
         };
         __decorate([
-            route_1.Get("/clever"), 
+            route_1.Get("/detail"), 
             __metadata('design:type', Function), 
-            __metadata('design:paramtypes', []), 
+            __metadata('design:paramtypes', [ItemService]), 
             __metadata('design:returntype', void 0)
-        ], FoxController.prototype, "hello", null);
-        FoxController = __decorate([
-            route_1.Route("/fox"),
+        ], ItemController.prototype, "detail", null);
+        ItemController = __decorate([
+            route_1.Route("/item"),
             help_1.Document({
-                title: "The Fox",
-                description: `The Fox at first had me perplexed seemingly
-            unthreatening then I remember that the fox can be cunning and 
-            should not be trusted. Given what i have seen i ran to get something
-            to protect myself. I found a stick with fire a blazed.
-            
-            The more i tried running from the fox the more it made an appearance.
-            Dashing wildly around me, forcing me into a corner. I sat by my fire light.
-            
-            It was not the fox i feared it was the path it found inside. Wolves by the hundred
-            hunted just outside my door. 
-            
-            Little did i know the fox has been sent to set me on a path.
-            Just like the fox blocked by the door, cunningly figured another way inside,
-
-            How much time do i have before the wolfs figure a way inside
-
-            I too must move cleverly if i want to last the night.`
+                title: "Item Controller",
+                description: `Contains information about the Item`
             }), 
             __metadata('design:paramtypes', [])
-        ], FoxController);
-        let FireController = class FireController extends WolfController {
-            hello() {
-                return super.hello();
-            }
-        };
-        __decorate([
-            route_1.Post("/warmth"), 
-            __metadata('design:type', Function), 
-            __metadata('design:paramtypes', []), 
-            __metadata('design:returntype', void 0)
-        ], FireController.prototype, "hello", null);
-        FireController = __decorate([
-            route_1.Route("/fire"),
-            help_1.Document({
-                title: "Fire",
-                description: `The fire, like water contains a dynamic nature.
-            The fire can grow, consume and wreek havoc and bring destruction.
-            We all know this, but when the darkness surrounds you and
-            fear creeps into your heart. Fire, can be a source of strength.
-            
-            It was the only thing i felt that could keep me alive.
-            The Wolves surrounded my by the hundreds
-            The Fox had found a way inside.
-            
-            This was my last defence.`
-            }), 
-            __metadata('design:paramtypes', [])
-        ], FireController);
-        let DayNight = class DayNight extends WolfController {
-            hello() {
-                return super.hello();
-            }
-        };
-        __decorate([
-            route_1.Post("/Night"), 
-            __metadata('design:type', Function), 
-            __metadata('design:paramtypes', []), 
-            __metadata('design:returntype', void 0)
-        ], DayNight.prototype, "hello", null);
-        DayNight = __decorate([
-            route_1.Route("/Day"),
-            help_1.Document({
-                title: "Day Night and the Blood Moon",
-                description: `I sat awaiting my end.
-            The fox had settled down and had fixed it's gazed on me.
-            I stared back at the fox wondering what had made it stay so still.
-            It appeared to waiting for something. It looked so small and harmless
-            as it gazed back at me. The fox walks towards me ever so slowly to the fire.
-            
-            I tried waving the stick with the flame and nothing.            
-            He creeps closer and closer.
-            
-            I touch the fox with the fire. Surely this will send it on it's way.
-            Nothing he seems to like the heat of the fire.
-            
-            Something was very wrong. I could not burn the fox.
-            I stood up confused as to what i have just seen.
-            I held the fire up and ten to twelve wolfs gazed back at me. 
-
-            You can imagine my initial shock.
-            However i did not feel fear.
-            
-            I walked towards them and they opened a path for me.            
-            As I looked outside at the moon i realize the moon was Blood Red
-            Casting the entire world in this Red Velvet undertone.
-            
-            What have i discovered? What secrets of the world shall I see now?
-            
-            Set upon a path i figured could walk. Lost within my mind a click then a spark
-            
-            Three Pillars:
-            Protect
-            Clever
-            Source of Light and Guidance
-
-            I can never forget.`
-            }), 
-            __metadata('design:paramtypes', [])
-        ], DayNight);
+        ], ItemController);
         return new Promise((resolve) => {
             win_1.Configure({
-                features: ['documentation']
+                features: [
+                    'documentation'
+                ]
             });
             win_1.Listen(3000, function () {
                 resolve();
             });
         });
     });
-    it("Wolf", function () {
+    it("Should be able to get the user greeting", function () {
         return new Promise((resolve, reject) => {
-            request.get("http://localhost:3000/Wolf/patiences").end(function (err, res) {
+            request.get("http://localhost:3000/user/greeting").end(function (err, res) {
                 let { text } = res;
                 must(text).equal("Hello, World");
                 if (err) {
@@ -205,21 +111,9 @@ describe("Can-I", function () {
             });
         });
     });
-    it("Fox", function () {
+    it("It should be able to get the author information", function () {
         return new Promise((resolve, reject) => {
-            request.get("http://localhost:3000/fox/clever").end(function (err, res) {
-                let { text } = res;
-                must(text).equal("Hello, World");
-                if (err)
-                    reject(err);
-                else
-                    resolve();
-            });
-        });
-    });
-    it("Author", function () {
-        return new Promise((resolve, reject) => {
-            request.get("http://localhost:3000/Wolf/Author").end(function (err, res) {
+            request.get("http://localhost:3000/user/info").end(function (err, res) {
                 let { body } = res;
                 must(body.Author).equal("Shavauhn Gabay");
                 if (err)
@@ -233,7 +127,6 @@ describe("Can-I", function () {
         return new Promise((resolve, reject) => {
             request.get("http://localhost:3000/can-i/document").end(function (err, res) {
                 let { body } = res;
-                console.log(body);
                 must(body).true;
                 if (err)
                     reject(err);

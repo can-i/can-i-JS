@@ -134,12 +134,12 @@ function ExtendRequest(route, type) {
                         }
                     }
                     catch (e) {
-                        console.log(e.stack);
+                        next(e);
                     }
-                    return d;
                 });
             }
         });
+        return d;
     };
 }
 //# sourceMappingURL=index.js.map

@@ -129,7 +129,7 @@ export function Notify(route: string = '') {
 function ExtendRequest(route: string, type: string) {
 
         return function (target: BaseController, key: string, d: TypedPropertyDescriptor<any>) {
-                // const original = d.value;
+
                 let constructor: any = target.constructor;
                 let access = Accessor(constructor);
                 access.methods = access.methods || {};
@@ -182,13 +182,13 @@ function ExtendRequest(route: string, type: string) {
                                                 next(e)
                                         }
                                 } catch (e) {
-                                        console.log(e.stack);
+                                        next(e);
                                 }
 
-                                return d;
 
                         }
                 })
+                return d;
         }
 
 }

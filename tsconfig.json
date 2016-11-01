@@ -18,7 +18,8 @@
     "exclude": [
         "node_modules",
         "**/*.spec.ts",
-        ".vscode/**/*"
+        ".vscode/**/*",
+        "test_legacy/**/*"
     ],
     "files":[
         "typings/index.d.ts"
