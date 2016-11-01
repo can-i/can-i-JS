@@ -12,7 +12,8 @@
     "test": "test"
   },
   "dependencies": {
-    "betterunit": "^1.2.4"
+    "betterunit": "^1.2.4",
+    "reflect-metadata": "^0.1.8"
   },
   "scripts": {
     "test": "bu"

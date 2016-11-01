@@ -1,121 +1,122 @@
-import { BaseController, PublicController } from './../LikeController/index';
-import { app, Express } from './../win/index';
+import { Constructor } from './../node_modules/make-error/index.d';
+import { BaseController, PublicController, IController } from './../LikeController/index';
+import { app, Express, Accessor, InternalAccessorStructure } from './../win/index';
 
 let setter = new PublicController();
 
 
 type RouteOption = {
-    route_name: string,
-    route_function: Express.RequestHandler
+        route_name: string,
+        route_function: Express.RequestHandler
 }
 
 
-export function Route(route: string="/") {
 
-    return function (constructor: new () => BaseController) {
 
-        let router = Express.Router();
+export function Route(route: string = "/") {
 
-        if ('methods' in constructor) {
-            let keys = Object.keys((<any>constructor).methods);
-            for (let key of keys) {
+        return function RouteAttacher(constructor: new () => BaseController) {
 
-                let routeOption: RouteOption[] = (<any>constructor).methods[key];
-                for (let o of routeOption) {
-                    switch (key.toLowerCase()) {
-                        case 'get':
-                            router.get(o.route_name, o.route_function);
-                            break;
-                        case 'post':
-                            router.post(o.route_name, o.route_function);
-                            break;
-                    }
+                let router = Express.Router();
+
+
+                let access = Accessor(constructor);
+                let keys = Object.keys(access.methods);
+                for (let key of keys) {
+
+                        let routeOption: RouteOption[] = access.methods[key];
+                        for (let o of routeOption) {
+                                switch (key.toLowerCase()) {
+                                        case 'get':
+                                                router.get(o.route_name, o.route_function);
+                                                break;
+                                        case 'post':
+                                                router.post(o.route_name, o.route_function);
+                                                break;
+                                }
+                        }
                 }
-            }
+
+                app.use(route, router);
         }
-        app.use(route,router);
-    }
 }
 
 
 export function Get(route: string = '') {
-    return ExtendRequest(route,'get');
+        return ExtendRequest(route, 'get');
 }
 
 
 export function Post(route: string = '') {
-        return ExtendRequest(route,'post');
+        return ExtendRequest(route, 'post');
+}
+
+export function Put(route: string = '') {
+        return ExtendRequest(route, 'put');
 }
 
 export function Use(route: string = '') {
-        return ExtendRequest(route,'use');
+        return ExtendRequest(route, 'use');
 }
 
 export function Checkout(route: string = '') {
-        return ExtendRequest(route,'checkout');
+        return ExtendRequest(route, 'checkout');
 }
 
 export function Copy(route: string = '') {
-        return ExtendRequest(route,'copy');
+        return ExtendRequest(route, 'copy');
 }
 
 export function Delete(route: string = '') {
-        return ExtendRequest(route,'delete');
+        return ExtendRequest(route, 'delete');
 }
 
 export function Head(route: string = '') {
-        return ExtendRequest(route,'head');
+        return ExtendRequest(route, 'head');
 }
 
 export function Lock(route: string = '') {
-        return ExtendRequest(route,'lock');
+        return ExtendRequest(route, 'lock');
 }
 
 export function Merge(route: string = '') {
-        return ExtendRequest(route,'merge');
+        return ExtendRequest(route, 'merge');
 }
 
 
 export function MkActivity(route: string = '') {
-        return ExtendRequest(route,'mkactivity');
+        return ExtendRequest(route, 'mkactivity');
 }
 
 export function MkCol(route: string = '') {
-        return ExtendRequest(route,'mkcol');
+        return ExtendRequest(route, 'mkcol');
 }
 
 export function Move(route: string = '') {
-        return ExtendRequest(route,'move');
+        return ExtendRequest(route, 'move');
 }
 
 export function MSearch(route: string = '') {
-        return ExtendRequest(route,'m-search');
+        return ExtendRequest(route, 'm-search');
 }
 
 export function Notify(route: string = '') {
-        return ExtendRequest(route,'notify');
+        return ExtendRequest(route, 'notify');
 }
 
-export function MkActivity(route: string = '') {
-        return ExtendRequest(route,'mkactivity');
-}
+// export function MkActivity(route: string = '') {
+//         return ExtendRequest(route,'mkactivity');
+// }
 
-export function MkActivity(route: string = '') {
-        return ExtendRequest(route,'move');
-}
-
-
+// export function MkActivity(route: string = '') {
+//         return ExtendRequest(route,'move');
+// }
 
 
-// mkcol
-// move
-// m-search
-// notify
+//Needed Method Types
 // options
 // patch
-// post
 // purge
-// put
 // report
 // search
 // subscribe
@@ -124,24 +125,56 @@ export function MkActivity(route: string = '') {
 // unsubscribe
 
 
-function ExtendRequest(route:string,type:string){
+function ExtendRequest(route: string, type: string) {
 
-    return function (target: BaseController, key: string, d: TypedPropertyDescriptor<any>) {
-        const original = d.value;
-        let constructor: any = target.constructor;
+        return function (target: BaseController, key: string, d: TypedPropertyDescriptor<any>) {
+                // const original = d.value;
+                let constructor: any = target.constructor;
+                let access = Accessor(constructor);
+                access.methods = access.methods || {};
 
-        constructor.methods = constructor.methods || {};
 
-        let handler=constructor.methods[type] = <RouteOption[]>(constructor.methods[type] || []);
+                let handler = access.methods[type] = <RouteOption[]>(access.methods[type] || []);
 
-        handler.push({
-            route_name: route,
-            route_function: async function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
-                let controller: BaseController = new (<any>target).constructor();
-                setter.set_up_controller(controller, req, res, next);
-                await Promise.resolve(controller.onInit());
-                original.apply(controller);
-            }
-        })
-    }
+                handler.push({
+                        route_name: route,
+                        route_function: async function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
+
+                                //Must check is has dependencies
+                                let constructor = (<Object>target).constructor;
+
+                                let access = Accessor(constructor);
+                                let controller_instance: BaseController = new (<any>target).constructor();
+
+
+
+                                setter.set_up_controller(controller_instance, req, res, next);
+                                await Promise.resolve(controller_instance.onInit());
+
+                                let controller_method = (<any>controller_instance)[key];
+                                var injectable_names = Object.keys(access.inject)
+                                let params: any = [];
+
+                                if (~injectable_names.indexOf(key)) {
+                                        params = access.inject[key];
+                                        params = params.map(function (x: any) {
+
+                                                //should i trust the user?
+                                                //trust is for flowers and suckers!!!
+                                                let instance: any;
+                                                try {
+                                                        instance = new x();
+                                                } catch (e) {
+                                                        instance = x;
+                                                }
+                                                return instance;
+                                        })
+                                }
+
+                                controller_method.apply(controller_instance, params);
+                        }
+                })
+
+                return d;
+        }
 }

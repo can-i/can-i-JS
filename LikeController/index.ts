@@ -2,6 +2,9 @@ import express = require('express');
 
 import {GetServer,app} from "../win";
 
+export interface IController{
+    new():BaseController
+}
 
 export class Controller {
     protected res: express.Response;

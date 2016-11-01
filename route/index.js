@@ -11,21 +11,20 @@ const index_1 = require('./../LikeController/index');
 const index_2 = require('./../win/index');
 let setter = new index_1.PublicController();
 function Route(route = "/") {
-    return function (constructor) {
+    return function RouteAttacher(constructor) {
         let router = index_2.Express.Router();
-        if ('methods' in constructor) {
-            let keys = Object.keys(constructor.methods);
-            for (let key of keys) {
-                let routeOption = constructor.methods[key];
-                for (let o of routeOption) {
-                    switch (key.toLowerCase()) {
-                        case 'get':
-                            router.get(o.route_name, o.route_function);
-                            break;
-                        case 'post':
-                            router.post(o.route_name, o.route_function);
-                            break;
-                    }
+        let access = index_2.Accessor(constructor);
+        let keys = Object.keys(access.methods);
+        for (let key of keys) {
+            let routeOption = access.methods[key];
+            for (let o of routeOption) {
+                switch (key.toLowerCase()) {
+                    case 'get':
+                        router.get(o.route_name, o.route_function);
+                        break;
+                    case 'post':
+                        router.post(o.route_name, o.route_function);
+                        break;
                 }
             }
         }
@@ -41,6 +40,10 @@ function Post(route = '') {
     return ExtendRequest(route, 'post');
 }
 exports.Post = Post;
+function Put(route = '') {
+    return ExtendRequest(route, 'put');
+}
+exports.Put = Put;
 function Use(route = '') {
     return ExtendRequest(route, 'use');
 }
@@ -89,31 +92,42 @@ function Notify(route = '') {
     return ExtendRequest(route, 'notify');
 }
 exports.Notify = Notify;
-function MkActivity(route = '') {
-    return ExtendRequest(route, 'mkactivity');
-}
-exports.MkActivity = MkActivity;
-function MkActivity(route = '') {
-    return ExtendRequest(route, 'move');
-}
-exports.MkActivity = MkActivity;
 function ExtendRequest(route, type) {
     return function (target, key, d) {
-        const original = d.value;
         let constructor = target.constructor;
-        constructor.methods = constructor.methods || {};
-        let handler = constructor.methods[type] = (constructor.methods[type] || []);
+        let access = index_2.Accessor(constructor);
+        access.methods = access.methods || {};
+        let handler = access.methods[type] = (access.methods[type] || []);
         handler.push({
             route_name: route,
             route_function: function (req, res, next) {
                 return __awaiter(this, void 0, void 0, function* () {
-                    let controller = new target.constructor();
-                    setter.set_up_controller(controller, req, res, next);
-                    yield Promise.resolve(controller.onInit());
-                    original.apply(controller);
+                    let constructor = target.constructor;
+                    let access = index_2.Accessor(constructor);
+                    let controller_instance = new target.constructor();
+                    setter.set_up_controller(controller_instance, req, res, next);
+                    yield Promise.resolve(controller_instance.onInit());
+                    let controller_method = controller_instance[key];
+                    var injectable_names = Object.keys(access.inject);
+                    let params = [];
+                    if (~injectable_names.indexOf(key)) {
+                        params = access.inject[key];
+                        params = params.map(function (x) {
+                            let instance;
+                            try {
+                                instance = new x();
+                            }
+                            catch (e) {
+                                instance = x;
+                            }
+                            return instance;
+                        });
+                    }
+                    controller_method.apply(controller_instance, params);
                 });
             }
         });
+        return d;
     };
 }
 //# sourceMappingURL=index.js.map

@@ -21,3 +21,15 @@ export function GetServer(){
 }
 
 
+
+export type InternalAccessorStructure =  {
+    inject:{ [key:string]: any[]}
+    methods:any
+}
+
+export function Accessor(obj:Object):InternalAccessorStructure{
+    let o:any = obj;
+    let access = o.__can_u_leave_me_alone = o.__can_u_leave_me_alone || {};
+    return access;  
+}
+
