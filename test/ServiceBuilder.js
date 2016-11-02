@@ -21,7 +21,7 @@ describe("ServiceBuilder", function () {
         }
     };
     One = __decorate([
-        IOC_1.Injectable, 
+        IOC_1.Singleton, 
         __metadata('design:paramtypes', [])
     ], One);
     let Two = class Two {
@@ -31,17 +31,19 @@ describe("ServiceBuilder", function () {
         }
     };
     Two = __decorate([
-        IOC_1.Singleton, 
+        IOC_1.Injectable, 
         __metadata('design:paramtypes', [One])
     ], Two);
-    before(function () {
+    beforeEach(function () {
         ServiceBuilder_1.ServiceBuilder.BuildService(Two);
-    });
-    it("spy one should be called twice", function () {
-        must(method.callCount).equal(1);
     });
     it("spy two should be called once", function () {
         must(method.calledOnce).true;
+        must(method2.calledOnce).true;
+    });
+    it("spy one should be called twice", function () {
+        must(method.calledOnce).true;
+        must(method2.callCount).equal(2);
     });
 });
 //# sourceMappingURL=ServiceBuilder.js.map

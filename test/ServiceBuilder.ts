@@ -10,14 +10,14 @@ describe("ServiceBuilder",function(){
     let method = sinon.spy();
     let method2= sinon.spy()
 
-    @Injectable
+    @Singleton
     class One{
         constructor(){
             method();
         }
     }
 
-    @Singleton
+    @Injectable
     class Two{
         constructor(public one:One){
             method2()
@@ -28,13 +28,17 @@ describe("ServiceBuilder",function(){
         ServiceBuilder.BuildService(Two);
     })
 
-    it("spy one should be called twice",function(){
-        must(method.callCount).equal(2);
-    })
-
     it("spy two should be called once",function(){
         must(method.calledOnce).true
+        must(method2.calledOnce).true
     })
+
+
+    it("spy one should be called twice",function(){
+        must(method.calledOnce).true
+        must(method2.callCount).equal(2);
+    })
+
 
 
 })
