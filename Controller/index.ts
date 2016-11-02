@@ -1,7 +1,4 @@
-import { ConfigurationManager } from './../Config/index';
-import express = require('express');
 
-import {GetServer,App} from "../win";
 
 export interface IController{
     new():BaseController
@@ -87,3 +84,7 @@ export class BaseController extends Controller {
 
 
 export default BaseController;
+
+import { ConfigurationManager } from './../Config/index';
+import express = require('express');
+import {GetServer,App} from "../win";

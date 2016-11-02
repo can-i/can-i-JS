@@ -1,11 +1,12 @@
-import { Accessor } from './../win/index';
+
 
 const IOC_CONTAINER = new Map<any, any>();
 let ioc = IOC_CONTAINER;
-
-
 let Singleton = new Map<any, any>()
-import "reflect-metadata";
+
+
+
+
 
 
 
@@ -121,3 +122,5 @@ export class ServiceBuilder {
     }
 }
 
+
+import { Accessor } from './../win/index';

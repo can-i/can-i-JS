@@ -1,5 +1,3 @@
-import { Accessor,Express } from "../win";
-export { Stack } from "./Stack";
 
 
 export type MiddleWareFunction = (req: Express.Request, res: Express.Response, next?: Express.NextFunction) => any
@@ -24,3 +22,7 @@ export function MiddleWare(func: MiddleWareFunction) {
 
     return MiddlewareStack;
 }
+
+
+import { Accessor,Express } from "../win";
+export { Stack } from "./Stack";

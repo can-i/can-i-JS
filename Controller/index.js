@@ -1,6 +1,4 @@
 "use strict";
-const index_1 = require('./../Config/index');
-const win_1 = require("../win");
 class Controller {
 }
 exports.Controller = Controller;
@@ -54,4 +52,6 @@ BaseController.methods = {};
 exports.BaseController = BaseController;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BaseController;
+const index_1 = require('./../Config/index');
+const win_1 = require("../win");
 //# sourceMappingURL=index.js.map

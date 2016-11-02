@@ -1,4 +1,5 @@
 "use strict";
+require("reflect-metadata");
 let map = new Map();
 exports.Accessor = function (obj) {
     let o = obj.constructor === Function ? obj : obj.constructor;
@@ -46,10 +47,6 @@ function BootStrap(options) {
     glob.sync(options.services).map(require);
 }
 exports.BootStrap = BootStrap;
-const index_1 = require('./../Config/index');
-const _ = require("lodash");
-const glob = require("glob");
-const Path = require("path");
 function Close() {
     return server.close();
 }
@@ -58,4 +55,8 @@ function GetServer() {
     return server;
 }
 exports.GetServer = GetServer;
+const index_1 = require('./../Config/index');
+const _ = require("lodash");
+const glob = require("glob");
+const Path = require("path");
 //# sourceMappingURL=index.js.map

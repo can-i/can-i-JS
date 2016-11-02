@@ -1,9 +1,3 @@
-import { ServiceBuilder } from './ServiceBuilder';
-import { Accessor } from './../win/index';
-import { InternalAccessorStructure } from '../win';
-
-
-
 
 
 
@@ -17,4 +11,10 @@ export function Singleton(constructor:Function){
     ServiceBuilder.MarkSingleton(constructor);
     ServiceBuilder.Injectable(constructor);
 }
+
+import { ServiceBuilder } from './ServiceBuilder';
+import { Accessor } from './../win/index';
+import { InternalAccessorStructure } from '../win';
+
+
 

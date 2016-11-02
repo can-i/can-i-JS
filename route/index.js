@@ -7,15 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
-const index_1 = require('./../LikeController/index');
-const index_2 = require('./../win/index');
-const MiddleWare_1 = require("../MiddleWare");
-let setter = new index_1.PublicController();
 function Route(route = "/") {
     return function RouteAttacher(constructor) {
-        let router = index_2.Express.Router();
-        let access = index_2.Accessor(constructor);
+        let router = index_1.Express.Router();
+        let access = index_1.Accessor(constructor);
         let keys = Object.keys(access.methods || {});
         access.route_prefix = route;
         for (let key of keys) {
@@ -31,7 +26,7 @@ function Route(route = "/") {
                 }
             }
         }
-        index_2.App().use(route, router);
+        index_1.App().use(route, router);
     };
 }
 exports.Route = Route;
@@ -130,7 +125,7 @@ exports.unsubscribe = unsubscribe;
 function ExtendRequest(route, type) {
     return function (target, key, d) {
         let constructor = target.constructor;
-        let access = index_2.Accessor(constructor);
+        let access = index_1.Accessor(constructor);
         access.methods = access.methods || {};
         let handler = access.methods[type] = (access.methods[type] || []);
         handler.push({
@@ -139,7 +134,7 @@ function ExtendRequest(route, type) {
                 return __awaiter(this, void 0, void 0, function* () {
                     try {
                         let constructor = target.constructor;
-                        let access = index_2.Accessor(constructor);
+                        let access = index_1.Accessor(constructor);
                         if (access.middleware && access.middleware.global && access.middleware.global.length) {
                             let middleware = MiddleWare_1.Stack.apply(this, access.middleware.global);
                             yield new Promise((reject, resolve) => {
@@ -187,4 +182,9 @@ function ExtendRequest(route, type) {
         return d;
     };
 }
+const index_2 = require('./../LikeController/index');
+let setter = new index_2.PublicController();
+const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
+const index_1 = require('./../win/index');
+const MiddleWare_1 = require("../MiddleWare");
 //# sourceMappingURL=index.js.map

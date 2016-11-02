@@ -1,10 +1,3 @@
-import { ServiceBuilder } from './../IOC/ServiceBuilder';
-import { Constructor } from './../node_modules/make-error/index.d';
-import { BaseController, PublicController, IController } from './../LikeController/index';
-import { App, Express, Accessor, InternalAccessorStructure } from './../win/index';
-import { Stack } from "../MiddleWare";
-
-let setter = new PublicController();
 
 
 type RouteOption = {
@@ -220,3 +213,11 @@ function ExtendRequest(route: string, type: string) {
         }
 
 }
+
+import { BaseController, PublicController, IController } from './../LikeController/index';
+let setter = new PublicController();
+
+import { ServiceBuilder } from './../IOC/ServiceBuilder';
+import { Constructor } from './../node_modules/make-error/index.d';
+import { App, Express, Accessor, InternalAccessorStructure } from './../win/index';
+import { Stack } from "../MiddleWare";

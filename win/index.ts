@@ -1,3 +1,7 @@
+//None Conflicting Dependencies
+
+import "reflect-metadata";
+
 let map = new Map<any, any>();
 
 export const Accessor = function (obj: any): InternalAccessorStructure {
@@ -61,21 +65,6 @@ export function BootStrap(options: any) {
 
 }
 
-import { ConfigurationManager } from './../Config/index';
-import { Server } from 'http';
-import { InternalDocumentationStructure } from "../help/Document";
-
-import { MiddleWareFunction } from "../MiddleWare";
-import _ = require("lodash");
-import glob = require("glob");
-
-import Path = require("path");
-
-
-
-
-
-
 export function Close() {
     return server.close();
 }
@@ -99,6 +88,23 @@ export type InternalAccessorStructure = {
     singleton?: boolean
     injectWith: injectWith
 }
+
+import { ConfigurationManager } from './../Config/index';
+import { Server } from 'http';
+import { InternalDocumentationStructure } from "../help/Document";
+
+import { MiddleWareFunction } from "../MiddleWare";
+import _ = require("lodash");
+import glob = require("glob");
+
+import Path = require("path");
+
+
+
+
+
+
+
 
 
 

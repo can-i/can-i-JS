@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
-const win_1 = require("../win");
-const IOC_1 = require("../IOC");
 function Features() {
     return ["documentation"];
 }
@@ -22,6 +19,7 @@ function Configure(options = {}) {
     }
 }
 exports.Configure = Configure;
+const IOC_1 = require("../IOC");
 let AppGetter = class AppGetter {
     get app() {
         return win_1.App();
@@ -72,5 +70,7 @@ _ConfigurationManager = __decorate([
     IOC_1.Singleton, 
     __metadata('design:paramtypes', [Feature])
 ], _ConfigurationManager);
+const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
 exports.ConfigurationManager = ServiceBuilder_1.ServiceBuilder.BuildService(_ConfigurationManager);
+const win_1 = require("../win");
 //# sourceMappingURL=index.js.map

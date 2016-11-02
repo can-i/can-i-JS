@@ -1,9 +1,7 @@
 "use strict";
-const index_1 = require('./../win/index');
 const IOC_CONTAINER = new Map();
 let ioc = IOC_CONTAINER;
 let Singleton = new Map();
-require("reflect-metadata");
 var error = `
 Cannot create and instance of Static Builder Class.
 Methods need to be used Statictically
@@ -95,4 +93,5 @@ class ServiceBuilder {
     }
 }
 exports.ServiceBuilder = ServiceBuilder;
+const index_1 = require('./../win/index');
 //# sourceMappingURL=ServiceBuilder.js.map

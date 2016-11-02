@@ -1,6 +1,3 @@
-import { ServiceBuilder } from './../IOC/ServiceBuilder';
-import {Express,App} from "../win";
-import {Singleton} from "../IOC";
 
 export type Configuration = {
     features?: string[]
@@ -18,6 +15,9 @@ export function Configure(options: Configuration = {}) {
     }
 }
 
+
+
+import {Singleton} from "../IOC";
 
 @Singleton
 export class AppGetter{
@@ -68,4 +68,6 @@ class _ConfigurationManager extends AppGetter {
     }
 }
 
+import { ServiceBuilder } from './../IOC/ServiceBuilder';
 export const ConfigurationManager = ServiceBuilder.BuildService(_ConfigurationManager);
+import {Express,App} from "../win";

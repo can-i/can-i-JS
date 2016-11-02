@@ -1,7 +1,3 @@
-import { MiddleWareFunction } from '.';
-import { Express } from "../Win";
-
-
 
 //This is useful for stacking up middleware functions to place on your routes
 
@@ -23,6 +19,6 @@ export function Stack(...middleware: MiddleWareFunction[]): MiddleWareFunction {
 }
 
 
-
-
 export default Stack;
+import { MiddleWareFunction } from '.';
+import { Express } from "../Win";

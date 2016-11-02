@@ -1,5 +1,4 @@
 
-import { App, Accessor, Express } from "../win";
 
 export type APIDetail = {
     title: string
@@ -27,6 +26,8 @@ function SetupFromConstructor(constructor: Function) {
     return d;
 }
 
+
+
 function SetupFromPrototype(target: any) {
     if (target instanceof Function)
         return SetupFromConstructor((<Function>target));
@@ -39,6 +40,7 @@ function SetUp(t: any): InternalDocumentationStructure {
 
 
 let documentation_running = false;
+
 
 export function Document(info: APIDetail) {
     return function (...args: any[]) {
@@ -88,5 +90,6 @@ function DocumentProperty(d: InternalDocumentationStructure, key: string, info: 
 }
 
 
-
 export default Document;
+
+import { App, Accessor, Express } from "../win";
