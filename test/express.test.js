@@ -104,7 +104,6 @@ describe("Can-I", function () {
         ], ItemController);
         let CanPost = class CanPost extends index_1.BaseController {
             test() {
-                console.log(this.req.headers);
                 if (Object.keys(this.req.body).length) {
                     this.send("success");
                 }
