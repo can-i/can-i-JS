@@ -33,7 +33,6 @@ describe("ServiceBuilder",function(){
         must(method2.calledOnce).true
     })
 
-
     it("spy one should be called twice",function(){
         must(method.calledOnce).true
         must(method2.callCount).equal(2);

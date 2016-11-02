@@ -16,8 +16,8 @@ const IOC_1 = require("../IOC");
 const help_1 = require("../help");
 const MiddleWare_1 = require("../MiddleWare");
 const request = require("superagent");
+const sinon = require("sinon");
 var must = require("must");
-var sinon = require("sinon");
 let method_pre = sinon.spy();
 let method_post = sinon.spy();
 var parser = require("body-parser");
@@ -29,17 +29,26 @@ let BaseApi = MiddleWare_1.Stack(function (req, res, next) {
     next();
 });
 describe("Can-I", function () {
+    let spy = sinon.spy();
     before(function () {
         win_1.BootStrap(null);
         let Database = class Database {
+            constructor() {
+                spy();
+            }
             getUser() {
                 return {
                     Author: "Shavauhn Gabay"
                 };
             }
+            getItem() {
+                return {
+                    name: "GTX Titan PASCAL"
+                };
+            }
         };
         Database = __decorate([
-            IOC_1.Injectable, 
+            IOC_1.Singleton, 
             __metadata('design:paramtypes', [])
         ], Database);
         let UserService = class UserService {
@@ -56,9 +65,6 @@ describe("Can-I", function () {
         ], UserService);
         let ItemService = class ItemService {
             getItem() {
-                return {
-                    name: "GTX Titan PASCAL"
-                };
             }
         };
         ItemService = __decorate([
@@ -205,6 +211,9 @@ describe("Can-I", function () {
                     resolve();
             });
         });
+    });
+    afterEach(function () {
+        must(spy.calledOnce).true;
     });
     after(win_1.Close);
 });

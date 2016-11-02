@@ -1,16 +1,15 @@
 
-import { Listen, Close,BootStrap,Express} from "../win";
+import { Listen, Close, BootStrap, Express } from "../win";
 import { BaseController } from './../LikeController/index';
 
-import {Configure} from "../Config"
+import { Configure } from "../Config"
 import { Route, Get, Post } from "../route";
-import { Injectable } from "../IOC";
+import { Injectable, Singleton } from "../IOC";
 import { Document } from "../help";
-import {MiddleWare,Stack} from "../MiddleWare";
+import { MiddleWare, Stack } from "../MiddleWare";
 import request = require("superagent");
+import sinon = require("sinon");
 var must = require("must");
-
-var sinon = require("sinon");
 
 let method_pre = sinon.spy();
 let method_post = sinon.spy();
@@ -18,25 +17,39 @@ let method_post = sinon.spy();
 
 
 var parser = require("body-parser");
-let BaseApi = Stack(function(req:any,res:any,next:Express.NextFunction){
+let BaseApi = Stack(function (req: any, res: any, next: Express.NextFunction) {
     method_pre()
     next()
-},parser.json(),function(req:any,res:any,next:Express.NextFunction){
+}, parser.json(), function (req: any, res: any, next: Express.NextFunction) {
     method_post()
     next()
 });
 
 describe("Can-I", function () {
 
+
+    let spy = sinon.spy()
     before(function () {
 
         BootStrap(null);
 
-        @Injectable
-        class Database{
-            getUser(){
+        @Singleton
+        class Database {
+
+
+            constructor() {
+                spy()
+            }
+
+            getUser() {
                 return {
-                    Author:"Shavauhn Gabay"
+                    Author: "Shavauhn Gabay"
+                }
+            }
+
+            getItem() {
+                return {
+                    name: "GTX Titan PASCAL"
                 }
             }
         }
@@ -44,25 +57,22 @@ describe("Can-I", function () {
         @Injectable
         class UserService {
 
-            constructor(public db:Database){
+            constructor(public db: Database) {
 
             }
-            
+
             getUser() {
                 return this.db.getUser();
             }
         }
 
         @Injectable
-        class ItemService{
-            getItem(){
-                return {
-                    name:"GTX Titan PASCAL"
-                }
+        class ItemService {
+            getItem() {
+
             }
         }
 
-        
         @Document({
             title: "User Controller",
             description: `Contains information about the user`
@@ -70,7 +80,7 @@ describe("Can-I", function () {
         @Route("/user")
         class UserController extends BaseController {
 
-            constructor(public service:UserService){
+            constructor(public service: UserService) {
                 super();
             }
 
@@ -91,8 +101,8 @@ describe("Can-I", function () {
             description: `Contains information about the Item`
         })
         class ItemController extends BaseController {
-            
-            constructor(public service:ItemService){
+
+            constructor(public service: ItemService) {
                 super();
             }
 
@@ -105,11 +115,11 @@ describe("Can-I", function () {
 
         @MiddleWare(BaseApi)
         @Route("/test")
-        class CanPost extends BaseController{
+        class CanPost extends BaseController {
 
             @Post("/test")
-            public test(){
-                if(Object.keys((<any>this.req).body).length){
+            public test() {
+                if (Object.keys((<any>this.req).body).length) {
                     this.send("success");
                 }
             }
@@ -160,17 +170,17 @@ describe("Can-I", function () {
     })
 
     it("It should be able to get the author information", function () {
-       must(method_pre.called).true
+        must(method_pre.called).true
     })
 
     it("It should be able to get the author information", function () {
-      must(method_post.called).true
+        must(method_post.called).true
     })
 
     it("It should be able to get the author information", function () {
         return new Promise((resolve, reject) => {
             request.post("http://localhost:3000/test/test").send({
-                "key":"value"
+                "key": "value"
             }).end(function (err, res) {
                 let {text} = res;
                 must(text).equal("success")
@@ -185,7 +195,7 @@ describe("Can-I", function () {
     it("Document", function () {
         return new Promise((resolve, reject) => {
             request.get("http://localhost:3000/can-i/document").end(function (err, res) {
-                let {body} = res;                
+                let {body} = res;
                 must(body).true
 
                 if (err)
@@ -194,6 +204,10 @@ describe("Can-I", function () {
                     resolve();
             })
         })
+    })
+
+    afterEach(function () {
+        must(spy.calledOnce).true;
     })
 
     after(Close);
