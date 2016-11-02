@@ -137,15 +137,12 @@ function ExtendRequest(route, type) {
                                 });
                             });
                         }
-                        let controller_method = controller_instance[key];
-                        var injectable_names = Object.keys(access.inject || {});
                         let params = [];
                         params = ServiceBuilder_1.ServiceBuilder.getServiceMethodNeeds(target, key);
                         try {
-                            yield Promise.resolve(controller_method.apply(controller_instance, params));
+                            yield Promise.resolve((controller_instance[key](...params)));
                         }
                         catch (e) {
-                            console.log(e.stack);
                             next(e);
                         }
                     }

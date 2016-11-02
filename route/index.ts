@@ -2,7 +2,7 @@ import { ServiceBuilder } from './../IOC/ServiceBuilder';
 import { Constructor } from './../node_modules/make-error/index.d';
 import { BaseController, PublicController, IController } from './../LikeController/index';
 import { App, Express, Accessor, InternalAccessorStructure } from './../win/index';
-import {Stack} from "../MiddleWare";
+import { Stack } from "../MiddleWare";
 
 let setter = new PublicController();
 
@@ -17,7 +17,7 @@ type RouteOption = {
 
 export function Route(route: string = "/") {
 
-        return function RouteAttacher(constructor: new (...args:any[]) => BaseController) {
+        return function RouteAttacher(constructor: new (...args: any[]) => BaseController) {
 
                 let router = Express.Router();
 
@@ -107,25 +107,39 @@ export function Notify(route: string = '') {
         return ExtendRequest(route, 'notify');
 }
 
-// export function MkActivity(route: string = '') {
-//         return ExtendRequest(route,'mkactivity');
-// }
+export function Options(route: string = '') {
+        return ExtendRequest(route,'options');
+}
 
-// export function MkActivity(route: string = '') {
-//         return ExtendRequest(route,'move');
-// }
+export function Patch(route: string = '') {
+        return ExtendRequest(route,'patch');
+}
+
+export function Report(route: string = '') {
+        return ExtendRequest(route,'report');
+}
+
+export function Search(route: string = '') {
+        return ExtendRequest(route,'search');
+}
+
+export function Subscribe(route: string = '') {
+        return ExtendRequest(route,'subscribe');
+}
 
 
-//Needed Method Types
-// options
-// patch
-// purge
-// report
-// search
-// subscribe
-// trace
-// unlock
-// unsubscribe
+export function Trace(route: string = '') {
+        return ExtendRequest(route,'trace');
+}
+
+export function Unlock(route: string = '') {
+        return ExtendRequest(route,'unlock');
+}
+
+export function unsubscribe(route: string = '') {
+        return ExtendRequest(route,'unsubscribe');
+}
+
 
 
 function ExtendRequest(route: string, type: string) {
@@ -143,31 +157,28 @@ function ExtendRequest(route: string, type: string) {
                         route_name: route,
                         route_function: async function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
 
-
-                                //Must check is has dependencies
                                 try {
-                                        let constructor:new (...args:any[])=>any = <any>target.constructor;
+                                        let constructor: new (...args: any[]) => any = <any>target.constructor;
 
-                                        
+
 
                                         let access = Accessor(constructor);
-                                        
-                                        if(access.middleware && access.middleware.global && access.middleware.global.length){
-                                                let middleware = Stack.apply(this,access.middleware.global);
-                                                await new Promise((reject,resolve)=>{
-                                                        middleware(req,res,function(response:any){
-                                                                if(response instanceof String){
+
+                                        if (access.middleware && access.middleware.global && access.middleware.global.length) {
+                                                let middleware = Stack.apply(this, access.middleware.global);
+                                                await new Promise((reject, resolve) => {
+                                                        middleware(req, res, function (response: any) {
+                                                                if (response instanceof String) {
                                                                         next(response);
-                                                                }else{
+                                                                } else {
                                                                         reject(response);
                                                                 }
                                                         });
                                                 })
                                         }
-                                        
+
 
                                         let controller_instance: BaseController = ServiceBuilder.ConstructService(constructor);
-                                        // let controller_instance: BaseController = new (<any>target).constructor();
 
 
 
@@ -175,47 +186,27 @@ function ExtendRequest(route: string, type: string) {
                                         controller_instance.onInit();
 
 
-                                        if(access.middleware && access.middleware.route && access.middleware.route[key] && access.middleware.route[key].length){
-                                                
-                                                let middleware = Stack.apply(this,access.middleware.route[key]);
-                                                await new Promise((reject,resolve)=>{
-                                                        middleware(req,res,function(response:any){
-                                                                if(response instanceof String){
+                                        if (access.middleware && access.middleware.route && access.middleware.route[key] && access.middleware.route[key].length) {
+
+                                                let middleware = Stack.apply(this, access.middleware.route[key]);
+                                                await new Promise((reject, resolve) => {
+                                                        middleware(req, res, function (response: any) {
+                                                                if (response instanceof String) {
                                                                         next(response);
-                                                                }else{
+                                                                } else {
                                                                         reject(response);
                                                                 }
                                                         });
                                                 })
                                         }
 
-                                        let controller_method = (<any>controller_instance)[key];
-
-
-                                        var injectable_names = Object.keys(access.inject || {})
                                         let params: any = [];
-                                        params = ServiceBuilder.getServiceMethodNeeds(target,key);
-                                        // if (~injectable_names.indexOf(key)) {
-                                        //         params = access.inject[key];
-                                        //         params = params.map(function (x: any) {
-
-                                        //                 //should i trust the user?
-                                        //                 //trust is for flowers and suckers!!!
-                                        //                 let instance: any;
-                                        //                 try {
-                                        //                         instance = new x();
-                                        //                 } catch (e) {
-                                        //                         instance = x;
-                                        //                 }
-                                        //                 return instance;
-                                        //         })
-                                        // }
+                                        params = ServiceBuilder.getServiceMethodNeeds(target, key);
 
                                         try {
 
-                                                await Promise.resolve(controller_method.apply(controller_instance, params));
+                                                await Promise.resolve(((<any>controller_instance)[key](...params)));
                                         } catch (e) {
-                                                console.log(e.stack);
                                                 next(e)
                                         }
                                 } catch (e) {
