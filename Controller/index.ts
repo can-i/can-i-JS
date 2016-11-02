@@ -1,3 +1,4 @@
+import { ConfigurationManager } from './../Config/index';
 import express = require('express');
 
 import {GetServer,App} from "../win";
@@ -25,10 +26,15 @@ export class PublicController extends Controller{
 
 
 export class BaseController extends Controller {
+
     public static ___router:express.Router;
 
     public static methods = {};
     
+    protected get ConfigurationManager(){
+        return ConfigurationManager;
+    }
+
     protected get Server(){
         return GetServer();
     }
@@ -37,9 +43,28 @@ export class BaseController extends Controller {
         return App();
     }
 
+    protected get features(){
+        return this.ConfigurationManager.feature 
+    }
+
+
+    protected get session(){
+        return (<any>this.req).session
+    }
+
+    protected set session(val){
+        (<any>this.req).session = val;
+    }
+
+    protected get body(){
+        return (<any>this.req).body
+    }
+
     constructor() {
         super();
     }
+
+
 
     onInit() {
 

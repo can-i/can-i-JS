@@ -1,4 +1,6 @@
+import { ServiceBuilder } from './../IOC/ServiceBuilder';
 import {Express,App} from "../win";
+import {Singleton} from "../IOC";
 
 export type Configuration = {
     features?: string[]
@@ -17,44 +19,53 @@ export function Configure(options: Configuration = {}) {
 }
 
 
-
+@Singleton
 export class AppGetter{
     get app(){
         return App();
     }
 }
 
+@Singleton
 class Feature extends AppGetter {
     constructor() { 
         super();
     }
 
-    convert(f: string) {
+    private convert(f: string) {
         return `can-i feature ${f}`;
     }
 
-    enable(f: string) {
+    public enable(f: string) {
         return this.app.enable(this.convert(f))
     }
 
-    enabled(f: string) {
+    public enabled(f: string) {
         return this.app.enabled(this.convert(f))
     }
 
-    disable(f: string) {
+    public disable(f: string) {
         return this.app.disable(this.convert(f))
     }
 
-    disabled(f: string) {
+    public disabled(f: string) {
         return this.app.disabled(this.convert(f))
     }
+
+    public on(...args:any[]){
+        return (<any>this.app.on)(...args);
+    }
 }
 
+@Singleton
 class _ConfigurationManager extends AppGetter {
-    constructor() {
+    constructor(private _feature:Feature) {
         super();
     }
-    public feature = new Feature();
+
+    get feature(){
+        return this._feature;
+    }
 }
 
-export const ConfigurationManager:_ConfigurationManager = new _ConfigurationManager();
+export const ConfigurationManager = ServiceBuilder.BuildService(_ConfigurationManager);

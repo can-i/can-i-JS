@@ -57,7 +57,7 @@ export class ServiceBuilder {
         }
     }
 
-    static BuildService(target: new (...args: any[]) => any) {
+    static BuildService<T>(target: new (...args: any[]) => T):T|null {
 
         if (!ServiceBuilder.isIOCCLASS(target)) {
             return null;

@@ -95,6 +95,38 @@ function Notify(route = '') {
     return ExtendRequest(route, 'notify');
 }
 exports.Notify = Notify;
+function Options(route = '') {
+    return ExtendRequest(route, 'options');
+}
+exports.Options = Options;
+function Patch(route = '') {
+    return ExtendRequest(route, 'patch');
+}
+exports.Patch = Patch;
+function Report(route = '') {
+    return ExtendRequest(route, 'report');
+}
+exports.Report = Report;
+function Search(route = '') {
+    return ExtendRequest(route, 'search');
+}
+exports.Search = Search;
+function Subscribe(route = '') {
+    return ExtendRequest(route, 'subscribe');
+}
+exports.Subscribe = Subscribe;
+function Trace(route = '') {
+    return ExtendRequest(route, 'trace');
+}
+exports.Trace = Trace;
+function Unlock(route = '') {
+    return ExtendRequest(route, 'unlock');
+}
+exports.Unlock = Unlock;
+function unsubscribe(route = '') {
+    return ExtendRequest(route, 'unsubscribe');
+}
+exports.unsubscribe = unsubscribe;
 function ExtendRequest(route, type) {
     return function (target, key, d) {
         let constructor = target.constructor;
