@@ -24,12 +24,12 @@ describe("ServiceBuilder",function(){
         }
     }
 
-    before(function(){
+    beforeEach(function(){
         ServiceBuilder.BuildService(Two);
     })
 
     it("spy one should be called twice",function(){
-        must(method.callCount).equal(1);
+        must(method.callCount).equal(2);
     })
 
     it("spy two should be called once",function(){
