@@ -1,21 +1,6 @@
-
-
-export type APIDetail = {
-    title: string
-    description: string
-    query_string?: string[]
-    response?: any;
-} | { [key: string]: any };
-
-
-export type InternalDocumentationStructure = {
-    enabled: boolean
-    classname: string
-    class: APIDetail
-    methods: { [key: string]: APIDetail }
-    properties: { [key: string]: APIDetail }
-}
-
+import { App, Accessor, Express } from "../win";
+import { APIDetail } from './APIDetail';
+import {InternalDocumentationStructure} from "../help/InternalDocumentStructure";
 
 function SetupFromConstructor(constructor: Function) {
 
@@ -91,5 +76,3 @@ function DocumentProperty(d: InternalDocumentationStructure, key: string, info: 
 
 
 export default Document;
-
-import { App, Accessor, Express } from "../win";

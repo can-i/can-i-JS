@@ -1,37 +1,14 @@
 "use strict";
-require("reflect-metadata");
-let map = new Map();
-exports.Accessor = function (obj) {
-    let o = obj.constructor === Function ? obj : obj.constructor;
-    let r = map.get(o);
-    if (!r) {
-        r = {};
-        map.set(o, r);
-    }
-    return r;
-};
-exports.Express = require("express");
-let app;
-exports.App = function () {
-    if (!app) {
-        throw new Error("Application has not been bootstrapped");
-    }
-    return app;
-};
-let server;
-function Listen(...args) {
-    app.get("/can-i/document", function (req, res, next) {
-        process.nextTick(() => {
-            if (index_1.ConfigurationManager.feature.enabled('documentation'))
-                res.send(res.locals);
-            else {
-                next();
-            }
-        });
-    });
-    server = app.listen.apply(app, args);
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-exports.Listen = Listen;
+const index_1 = require('./../Config/index');
+require("reflect-metadata");
+exports.Express = require("express");
+__export(require("./Accessor"));
+const _ = require("lodash");
+const glob = require("glob");
+const Path = require("path");
 function BootStrap(options) {
     app = exports.Express();
     if (options === null) {
@@ -47,6 +24,27 @@ function BootStrap(options) {
     glob.sync(options.services).map(require);
 }
 exports.BootStrap = BootStrap;
+let app;
+exports.App = function () {
+    if (!app) {
+        throw new Error("Application has not been bootstrapped");
+    }
+    return app;
+};
+let server;
+function Listen(...args) {
+    app.get("/can-i/document", function (req, res, next) {
+        process.nextTick(() => {
+            if (index_1.configurationManager.feature.enabled('documentation'))
+                res.send(res.locals);
+            else {
+                next();
+            }
+        });
+    });
+    server = app.listen.apply(app, args);
+}
+exports.Listen = Listen;
 function Close() {
     return server.close();
 }
@@ -55,8 +53,4 @@ function GetServer() {
     return server;
 }
 exports.GetServer = GetServer;
-const index_1 = require('./../Config/index');
-const _ = require("lodash");
-const glob = require("glob");
-const Path = require("path");
 //# sourceMappingURL=index.js.map

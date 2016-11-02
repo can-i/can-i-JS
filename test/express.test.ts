@@ -1,10 +1,11 @@
 import 'source-map-support/register';
 import { Listen, Close, BootStrap, Express } from "../win";
 import { BaseController } from './../LikeController/index';
-
+import {Singleton} from "../IOC/Singleton";
+import {Route} from "../route/Route";
 import { Configure } from "../Config"
-import { Route, Get, Post } from "../route";
-import { Injectable, Singleton } from "../IOC";
+import { Get, Post } from "../route/Method";
+import { Injectable} from "../IOC";
 import { Document } from "../help";
 import { MiddleWare, Stack } from "../MiddleWare";
 import request = require("superagent");

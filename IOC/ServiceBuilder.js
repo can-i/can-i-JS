@@ -1,4 +1,5 @@
 "use strict";
+const Accessor_1 = require('./../win/Accessor');
 const IOC_CONTAINER = new Map();
 let ioc = IOC_CONTAINER;
 let Singleton = new Map();
@@ -44,7 +45,7 @@ class ServiceBuilder {
     }
     static BuildService(target) {
         if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
-            throw new Error("class is not injectable");
+            throw new Error(`class ${target.name} is not injectable`);
         }
         if (ServiceBuilder.isSingletonConstruct(target)) {
             return ServiceBuilder.ConstructSingleton(target);
@@ -59,11 +60,11 @@ class ServiceBuilder {
     static isManual(target) {
     }
     static isSingletonConstruct(target) {
-        let access = index_1.Accessor(target);
+        let access = Accessor_1.Accessor(target);
         return access.singleton;
     }
     static getServiceMethodNeeds(target, key) {
-        let access = index_1.Accessor(target);
+        let access = Accessor_1.Accessor(target);
         let needs = Reflect.getMetadata("design:paramtypes", target, key);
         if (needs) {
             needs = needs.map(ServiceBuilder.BuildService);
@@ -75,7 +76,7 @@ class ServiceBuilder {
     }
     static InjectWith(..._args) {
         let [target, key, args] = _args;
-        let access = index_1.Accessor(target);
+        let access = Accessor_1.Accessor(target);
         access.injectWith = args;
         if (Array.isArray(key) && !args) {
             access.injectWith = {
@@ -88,10 +89,9 @@ class ServiceBuilder {
         }
     }
     static MarkSingleton(constructor) {
-        let access = index_1.Accessor(constructor);
+        let access = Accessor_1.Accessor(constructor);
         access.singleton = true;
     }
 }
 exports.ServiceBuilder = ServiceBuilder;
-const index_1 = require('./../win/index');
 //# sourceMappingURL=ServiceBuilder.js.map

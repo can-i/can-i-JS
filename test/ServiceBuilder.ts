@@ -1,6 +1,7 @@
+import { Singleton } from '../IOC/Singleton';
 import { ServiceBuilder } from './../IOC/ServiceBuilder';
 
-import {Singleton,Injectable} from "../IOC";
+import {Injectable} from "../IOC";
 import sinon = require("sinon");
 let must = require("must");
 

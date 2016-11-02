@@ -1,3 +1,6 @@
+import Express = require('express');
+import {GetServer,App} from "../win";
+import { configurationManager } from './../Config/index';
 
 
 export interface IController{
@@ -5,15 +8,15 @@ export interface IController{
 }
 
 export class Controller {
-    protected res: express.Response;
-    protected req: express.Request;
-    protected next: express.NextFunction;
+    protected res: Express.Response;
+    protected req: Express.Request;
+    protected next: Express.NextFunction;
 }
 
 
-export class PublicController extends Controller{
+export class ControllerConfig extends Controller{
 
-     public set_up_controller(controller: Controller, req: express.Request, res: express.Response, next: express.NextFunction) {
+     public set_up_controller(controller: Controller, req: Express.Request, res: Express.Response, next: Express.NextFunction) {
         let c =<this>controller;
         c.req=req;
         c.res=res;
@@ -24,12 +27,12 @@ export class PublicController extends Controller{
 
 export class BaseController extends Controller {
 
-    public static ___router:express.Router;
+    public static ___router:Express.Router;
 
     public static methods = {};
     
     protected get ConfigurationManager(){
-        return ConfigurationManager;
+        return configurationManager;
     }
 
     protected get Server(){
@@ -84,7 +87,3 @@ export class BaseController extends Controller {
 
 
 export default BaseController;
-
-import { ConfigurationManager } from './../Config/index';
-import express = require('express');
-import {GetServer,App} from "../win";

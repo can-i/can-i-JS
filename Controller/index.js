@@ -1,8 +1,10 @@
 "use strict";
+const win_1 = require("../win");
+const index_1 = require('./../Config/index');
 class Controller {
 }
 exports.Controller = Controller;
-class PublicController extends Controller {
+class ControllerConfig extends Controller {
     set_up_controller(controller, req, res, next) {
         let c = controller;
         c.req = req;
@@ -10,13 +12,13 @@ class PublicController extends Controller {
         c.next = next;
     }
 }
-exports.PublicController = PublicController;
+exports.ControllerConfig = ControllerConfig;
 class BaseController extends Controller {
     constructor() {
         super();
     }
     get ConfigurationManager() {
-        return index_1.ConfigurationManager;
+        return index_1.configurationManager;
     }
     get Server() {
         return win_1.GetServer();
@@ -52,6 +54,4 @@ BaseController.methods = {};
 exports.BaseController = BaseController;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BaseController;
-const index_1 = require('./../Config/index');
-const win_1 = require("../win");
 //# sourceMappingURL=index.js.map

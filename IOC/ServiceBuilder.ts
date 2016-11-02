@@ -1,9 +1,8 @@
-
+import { Accessor } from './../win/Accessor';
 
 const IOC_CONTAINER = new Map<any, any>();
 let ioc = IOC_CONTAINER;
 let Singleton = new Map<any, any>()
-
 
 
 
@@ -61,7 +60,7 @@ export class ServiceBuilder {
     static BuildService<T>(target: new (...args: any[]) => T):T {
         
         if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
-            throw new Error("class is not injectable")
+            throw new Error(`class ${target.name} is not injectable`)
         }
 
         if (ServiceBuilder.isSingletonConstruct(target)) {
@@ -122,5 +121,3 @@ export class ServiceBuilder {
     }
 }
 
-
-import { Accessor } from './../win/index';

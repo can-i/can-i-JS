@@ -1,4 +1,5 @@
 "use strict";
+const win_1 = require("../win");
 function SetupFromConstructor(constructor) {
     let access = win_1.Accessor(constructor);
     let d = access.documentation = access.documentation || { "classname": constructor.name, methods: {} };
@@ -55,5 +56,4 @@ function DocumentProperty(d, key, info) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Document;
-const win_1 = require("../win");
 //# sourceMappingURL=Document.js.map

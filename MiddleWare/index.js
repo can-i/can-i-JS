@@ -1,4 +1,7 @@
 "use strict";
+const win_1 = require("../win");
+var Stack_1 = require("./Stack");
+exports.Stack = Stack_1.Stack;
 function MiddleWare(func) {
     function MiddlewareStack(target, key) {
         let access = win_1.Accessor(target);
@@ -17,7 +20,4 @@ function MiddleWare(func) {
     return MiddlewareStack;
 }
 exports.MiddleWare = MiddleWare;
-const win_1 = require("../win");
-var Stack_1 = require("./Stack");
-exports.Stack = Stack_1.Stack;
 //# sourceMappingURL=index.js.map

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+const Singleton_1 = require('../IOC/Singleton');
 const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
 const IOC_1 = require("../IOC");
 const sinon = require("sinon");
@@ -21,7 +22,7 @@ describe("ServiceBuilder", function () {
         }
     };
     One = __decorate([
-        IOC_1.Singleton, 
+        Singleton_1.Singleton, 
         __metadata('design:paramtypes', [])
     ], One);
     let Two = class Two {

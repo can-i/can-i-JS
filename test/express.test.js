@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 require('source-map-support/register');
 const win_1 = require("../win");
 const index_1 = require('./../LikeController/index');
+const Singleton_1 = require("../IOC/Singleton");
+const Route_1 = require("../route/Route");
 const Config_1 = require("../Config");
-const route_1 = require("../route");
+const Method_1 = require("../route/Method");
 const IOC_1 = require("../IOC");
 const help_1 = require("../help");
 const MiddleWare_1 = require("../MiddleWare");
@@ -49,7 +51,7 @@ describe("Can-I", function () {
             }
         };
         Database = __decorate([
-            IOC_1.Singleton, 
+            Singleton_1.Singleton, 
             __metadata('design:paramtypes', [])
         ], Database);
         let UserService = class UserService {
@@ -85,13 +87,13 @@ describe("Can-I", function () {
             }
         };
         __decorate([
-            route_1.Get("/greeting"), 
+            Method_1.Get("/greeting"), 
             __metadata('design:type', Function), 
             __metadata('design:paramtypes', []), 
             __metadata('design:returntype', void 0)
         ], UserController.prototype, "hello", null);
         __decorate([
-            route_1.Get("/info"), 
+            Method_1.Get("/info"), 
             __metadata('design:type', Function), 
             __metadata('design:paramtypes', []), 
             __metadata('design:returntype', void 0)
@@ -101,7 +103,7 @@ describe("Can-I", function () {
                 title: "User Controller",
                 description: `Contains information about the user`
             }),
-            route_1.Route("/user"), 
+            Route_1.Route("/user"), 
             __metadata('design:paramtypes', [UserService])
         ], UserController);
         let ItemController = class ItemController extends index_1.BaseController {
@@ -114,13 +116,13 @@ describe("Can-I", function () {
             }
         };
         __decorate([
-            route_1.Get("/detail"), 
+            Method_1.Get("/detail"), 
             __metadata('design:type', Function), 
             __metadata('design:paramtypes', []), 
             __metadata('design:returntype', void 0)
         ], ItemController.prototype, "detail", null);
         ItemController = __decorate([
-            route_1.Route("/item"),
+            Route_1.Route("/item"),
             help_1.Document({
                 title: "Item Controller",
                 description: `Contains information about the Item`
@@ -135,14 +137,14 @@ describe("Can-I", function () {
             }
         };
         __decorate([
-            route_1.Post("/test"), 
+            Method_1.Post("/test"), 
             __metadata('design:type', Function), 
             __metadata('design:paramtypes', []), 
             __metadata('design:returntype', void 0)
         ], CanPost.prototype, "test", null);
         CanPost = __decorate([
             MiddleWare_1.MiddleWare(BaseApi),
-            route_1.Route("/test"), 
+            Route_1.Route("/test"), 
             __metadata('design:paramtypes', [])
         ], CanPost);
         return new Promise((resolve) => {
