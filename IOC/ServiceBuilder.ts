@@ -57,10 +57,10 @@ export class ServiceBuilder {
         }
     }
 
-    static BuildService<T>(target: new (...args: any[]) => T):T|null {
-
-        if (!ServiceBuilder.isIOCCLASS(target)) {
-            return null;
+    static BuildService<T>(target: new (...args: any[]) => T):T {
+        
+        if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
+            throw new Error("class is not injectable")
         }
 
         if (ServiceBuilder.isSingletonConstruct(target)) {
@@ -73,6 +73,10 @@ export class ServiceBuilder {
 
     static isIOCCLASS(target: any) {
         return ioc.has(target);
+    }
+
+    static isManual(target:any){
+
     }
 
 

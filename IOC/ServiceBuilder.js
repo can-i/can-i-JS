@@ -45,8 +45,8 @@ class ServiceBuilder {
         }
     }
     static BuildService(target) {
-        if (!ServiceBuilder.isIOCCLASS(target)) {
-            return null;
+        if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
+            throw new Error("class is not injectable");
         }
         if (ServiceBuilder.isSingletonConstruct(target)) {
             return ServiceBuilder.ConstructSingleton(target);
@@ -57,6 +57,8 @@ class ServiceBuilder {
     }
     static isIOCCLASS(target) {
         return ioc.has(target);
+    }
+    static isManual(target) {
     }
     static isSingletonConstruct(target) {
         let access = index_1.Accessor(target);

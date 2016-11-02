@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+require('source-map-support/register');
 const win_1 = require("../win");
 const index_1 = require('./../LikeController/index');
 const Config_1 = require("../Config");

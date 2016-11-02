@@ -1,5 +1,16 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
 const win_1 = require("../win");
+const IOC_1 = require("../IOC");
 function Features() {
     return ["documentation"];
 }
@@ -11,13 +22,17 @@ function Configure(options = {}) {
     }
 }
 exports.Configure = Configure;
-class AppGetter {
+let AppGetter = class AppGetter {
     get app() {
         return win_1.App();
     }
-}
+};
+AppGetter = __decorate([
+    IOC_1.Singleton, 
+    __metadata('design:paramtypes', [])
+], AppGetter);
 exports.AppGetter = AppGetter;
-class Feature extends AppGetter {
+let Feature = class Feature extends AppGetter {
     constructor() {
         super();
     }
@@ -36,12 +51,26 @@ class Feature extends AppGetter {
     disabled(f) {
         return this.app.disabled(this.convert(f));
     }
-}
-class _ConfigurationManager extends AppGetter {
-    constructor() {
-        super();
-        this.feature = new Feature();
+    on(...args) {
+        return this.app.on(...args);
     }
-}
-exports.ConfigurationManager = new _ConfigurationManager();
+};
+Feature = __decorate([
+    IOC_1.Singleton, 
+    __metadata('design:paramtypes', [])
+], Feature);
+let _ConfigurationManager = class _ConfigurationManager extends AppGetter {
+    constructor(_feature) {
+        super();
+        this._feature = _feature;
+    }
+    get feature() {
+        return this._feature;
+    }
+};
+_ConfigurationManager = __decorate([
+    IOC_1.Singleton, 
+    __metadata('design:paramtypes', [Feature])
+], _ConfigurationManager);
+exports.ConfigurationManager = ServiceBuilder_1.ServiceBuilder.BuildService(_ConfigurationManager);
 //# sourceMappingURL=index.js.map

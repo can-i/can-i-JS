@@ -1,4 +1,4 @@
-
+import 'source-map-support/register';
 import { Listen, Close, BootStrap, Express } from "../win";
 import { BaseController } from './../LikeController/index';
 

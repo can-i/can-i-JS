@@ -1,4 +1,14 @@
 "use strict";
+let map = new Map();
+exports.Accessor = function (obj) {
+    let o = obj.constructor === Function ? obj : obj.constructor;
+    let r = map.get(o);
+    if (!r) {
+        r = {};
+        map.set(o, r);
+    }
+    return r;
+};
 exports.Express = require("express");
 let app;
 exports.App = function () {
@@ -7,10 +17,6 @@ exports.App = function () {
     }
     return app;
 };
-const index_1 = require('./../Config/index');
-const _ = require("lodash");
-const glob = require("glob");
-const Path = require("path");
 let server;
 function Listen(...args) {
     app.get("/can-i/document", function (req, res, next) {
@@ -40,6 +46,10 @@ function BootStrap(options) {
     glob.sync(options.services).map(require);
 }
 exports.BootStrap = BootStrap;
+const index_1 = require('./../Config/index');
+const _ = require("lodash");
+const glob = require("glob");
+const Path = require("path");
 function Close() {
     return server.close();
 }
@@ -48,14 +58,4 @@ function GetServer() {
     return server;
 }
 exports.GetServer = GetServer;
-let map = new Map();
-exports.Accessor = function (obj) {
-    let o = obj.constructor === Function ? obj : obj.constructor;
-    let r = map.get(o);
-    if (!r) {
-        r = {};
-        map.set(o, r);
-    }
-    return r;
-};
 //# sourceMappingURL=index.js.map

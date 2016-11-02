@@ -8,6 +8,7 @@
     "express": "^4.14.0",
     "must": "^0.13.2",
     "sinon": "^1.17.6",
+    "source-map-support": "^0.4.6",
     "superagent": "^2.3.0",
     "typings": "^1.5.0"
   },
@@ -26,8 +27,8 @@
   "scripts": {
     "test": "bu",
     "alpha": "npm publish --tag alpha",
-    "babel":"babel . --out-dir . --ignore node_modules",
-    "prepublish":"npm run babel"
+    "babel": "babel . --out-dir . --ignore node_modules",
+    "prepublish": "npm run babel"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,5 @@
 "use strict";
+const index_1 = require('./../Config/index');
 const win_1 = require("../win");
 class Controller {
 }
@@ -16,11 +17,26 @@ class BaseController extends Controller {
     constructor() {
         super();
     }
+    get ConfigurationManager() {
+        return index_1.ConfigurationManager;
+    }
     get Server() {
         return win_1.GetServer();
     }
     get App() {
         return win_1.App();
+    }
+    get features() {
+        return this.ConfigurationManager.feature;
+    }
+    get session() {
+        return this.req.session;
+    }
+    set session(val) {
+        this.req.session = val;
+    }
+    get body() {
+        return this.req.body;
     }
     onInit() {
     }
