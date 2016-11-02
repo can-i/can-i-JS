@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
+const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
 const index_1 = require('./../LikeController/index');
 const index_2 = require('./../win/index');
 const MiddleWare_1 = require("../MiddleWare");
@@ -120,7 +121,7 @@ function ExtendRequest(route, type) {
                                 });
                             });
                         }
-                        let controller_instance = new target.constructor();
+                        let controller_instance = ServiceBuilder_1.ServiceBuilder.BuildService(constructor);
                         setter.set_up_controller(controller_instance, req, res, next);
                         controller_instance.onInit();
                         if (access.middleware && access.middleware.route && access.middleware.route[key] && access.middleware.route[key].length) {
@@ -139,19 +140,7 @@ function ExtendRequest(route, type) {
                         let controller_method = controller_instance[key];
                         var injectable_names = Object.keys(access.inject || {});
                         let params = [];
-                        if (~injectable_names.indexOf(key)) {
-                            params = access.inject[key];
-                            params = params.map(function (x) {
-                                let instance;
-                                try {
-                                    instance = new x();
-                                }
-                                catch (e) {
-                                    instance = x;
-                                }
-                                return instance;
-                            });
-                        }
+                        params = ServiceBuilder_1.ServiceBuilder.getServiceMethodNeeds(target, key);
                         try {
                             yield Promise.resolve(controller_method.apply(controller_instance, params));
                         }

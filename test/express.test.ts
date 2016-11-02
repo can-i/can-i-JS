@@ -4,7 +4,7 @@ import { BaseController } from './../LikeController/index';
 
 import {Configure} from "../Config"
 import { Route, Get, Post } from "../route";
-import { Inject, Injectable } from "../IOC";
+import { Injectable } from "../IOC";
 import { Document } from "../help";
 import {MiddleWare,Stack} from "../MiddleWare";
 import request = require("superagent");
@@ -33,11 +33,23 @@ describe("Can-I", function () {
         BootStrap(null);
 
         @Injectable
-        class UserService {
-            getUser() {
+        class Database{
+            getUser(){
                 return {
-                    Author: "Shavauhn Gabay"
+                    Author:"Shavauhn Gabay"
                 }
+            }
+        }
+
+        @Injectable
+        class UserService {
+
+            constructor(public db:Database){
+
+            }
+            
+            getUser() {
+                return this.db.getUser();
             }
         }
 
@@ -50,7 +62,6 @@ describe("Can-I", function () {
             }
         }
 
-
         
         @Document({
             title: "User Controller",
@@ -59,16 +70,18 @@ describe("Can-I", function () {
         @Route("/user")
         class UserController extends BaseController {
 
+            constructor(public service:UserService){
+                super();
+            }
 
             @Get("/greeting")
             public hello() {
                 this.send("Hello, World");
             }
 
-            @Inject
             @Get("/info")
-            public User(service: UserService) {
-                this.send(service.getUser());
+            public User() {
+                this.send(this.service.getUser());
             }
         }
 
@@ -78,11 +91,15 @@ describe("Can-I", function () {
             description: `Contains information about the Item`
         })
         class ItemController extends BaseController {
+            
+            constructor(public service:ItemService){
+                super();
+            }
+
 
             @Get("/detail")
-            @Inject
-            public detail(service:ItemService) {
-                this.send(service.getItem())
+            public detail() {
+                this.send(this.service.getItem())
             }
         }
 

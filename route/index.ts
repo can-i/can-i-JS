@@ -1,3 +1,4 @@
+import { ServiceBuilder } from './../IOC/ServiceBuilder';
 import { Constructor } from './../node_modules/make-error/index.d';
 import { BaseController, PublicController, IController } from './../LikeController/index';
 import { App, Express, Accessor, InternalAccessorStructure } from './../win/index';
@@ -16,7 +17,7 @@ type RouteOption = {
 
 export function Route(route: string = "/") {
 
-        return function RouteAttacher(constructor: new () => BaseController) {
+        return function RouteAttacher(constructor: new (...args:any[]) => BaseController) {
 
                 let router = Express.Router();
 
@@ -145,7 +146,7 @@ function ExtendRequest(route: string, type: string) {
 
                                 //Must check is has dependencies
                                 try {
-                                        let constructor = (<Object>target).constructor;
+                                        let constructor:new (...args:any[])=>any = <any>target.constructor;
 
                                         
 
@@ -164,7 +165,9 @@ function ExtendRequest(route: string, type: string) {
                                                 })
                                         }
                                         
-                                        let controller_instance: BaseController = new (<any>target).constructor();
+
+                                        let controller_instance: BaseController = ServiceBuilder.BuildService(constructor);
+                                        // let controller_instance: BaseController = new (<any>target).constructor();
 
 
 
@@ -187,24 +190,26 @@ function ExtendRequest(route: string, type: string) {
                                         }
 
                                         let controller_method = (<any>controller_instance)[key];
+
+
                                         var injectable_names = Object.keys(access.inject || {})
                                         let params: any = [];
+                                        params = ServiceBuilder.getServiceMethodNeeds(target,key);
+                                        // if (~injectable_names.indexOf(key)) {
+                                        //         params = access.inject[key];
+                                        //         params = params.map(function (x: any) {
 
-                                        if (~injectable_names.indexOf(key)) {
-                                                params = access.inject[key];
-                                                params = params.map(function (x: any) {
-
-                                                        //should i trust the user?
-                                                        //trust is for flowers and suckers!!!
-                                                        let instance: any;
-                                                        try {
-                                                                instance = new x();
-                                                        } catch (e) {
-                                                                instance = x;
-                                                        }
-                                                        return instance;
-                                                })
-                                        }
+                                        //                 //should i trust the user?
+                                        //                 //trust is for flowers and suckers!!!
+                                        //                 let instance: any;
+                                        //                 try {
+                                        //                         instance = new x();
+                                        //                 } catch (e) {
+                                        //                         instance = x;
+                                        //                 }
+                                        //                 return instance;
+                                        //         })
+                                        // }
 
                                         try {
 

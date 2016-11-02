@@ -31,16 +31,28 @@ let BaseApi = MiddleWare_1.Stack(function (req, res, next) {
 describe("Can-I", function () {
     before(function () {
         win_1.BootStrap(null);
-        let UserService = class UserService {
+        let Database = class Database {
             getUser() {
                 return {
                     Author: "Shavauhn Gabay"
                 };
             }
         };
-        UserService = __decorate([
+        Database = __decorate([
             IOC_1.Injectable, 
             __metadata('design:paramtypes', [])
+        ], Database);
+        let UserService = class UserService {
+            constructor(db) {
+                this.db = db;
+            }
+            getUser() {
+                return this.db.getUser();
+            }
+        };
+        UserService = __decorate([
+            IOC_1.Injectable, 
+            __metadata('design:paramtypes', [Database])
         ], UserService);
         let ItemService = class ItemService {
             getItem() {
@@ -54,11 +66,15 @@ describe("Can-I", function () {
             __metadata('design:paramtypes', [])
         ], ItemService);
         let UserController = class UserController extends index_1.BaseController {
+            constructor(service) {
+                super();
+                this.service = service;
+            }
             hello() {
                 this.send("Hello, World");
             }
-            User(service) {
-                this.send(service.getUser());
+            User() {
+                this.send(this.service.getUser());
             }
         };
         __decorate([
@@ -68,10 +84,9 @@ describe("Can-I", function () {
             __metadata('design:returntype', void 0)
         ], UserController.prototype, "hello", null);
         __decorate([
-            IOC_1.Inject,
             route_1.Get("/info"), 
             __metadata('design:type', Function), 
-            __metadata('design:paramtypes', [UserService]), 
+            __metadata('design:paramtypes', []), 
             __metadata('design:returntype', void 0)
         ], UserController.prototype, "User", null);
         UserController = __decorate([
@@ -80,18 +95,21 @@ describe("Can-I", function () {
                 description: `Contains information about the user`
             }),
             route_1.Route("/user"), 
-            __metadata('design:paramtypes', [])
+            __metadata('design:paramtypes', [UserService])
         ], UserController);
         let ItemController = class ItemController extends index_1.BaseController {
-            detail(service) {
-                this.send(service.getItem());
+            constructor(service) {
+                super();
+                this.service = service;
+            }
+            detail() {
+                this.send(this.service.getItem());
             }
         };
         __decorate([
-            route_1.Get("/detail"),
-            IOC_1.Inject, 
+            route_1.Get("/detail"), 
             __metadata('design:type', Function), 
-            __metadata('design:paramtypes', [ItemService]), 
+            __metadata('design:paramtypes', []), 
             __metadata('design:returntype', void 0)
         ], ItemController.prototype, "detail", null);
         ItemController = __decorate([
@@ -100,7 +118,7 @@ describe("Can-I", function () {
                 title: "Item Controller",
                 description: `Contains information about the Item`
             }), 
-            __metadata('design:paramtypes', [])
+            __metadata('design:paramtypes', [ItemService])
         ], ItemController);
         let CanPost = class CanPost extends index_1.BaseController {
             test() {
