@@ -69,6 +69,9 @@ export function GetServer() {
 }
 
 
+interface injectWith{
+    default?:any[]
+}
 
 export type InternalAccessorStructure = {
     inject: { [key: string]: any[] }
@@ -76,6 +79,8 @@ export type InternalAccessorStructure = {
     route_prefix: string
     documentation: InternalDocumentationStructure;
     middleware:{global?:MiddleWareFunction[],route?:{[key:string]:MiddleWareFunction[]}}
+    singleton?:boolean
+    injectWith:injectWith
 }
 
 

@@ -121,7 +121,7 @@ function ExtendRequest(route, type) {
                                 });
                             });
                         }
-                        let controller_instance = ServiceBuilder_1.ServiceBuilder.BuildService(constructor);
+                        let controller_instance = ServiceBuilder_1.ServiceBuilder.ConstructService(constructor);
                         setter.set_up_controller(controller_instance, req, res, next);
                         controller_instance.onInit();
                         if (access.middleware && access.middleware.route && access.middleware.route[key] && access.middleware.route[key].length) {

@@ -166,7 +166,7 @@ function ExtendRequest(route: string, type: string) {
                                         }
                                         
 
-                                        let controller_instance: BaseController = ServiceBuilder.BuildService(constructor);
+                                        let controller_instance: BaseController = ServiceBuilder.ConstructService(constructor);
                                         // let controller_instance: BaseController = new (<any>target).constructor();
 
 

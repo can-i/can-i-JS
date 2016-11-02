@@ -5,3 +5,4 @@
 /// <reference path="modules/express/index.d.ts" />
 /// <reference path="modules/glob/index.d.ts" />
 /// <reference path="modules/lodash/index.d.ts" />
+/// <reference path="modules/sinon/index.d.ts" />
