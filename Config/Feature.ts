@@ -1,3 +1,4 @@
+import { Event } from './../Event/index';
 import {Singleton} from "../IOC/Singleton";
 import { AppGetter } from './AppGetter';
 
@@ -28,6 +29,6 @@ export class Feature extends AppGetter {
     }
 
     public on(...args:any[]){
-        return (<any>this.app.on)(...args);
+        return Event.on(...args);
     }
 }

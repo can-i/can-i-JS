@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+const index_1 = require('./../Event/index');
 const Singleton_1 = require("../IOC/Singleton");
 const AppGetter_1 = require('./AppGetter');
 let Feature = class Feature extends AppGetter_1.AppGetter {
@@ -30,7 +31,7 @@ let Feature = class Feature extends AppGetter_1.AppGetter {
         return this.app.disabled(this.convert(f));
     }
     on(...args) {
-        return this.app.on(...args);
+        return index_1.Event.on(...args);
     }
 };
 Feature = __decorate([
