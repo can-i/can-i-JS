@@ -1,4 +1,6 @@
+import { Configuration, Engine } from './../Config/Configuration';
 import { configurationManager } from './../Config/index';
+const consolidate = require("consolidate");
 //None Conflicting Dependencies
 
 import "reflect-metadata";
@@ -17,7 +19,7 @@ import { Server } from 'http';
 import { MiddleWareFunction } from "../MiddleWare";
 
 
-export function BootStrap(options: any) {
+export function BootStrap(options:Configuration) {
     app = Express();
 
     if (options === null) {
@@ -27,16 +29,29 @@ export function BootStrap(options: any) {
     options = options || {};
 
     //Good Defaults
-    let defaults = {
+    let defaults:Configuration = {
         controllers: Path.join(process.cwd(), "controllers"),
-        services: Path.join(process.cwd(), "services")
-    };
+        services: Path.join(process.cwd(), "services"),
+        views:Path.join(process.cwd(),"views"),
+        engine:{
+            extension:'html',
+            engineName:"vash",
+            engineConfig:null
+        }
+    }
 
-    options = _.defaultsDeep(options, defaults);
+    options = <Configuration>_.defaultsDeep(options, defaults);
 
     glob.sync(options.controllers).map(require);
     glob.sync(options.services).map(require);
+    
 
+    let e:Engine =  <Engine>options.engine
+    app.set('views',options.views);
+    app.set('view engine',e.extension);
+    app.engine(e.extension,consolidate[e.engineName]);
+    
+    return app;
 }
 
 

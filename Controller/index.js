@@ -16,6 +16,7 @@ exports.ControllerConfig = ControllerConfig;
 class BaseController extends Controller {
     constructor() {
         super();
+        this.internal_options = {};
     }
     get ConfigurationManager() {
         return index_1.configurationManager;
@@ -46,8 +47,17 @@ class BaseController extends Controller {
     status(...args) {
         this.res.status.apply(this.res, args);
     }
+    render(...args) {
+        let data = args;
+        return this.res.render(...data);
+    }
     send(...args) {
-        this.res.send.apply(this.res, args);
+        if (this.internal_options.render) {
+            return this.render(...args);
+        }
+        else {
+            this.res.send.apply(this.res, args);
+        }
     }
 }
 BaseController.methods = {};

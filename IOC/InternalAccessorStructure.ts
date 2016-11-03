@@ -10,4 +10,5 @@ export interface InternalAccessorStructure {
     middleware: { global?: MiddleWareFunction[], route?: { [key: string]: MiddleWareFunction[] } }
     singleton?: boolean
     injectWith: injectWith
+    view:{[key:string]:boolean}
 }

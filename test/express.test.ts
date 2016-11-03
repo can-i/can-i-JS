@@ -36,8 +36,6 @@ describe("Can-I", function () {
 
         @Singleton
         class Database {
-
-
             constructor() {
                 spy()
             }
@@ -95,7 +93,7 @@ describe("Can-I", function () {
                 this.send(this.service.getUser());
             }
         }
-
+        
         @Route("/item")
         @Document({
             title: "Item Controller",

@@ -9,7 +9,7 @@ let must = require("must");
 describe("ServiceBuilder",function(){
 
     let method = sinon.spy();
-    let method2= sinon.spy()
+    let method2= sinon.spy();
 
     @Singleton
     class One{

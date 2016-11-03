@@ -3,6 +3,7 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 const index_1 = require('./../Config/index');
+const consolidate = require("consolidate");
 require("reflect-metadata");
 exports.Express = require("express");
 __export(require("./Accessor"));
@@ -17,11 +18,22 @@ function BootStrap(options) {
     options = options || {};
     let defaults = {
         controllers: Path.join(process.cwd(), "controllers"),
-        services: Path.join(process.cwd(), "services")
+        services: Path.join(process.cwd(), "services"),
+        views: Path.join(process.cwd(), "views"),
+        engine: {
+            extension: 'html',
+            engineName: "vash",
+            engineConfig: null
+        }
     };
     options = _.defaultsDeep(options, defaults);
     glob.sync(options.controllers).map(require);
     glob.sync(options.services).map(require);
+    let e = options.engine;
+    app.set('views', options.views);
+    app.set('view engine', e.extension);
+    app.engine(e.extension, consolidate[e.engineName]);
+    return app;
 }
 exports.BootStrap = BootStrap;
 let app;
