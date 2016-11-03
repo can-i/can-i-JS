@@ -1,13 +1,18 @@
 "use strict";
-function Stack(...middleware) {
+
+function Stack() {
+    for (var _len = arguments.length, middleware = Array(_len), _key = 0; _key < _len; _key++) {
+        middleware[_key] = arguments[_key];
+    }
+
     return function (req, res, next) {
-        let i = -1, len = middleware.length;
+        var i = -1,
+            len = middleware.length;
         function again() {
             i++;
             if (i < len - 1) {
                 middleware[i](req, res, again);
-            }
-            else if (i === len - 1) {
+            } else if (i === len - 1) {
                 middleware[i](req, res, next);
             }
         }
