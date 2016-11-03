@@ -1,5 +1,4 @@
 {
-    "compileOnSave": true,
     "compilerOptions": {
         "module": "commonjs",
         "moduleResolution": "node",
@@ -10,21 +9,10 @@
         "target":"es6",
         "strictNullChecks": true,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "typeRoots": [
-            "typings"
-        ]
+        "emitDecoratorMetadata": true
     },
-    "include": [
-        "**/*.ts"
-    ],
     "exclude": [
         "node_modules",
-        "**/*.spec.ts",
-        ".vscode/**/*",
-        "test_legacy/**/*"
-    ],
-    "files":[
-        "typings/index.d.ts"
+        "test_legacy"
     ]
 }
