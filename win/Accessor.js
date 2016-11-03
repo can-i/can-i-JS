@@ -1,15 +1,8 @@
 "use strict";
-
-var _map = require("babel-runtime/core-js/map");
-
-var _map2 = _interopRequireDefault(_map);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var map = new _map2.default();
+const map = new Map();
 exports.Accessor = function (obj) {
-    var o = obj.constructor === Function ? obj : obj.constructor;
-    var r = map.get(o);
+    let o = obj.constructor === Function ? obj : obj.constructor;
+    let r = map.get(o);
     if (!r) {
         r = {};
         map.set(o, r);

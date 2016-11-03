@@ -1,12 +1,10 @@
 .vscode/
 
 # Compile files
-**/*.ts
 **/*.map
 
 # Configuration
-/tsconfig.json
-/typings.json
+
 
 
 /yarn.lock

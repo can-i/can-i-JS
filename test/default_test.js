@@ -1,8 +1,6 @@
-"use strict";
-
 var must = require("must");
 describe("A Node Test", function () {
-    var number = void 0;
+    let number;
     before(function () {
         number = 1;
     });

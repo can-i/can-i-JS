@@ -1,8 +1,7 @@
 "use strict";
-
-var ServiceBuilder_1 = require('./ServiceBuilder');
+const ServiceBuilder_1 = require('./ServiceBuilder');
 function Injectable(constructor) {
-    var s = constructor;
+    let s = constructor;
     ServiceBuilder_1.ServiceBuilder.Injectable(s);
 }
 exports.Injectable = Injectable;

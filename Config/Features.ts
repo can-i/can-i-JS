@@ -1,3 +1,5 @@
 export function Features() {
-    return ["documentation"]
+    return [
+        "documentation"
+        ]
 }

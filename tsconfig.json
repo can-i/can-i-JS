@@ -10,7 +10,10 @@
         "target":"es6",
         "strictNullChecks": true,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "typeRoots": [
+            "typings"
+        ]
     },
     "include": [
         "**/*.ts"

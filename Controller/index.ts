@@ -1,10 +1,10 @@
 import Express = require('express');
-import {GetServer,App} from "../win";
+import { GetServer, App } from "../win";
 import { configurationManager } from './../Config/index';
 
 
-export interface IController{
-    new():BaseController
+export interface IController {
+    new (): BaseController
 }
 
 export class Controller {
@@ -14,49 +14,55 @@ export class Controller {
 }
 
 
-export class ControllerConfig extends Controller{
+export class ControllerConfig extends Controller {
 
-     public set_up_controller(controller: Controller, req: Express.Request, res: Express.Response, next: Express.NextFunction) {
-        let c =<this>controller;
-        c.req=req;
-        c.res=res;
-        c.next=next; 
+    public set_up_controller(controller: Controller, req: Express.Request, res: Express.Response, next: Express.NextFunction) {
+        let c = <this>controller;
+        c.req = req;
+        c.res = res;
+        c.next = next;
     }
+}
+
+interface internalOptions {
+    render?: boolean
 }
 
 
 export class BaseController extends Controller {
 
-    public static ___router:Express.Router;
-
+    public static ___router: Express.Router;
     public static methods = {};
-    
-    protected get ConfigurationManager(){
+    private internal_options: internalOptions = {};
+
+
+
+    protected get ConfigurationManager() {
         return configurationManager;
     }
 
-    protected get Server(){
+    protected get Server() {
         return GetServer();
     }
 
-    protected get App(){
+    protected get App() {
         return App();
     }
 
-    protected get features(){
-        return this.ConfigurationManager.feature 
+    protected get features() {
+        return this.ConfigurationManager.feature
     }
 
 
-    protected get session(){
+    protected get session() {
         return (<any>this.req).session
     }
 
-    protected set session(val){
+    protected set session(val) {
         (<any>this.req).session = val;
     }
 
-    protected get body(){
+    protected get body() {
         return (<any>this.req).body
     }
 
@@ -79,9 +85,17 @@ export class BaseController extends Controller {
         this.res.status.apply(this.res, args);
     }
 
+    protected render(...args:any[]) {
+        let data:[string,any,any] = <any>args;
+        return (<any>this.res.render)(...data);
+    }
 
     send(...args: any[]) {
-        this.res.send.apply(this.res, args);
+        if (this.internal_options.render) {
+            return (<any>this.render)(...args);
+        } else {
+            this.res.send.apply(this.res, args);
+        }
     }
 }
 
