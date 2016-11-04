@@ -1,4 +1,6 @@
-var ee = require("events");
-export let Event  = new ee();
+import EE = require("tiny-emitter");
+
+
+export let Event = new EE();
 
 export default Event;

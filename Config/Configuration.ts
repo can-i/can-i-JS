@@ -1,7 +1,7 @@
 export interface Configuration {
     features?: string[]
-    controllers: string
-    services: string
+    controllers?: string
+    services?: string
     views?: string
     engine?:Engine
 }

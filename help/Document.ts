@@ -1,12 +1,13 @@
+import { InternalDocumentationStructure } from './InternalDocumentStructure';
+import { InternalAccessorStructure } from './../IOC/InternalAccessorStructure';
 import { App, Accessor, Express } from "../win";
 import { APIDetail } from './APIDetail';
-import {InternalDocumentationStructure} from "../help/InternalDocumentStructure";
 
 function SetupFromConstructor(constructor: Function) {
 
 
     let access = Accessor(constructor);
-    let d = access.documentation = access.documentation || { "classname": constructor.name, methods: {} }
+    let d:InternalDocumentationStructure = access.documentation = access.documentation || (<any> { "classname": constructor.name, methods: {} })
 
     return d;
 }

@@ -9,7 +9,8 @@ import {Configuration} from "./Configuration";
 
 export const configurationManager = ServiceBuilder.BuildService(ConfigurationManager);
 
-export function Configure(options: Configuration|null|any) {
+export function Configure(options?: Configuration) {
+    options = options || <Configuration>{};
     let features = options.features || []
     for (let f of features) {
         configurationManager.feature.enable(f);

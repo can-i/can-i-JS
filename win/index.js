@@ -2,7 +2,8 @@
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-const index_1 = require('./../Config/index');
+const index_1 = require('./../Event/index');
+const index_2 = require('./../Config/index');
 const consolidate = require("consolidate");
 require("reflect-metadata");
 exports.Express = require("express");
@@ -27,12 +28,15 @@ function BootStrap(options) {
         }
     };
     options = _.defaultsDeep(options, defaults);
-    glob.sync(options.controllers).map(require);
-    glob.sync(`${options.services}/**/*`).map(require);
+    glob.sync(`${options.controllers}/**/*.js`).filter(x => /.js$/.test(x)).map(x => {
+        return x;
+    }).map(require);
+    glob.sync(`${options.services}/**/*.js`).filter(x => /.js$/.test(x)).map(require);
     let e = options.engine;
     app.set('views', options.views);
     app.set('view engine', e.extension);
     app.engine(e.extension, consolidate[e.engineName]);
+    index_1.Event.emit("can-i:bootstrapped");
     return app;
 }
 exports.BootStrap = BootStrap;
@@ -47,7 +51,7 @@ let server;
 function Listen(...args) {
     app.get("/can-i/document", function (req, res, next) {
         process.nextTick(() => {
-            if (index_1.configurationManager.feature.enabled('documentation'))
+            if (index_2.configurationManager.feature.enabled('documentation'))
                 res.send(res.locals);
             else {
                 next();

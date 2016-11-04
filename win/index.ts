@@ -1,3 +1,4 @@
+import { Event } from './../Event/index';
 import { Configuration, Engine } from './../Config/Configuration';
 import { configurationManager } from './../Config/index';
 const consolidate = require("consolidate");
@@ -19,7 +20,7 @@ import { Server } from 'http';
 import { MiddleWareFunction } from "../MiddleWare";
 
 
-export function BootStrap(options:Configuration|null):Express.Application|null {
+export function BootStrap(options?:Configuration|null):Express.Application|null {
     app = Express();
 
     if (options === null) {
@@ -42,8 +43,11 @@ export function BootStrap(options:Configuration|null):Express.Application|null {
 
     options = <Configuration>_.defaultsDeep(options, defaults);
 
-    glob.sync(options.controllers).map(require);
-    glob.sync(`${options.services}/**/*`).map(require);
+    glob.sync(`${options.controllers}/**/*.js`).filter(x=> /.js$/.test(x)).map(x=>{
+        //Can do logs here
+        return x;
+    }).map(require);
+    glob.sync(`${options.services}/**/*.js`).filter(x=> /.js$/.test(x)).map(require);
     
 
     let e:Engine =  <Engine>options.engine
@@ -51,6 +55,8 @@ export function BootStrap(options:Configuration|null):Express.Application|null {
     app.set('view engine',e.extension);
     app.engine(e.extension,consolidate[e.engineName]);
     
+
+    Event.emit("can-i:bootstrapped");
     return app;
 }
 
@@ -70,6 +76,8 @@ let server: Server;
 
 
 export function Listen(...args: any[]) {
+
+
     app.get("/can-i/document", function (req: any, res: any, next: any) {
         process.nextTick(() => {
             if (configurationManager.feature.enabled('documentation'))
@@ -80,6 +88,8 @@ export function Listen(...args: any[]) {
         });
     })
 
+    
+    
     server = app.listen.apply(app, args)
 }
 

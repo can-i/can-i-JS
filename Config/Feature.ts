@@ -29,6 +29,6 @@ export class Feature extends AppGetter {
     }
 
     public on(...args:any[]){
-        return Event.on(...args);
+        return (<any>Event.on)(...args);
     }
 }
