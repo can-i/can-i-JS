@@ -53,7 +53,7 @@ export function BootStrap(options?:Configuration|null):Express.Application|null 
     let e:Engine =  <Engine>options.engine
     app.set('views',options.views);
     app.set('view engine',e.extension);
-    app.engine(<string>e.extension,<Function>consolidate[e.engineName]);
+    app.engine(<string>e.extension,consolidate[<string>e.engineName]);
 
     Event.emit("can-i:bootstrapped");
     return app;
