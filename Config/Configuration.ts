@@ -9,8 +9,8 @@ export interface Configuration {
 
 export interface Engine {
 
-    extension: string
-    engineName: string
+    extension?: string
+    engineName?: string
     engineConfig?: any
 
 }
