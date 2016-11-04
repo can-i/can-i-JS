@@ -49,7 +49,7 @@ class BaseController extends Controller {
     }
     render(...args) {
         let data = args;
-        return this.res.render(...data);
+        return this.res.render(data);
     }
     send(...args) {
         if (this.internal_options.render) {

@@ -87,7 +87,7 @@ export class BaseController extends Controller {
 
     protected render(...args:any[]) {
         let data:[string,any,any] = <any>args;
-        return (<any>this.res.render)(...data);
+        return (<any>this.res.render)(data);
     }
 
     send(...args: any[]) {
