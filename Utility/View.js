@@ -2,10 +2,10 @@
 function View(page) {
     return function View(target, key, d) {
         let original = d.value;
-        d.value = function (data) {
-            data = data || {};
+        d.value = function (...args) {
             this.internal_options.render = true;
-            original.apply(this, page, data);
+            this.internal_options.renderPage = page;
+            original.apply(this, args);
         };
         return d;
     };

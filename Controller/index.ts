@@ -26,6 +26,7 @@ export class ControllerConfig extends Controller {
 
 interface internalOptions {
     render?: boolean
+    renderPage?:string
 }
 
 
@@ -85,14 +86,13 @@ export class BaseController extends Controller {
         this.res.status.apply(this.res, args);
     }
 
-    protected render(...args:any[]) {
-        let data:[string,any,any] = <any>args;
+    protected render(data:Object) {
         return (<any>this.res.render)(data);
     }
 
     send(...args: any[]) {
         if (this.internal_options.render) {
-            return (<any>this.render)(...args);
+            return (<any>this.render)(this.internal_options.renderPage,...args);
         } else {
             this.res.send.apply(this.res, args);
         }

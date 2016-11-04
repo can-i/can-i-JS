@@ -47,13 +47,12 @@ class BaseController extends Controller {
     status(...args) {
         this.res.status.apply(this.res, args);
     }
-    render(...args) {
-        let data = args;
+    render(data) {
         return this.res.render(data);
     }
     send(...args) {
         if (this.internal_options.render) {
-            return this.render(...args);
+            return this.render(this.internal_options.renderPage, ...args);
         }
         else {
             this.res.send.apply(this.res, args);
