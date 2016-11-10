@@ -2,7 +2,7 @@ import 'source-map-support/register';
 import { Listen, Close, BootStrap, Express } from "../win";
 import { BaseController } from './../LikeController/index';
 import {Singleton} from "../IOC/Singleton";
-import {Route} from "../route/Route";
+import {Route} from "../route";
 import { Configure } from "../Config"
 import { Get, Post } from "../route/Method";
 import { Injectable} from "../IOC";

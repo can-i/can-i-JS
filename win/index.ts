@@ -2,7 +2,7 @@ import { Event } from './../Event/index';
 import { Configuration, Engine } from './../Config/Configuration';
 import { configurationManager } from './../Config/index';
 const consolidate = require("consolidate");
-//None Conflicting Dependencies
+
 
 import "reflect-metadata";
 
@@ -12,7 +12,7 @@ export * from "./Accessor";
 
 
 
-import _ = require("lodash");
+const _ = require("lodash");
 import glob = require("glob");
 import Path = require("path");
 import { Server } from 'http';

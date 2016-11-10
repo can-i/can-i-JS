@@ -12,7 +12,7 @@ require('source-map-support/register');
 const win_1 = require("../win");
 const index_1 = require('./../LikeController/index');
 const Singleton_1 = require("../IOC/Singleton");
-const Route_1 = require("../route/Route");
+const route_1 = require("../route");
 const Config_1 = require("../Config");
 const Method_1 = require("../route/Method");
 const IOC_1 = require("../IOC");
@@ -103,7 +103,7 @@ describe("Can-I", function () {
                 title: "User Controller",
                 description: `Contains information about the user`
             }),
-            Route_1.Route("/user"), 
+            route_1.Route("/user"), 
             __metadata('design:paramtypes', [UserService])
         ], UserController);
         let ItemController = class ItemController extends index_1.BaseController {
@@ -122,7 +122,7 @@ describe("Can-I", function () {
             __metadata('design:returntype', void 0)
         ], ItemController.prototype, "detail", null);
         ItemController = __decorate([
-            Route_1.Route("/item"),
+            route_1.Route("/item"),
             help_1.Document({
                 title: "Item Controller",
                 description: `Contains information about the Item`
@@ -144,7 +144,7 @@ describe("Can-I", function () {
         ], CanPost.prototype, "test", null);
         CanPost = __decorate([
             MiddleWare_1.MiddleWare(BaseApi),
-            Route_1.Route("/test"), 
+            route_1.Route("/test"), 
             __metadata('design:paramtypes', [])
         ], CanPost);
         return new Promise((resolve) => {
