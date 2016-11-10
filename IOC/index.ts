@@ -1,3 +1,4 @@
+export { ServiceBuilder } from './ServiceBuilder';
 import { ServiceBuilder } from './ServiceBuilder';
 export { Singleton } from './Singleton';
 
