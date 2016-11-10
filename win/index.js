@@ -62,7 +62,8 @@ function Listen(...args) {
 }
 exports.Listen = Listen;
 function Close() {
-    return server.close();
+    server.close();
+    return this;
 }
 exports.Close = Close;
 function GetServer() {

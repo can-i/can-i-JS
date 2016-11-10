@@ -19,13 +19,15 @@ let Feature = class Feature extends AppGetter_1.AppGetter {
         return `can-i feature ${f}`;
     }
     enable(f) {
-        return this.app.enable(this.convert(f));
+        this.app.enable(this.convert(f));
+        return this;
     }
     enabled(f) {
         return this.app.enabled(this.convert(f));
     }
     disable(f) {
-        return this.app.disable(this.convert(f));
+        this.app.disable(this.convert(f));
+        return this;
     }
     disabled(f) {
         return this.app.disabled(this.convert(f));

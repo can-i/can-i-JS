@@ -13,7 +13,8 @@ export class Feature extends AppGetter {
     }
 
     public enable(f: string) {
-        return this.app.enable(this.convert(f))
+        this.app.enable(this.convert(f))
+        return this;
     }
 
     public enabled(f: string) {
@@ -21,7 +22,8 @@ export class Feature extends AppGetter {
     }
 
     public disable(f: string) {
-        return this.app.disable(this.convert(f))
+        this.app.disable(this.convert(f))
+        return this;
     }
 
     public disabled(f: string) {

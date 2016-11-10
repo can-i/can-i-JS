@@ -94,7 +94,8 @@ export function Listen(...args: any[]) {
 
 
 export function Close() {
-    return server.close();
+    server.close();
+    return this;
 }
 
 

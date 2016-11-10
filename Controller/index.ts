@@ -1,6 +1,9 @@
 import Express = require('express');
 import { GetServer, App } from "../win";
 import { configurationManager } from './../Config/index';
+import { ConfigurationManager } from '../Config/ConfigurationManager';
+import { Server } from 'http';
+import { Feature } from '../Config/Feature';
 
 
 export interface IController {
@@ -38,11 +41,11 @@ export class BaseController extends Controller {
 
 
 
-    protected get ConfigurationManager() {
+    protected get ConfigurationManager():ConfigurationManager {
         return configurationManager;
     }
 
-    protected get Server() {
+    protected get Server():Server {
         return GetServer();
     }
 
@@ -50,7 +53,7 @@ export class BaseController extends Controller {
         return App();
     }
 
-    protected get features() {
+    protected get features():Feature {
         return this.ConfigurationManager.feature
     }
 
