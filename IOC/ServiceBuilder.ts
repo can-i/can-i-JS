@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Accessor } from './../win/Accessor';
 
 const IOC_CONTAINER = new Map<any, any>();

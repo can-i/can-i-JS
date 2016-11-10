@@ -1,4 +1,5 @@
 "use strict";
+require('reflect-metadata');
 const Accessor_1 = require('./../win/Accessor');
 const IOC_CONTAINER = new Map();
 let ioc = IOC_CONTAINER;

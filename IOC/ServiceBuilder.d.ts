@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 export declare class ServiceBuilder {
     constructor();
     static ConstructService(target: new (...args: any[]) => any): any;
