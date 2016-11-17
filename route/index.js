@@ -1,15 +1,18 @@
 "use strict";
-const index_1 = require('./../win/index');
-const index_2 = require('./../LikeController/index');
-function Route(route = "/") {
+var index_1 = require("./../win/index");
+var index_2 = require("./../LikeController/index");
+function Route(route) {
+    if (route === void 0) { route = "/"; }
     return function RouteAttacher(constructor) {
-        let router = index_1.Express.Router();
-        let access = index_1.Accessor(constructor);
-        let keys = Object.keys(access.methods || {});
+        var router = index_1.Express.Router();
+        var access = index_1.Accessor(constructor);
+        var keys = Object.keys(access.methods || {});
         access.route_prefix = route;
-        for (let key of keys) {
-            let routeOption = access.methods[key];
-            for (let o of routeOption) {
+        for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+            var key = keys_1[_i];
+            var routeOption = access.methods[key];
+            for (var _a = 0, routeOption_1 = routeOption; _a < routeOption_1.length; _a++) {
+                var o = routeOption_1[_a];
                 switch (key.toLowerCase()) {
                     case 'get':
                         router.get(o.route_name, o.route_function);
@@ -24,5 +27,5 @@ function Route(route = "/") {
     };
 }
 exports.Route = Route;
-let setter = new index_2.ControllerConfig();
+var setter = new index_2.ControllerConfig();
 //# sourceMappingURL=index.js.map

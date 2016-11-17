@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,37 +13,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const index_1 = require('./../Event/index');
-const Singleton_1 = require("../IOC/Singleton");
-const AppGetter_1 = require('./AppGetter');
-let Feature = class Feature extends AppGetter_1.AppGetter {
-    constructor() {
-        super();
+var index_1 = require("./../Event/index");
+var Singleton_1 = require("../IOC/Singleton");
+var AppGetter_1 = require("./AppGetter");
+var Feature = (function (_super) {
+    __extends(Feature, _super);
+    function Feature() {
+        return _super.call(this) || this;
     }
-    convert(f) {
-        return `can-i feature ${f}`;
-    }
-    enable(f) {
+    Feature.prototype.convert = function (f) {
+        return "can-i feature " + f;
+    };
+    Feature.prototype.enable = function (f) {
         this.app.enable(this.convert(f));
         return this;
-    }
-    enabled(f) {
+    };
+    Feature.prototype.enabled = function (f) {
         return this.app.enabled(this.convert(f));
-    }
-    disable(f) {
+    };
+    Feature.prototype.disable = function (f) {
         this.app.disable(this.convert(f));
         return this;
-    }
-    disabled(f) {
+    };
+    Feature.prototype.disabled = function (f) {
         return this.app.disabled(this.convert(f));
-    }
-    on(...args) {
-        return index_1.Event.on(...args);
-    }
-};
+    };
+    Feature.prototype.on = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        return index_1.Event.on.apply(index_1.Event, args);
+    };
+    return Feature;
+}(AppGetter_1.AppGetter));
 Feature = __decorate([
-    Singleton_1.Singleton, 
-    __metadata('design:paramtypes', [])
+    Singleton_1.Singleton,
+    __metadata("design:paramtypes", [])
 ], Feature);
 exports.Feature = Feature;
 //# sourceMappingURL=Feature.js.map

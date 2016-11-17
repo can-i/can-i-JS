@@ -1,4 +1,6 @@
+/// <reference types="core-js" />
 import 'reflect-metadata';
+import 'core-js';
 export declare class ServiceBuilder {
     constructor();
     static ConstructService(target: new (...args: any[]) => any): any;

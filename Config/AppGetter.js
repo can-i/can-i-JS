@@ -8,16 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const index_1 = require('./../win/index');
-const Singleton_1 = require("../IOC/Singleton");
-let AppGetter = class AppGetter {
-    get app() {
-        return index_1.App();
+var index_1 = require("./../win/index");
+var Singleton_1 = require("../IOC/Singleton");
+var AppGetter = (function () {
+    function AppGetter() {
     }
-};
+    Object.defineProperty(AppGetter.prototype, "app", {
+        get: function () {
+            return index_1.App();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return AppGetter;
+}());
 AppGetter = __decorate([
-    Singleton_1.Singleton, 
-    __metadata('design:paramtypes', [])
+    Singleton_1.Singleton,
+    __metadata("design:paramtypes", [])
 ], AppGetter);
 exports.AppGetter = AppGetter;
 //# sourceMappingURL=AppGetter.js.map

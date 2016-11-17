@@ -1,8 +1,8 @@
 "use strict";
-const win_1 = require("../win");
+var win_1 = require("../win");
 function SetupFromConstructor(constructor) {
-    let access = win_1.Accessor(constructor);
-    let d = access.documentation = access.documentation || { "classname": constructor.name, methods: {} };
+    var access = win_1.Accessor(constructor);
+    var d = access.documentation = access.documentation || { "classname": constructor.name, methods: {} };
     return d;
 }
 function SetupFromPrototype(target) {
@@ -14,12 +14,16 @@ function SetupFromPrototype(target) {
 function SetUp(t) {
     return SetupFromPrototype(t) || SetupFromConstructor(t);
 }
-let documentation_running = false;
+var documentation_running = false;
 function Document(info) {
-    return function (...args) {
-        let [target, key_or_num, descriptor] = args;
-        const d = SetUp(target);
-        let key;
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        var target = args[0], key_or_num = args[1], descriptor = args[2];
+        var d = SetUp(target);
+        var key;
         switch (args.length) {
             case 1:
                 DocumentClass.call(this, d, info);
@@ -36,8 +40,8 @@ function Document(info) {
                 break;
         }
         (function (target) {
-            let klass = win_1.Accessor(target).documentation;
-            win_1.App().use(`/can-i/document`, function (req, res, next) {
+            var klass = win_1.Accessor(target).documentation;
+            win_1.App().use("/can-i/document", function (req, res, next) {
                 res.locals[target.name] = klass;
                 next();
             });

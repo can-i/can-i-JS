@@ -1,7 +1,11 @@
 "use strict";
-function Stack(...middleware) {
+function Stack() {
+    var middleware = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        middleware[_i - 0] = arguments[_i];
+    }
     return function (req, res, next) {
-        let i = -1, len = middleware.length;
+        var i = -1, len = middleware.length;
         function again() {
             i++;
             if (i < len - 1) {

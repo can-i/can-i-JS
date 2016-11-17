@@ -1,12 +1,13 @@
 "use strict";
-require('reflect-metadata');
-const ConfigurationManager_1 = require('./ConfigurationManager');
-const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
+require("reflect-metadata");
+var ConfigurationManager_1 = require("./ConfigurationManager");
+var ServiceBuilder_1 = require("./../IOC/ServiceBuilder");
 exports.configurationManager = ServiceBuilder_1.ServiceBuilder.BuildService(ConfigurationManager_1.ConfigurationManager);
 function Configure(options) {
     options = options || {};
-    let features = options.features || [];
-    for (let f of features) {
+    var features = options.features || [];
+    for (var _i = 0, features_1 = features; _i < features_1.length; _i++) {
+        var f = features_1[_i];
         exports.configurationManager.feature.enable(f);
     }
 }

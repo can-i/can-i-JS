@@ -1,6 +1,6 @@
 var must = require("must");
 describe("A Node Test", function () {
-    let number;
+    var number;
     before(function () {
         number = 1;
     });

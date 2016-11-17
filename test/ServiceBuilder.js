@@ -8,32 +8,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const Singleton_1 = require('../IOC/Singleton');
-const ServiceBuilder_1 = require('./../IOC/ServiceBuilder');
-const IOC_1 = require("../IOC");
-const sinon = require("sinon");
-let must = require("must");
+var Singleton_1 = require("../IOC/Singleton");
+var ServiceBuilder_1 = require("./../IOC/ServiceBuilder");
+var IOC_1 = require("../IOC");
+var sinon = require("sinon");
+var must = require("must");
 describe("ServiceBuilder", function () {
-    let method = sinon.spy();
-    let method2 = sinon.spy();
-    let One = class One {
-        constructor() {
+    var method = sinon.spy();
+    var method2 = sinon.spy();
+    var One = (function () {
+        function One() {
             method();
         }
-    };
+        return One;
+    }());
     One = __decorate([
-        Singleton_1.Singleton, 
-        __metadata('design:paramtypes', [])
+        Singleton_1.Singleton,
+        __metadata("design:paramtypes", [])
     ], One);
-    let Two = class Two {
-        constructor(one) {
+    var Two = (function () {
+        function Two(one) {
             this.one = one;
             method2();
         }
-    };
+        return Two;
+    }());
     Two = __decorate([
-        IOC_1.Injectable, 
-        __metadata('design:paramtypes', [One])
+        IOC_1.Injectable,
+        __metadata("design:paramtypes", [One])
     ], Two);
     beforeEach(function () {
         ServiceBuilder_1.ServiceBuilder.BuildService(Two);
