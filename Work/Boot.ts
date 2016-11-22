@@ -2,10 +2,13 @@ import { configurationManager } from './../Config/index';
 import { Controller } from './../Controller/index';
 import { Accessor } from './../win/Accessor';
 import { ControllerJobs, JobSettings } from './index';
+import { ServiceBuilder } from '../IOC/ServiceBuilder';
 
 let queue: any[] = [];
 
 let run = false;
+
+ServiceBuilder
 
 
 function Next() {
@@ -40,10 +43,9 @@ export function Boot() {
                 let method = (<any>job_target)[job.method_name];
 
                 setTimeout(function () {
+                    
+                    var next = function () {
 
-                    method.call(job_target, function () {
-
-                        console.log("second push")
                         setTimeout(function () {
                             Push(function () {
                                 loop_function(job, index);
@@ -51,7 +53,15 @@ export function Boot() {
                         },0)
 
                         Next()
-                    });
+                    }
+
+
+                    let args =  ServiceBuilder.getServiceMethodNeeds(job_target,job.method_name);
+                    args.pop();
+                    args.push(next);
+                    
+
+                    method.apply(job_target, args);
 
                 }, options.ever || 60 * 60 * 1000 / 3) //20 mins
 
@@ -66,7 +76,6 @@ export function Boot() {
                     // loop_function(job,index)
 
                     //initial push into queue
-                    console.log("original push")
                     Push(function () {
                         loop_function(job, index);
                     });
@@ -89,7 +98,6 @@ export function Boot() {
 
 
 function Push(...args: any[]) {
-    console.log("pushing")
     queue.push(...args);
     if (queue.length === 1) {
         setTimeout(Next);

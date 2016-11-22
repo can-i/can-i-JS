@@ -1,8 +1,10 @@
 "use strict";
 var Accessor_1 = require("./../win/Accessor");
 var index_1 = require("./index");
+var ServiceBuilder_1 = require("../IOC/ServiceBuilder");
 var queue = [];
 var run = false;
+ServiceBuilder_1.ServiceBuilder;
 function Next() {
     if (!run) {
         return;
@@ -22,22 +24,24 @@ function Boot() {
                 var options = job.options;
                 var method = job_target[job.method_name];
                 setTimeout(function () {
-                    method.call(job_target, function () {
-                        console.log("second push");
+                    var next = function () {
                         setTimeout(function () {
                             Push(function () {
                                 loop_function(job, index);
                             });
                         }, 0);
                         Next();
-                    });
+                    };
+                    var args = ServiceBuilder_1.ServiceBuilder.getServiceMethodNeeds(job_target, job.method_name);
+                    args.pop();
+                    args.push(next);
+                    method.apply(job_target, args);
                 }, options.ever || 60 * 60 * 1000 / 3);
             }
             var index = 0;
             for (var _i = 0, jobs_1 = jobs; _i < jobs_1.length; _i++) {
                 var job = jobs_1[_i];
                 (function (job, index) {
-                    console.log("original push");
                     Push(function () {
                         loop_function(job, index);
                     });
@@ -54,7 +58,6 @@ function Push() {
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i - 0] = arguments[_i];
     }
-    console.log("pushing");
     queue.push.apply(queue, args);
     if (queue.length === 1) {
         setTimeout(Next);
