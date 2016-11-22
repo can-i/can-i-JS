@@ -23,6 +23,7 @@ var Method_1 = require("../route/Method");
 var IOC_1 = require("../IOC");
 var help_1 = require("../help");
 var MiddleWare_1 = require("../MiddleWare");
+var Work_1 = require("../Work");
 var request = require("superagent");
 var sinon = require("sinon");
 var must = require("must");
@@ -37,6 +38,7 @@ var BaseApi = MiddleWare_1.Stack(function (req, res, next) {
     next();
 });
 describe("Can-I", function () {
+    var jobspy = sinon.spy();
     var spy = sinon.spy();
     before(function () {
         win_1.BootStrap(null);
@@ -155,6 +157,9 @@ describe("Can-I", function () {
                     this.send("success");
                 }
             };
+            CanPost.prototype.post = function () {
+                jobspy();
+            };
             return CanPost;
         }(index_1.BaseController));
         __decorate([
@@ -163,6 +168,14 @@ describe("Can-I", function () {
             __metadata("design:paramtypes", []),
             __metadata("design:returntype", void 0)
         ], CanPost.prototype, "test", null);
+        __decorate([
+            Work_1.Job({
+                ever: 25
+            }),
+            __metadata("design:type", Function),
+            __metadata("design:paramtypes", []),
+            __metadata("design:returntype", void 0)
+        ], CanPost.prototype, "post", null);
         CanPost = __decorate([
             MiddleWare_1.MiddleWare(BaseApi),
             route_1.Route("/test"),
@@ -178,6 +191,11 @@ describe("Can-I", function () {
                 resolve();
             });
         });
+    });
+    it("Testing if Controller Jobs work with spy", function (next) {
+        setTimeout(function () {
+            must(jobspy.callCount).equal(2);
+        }, 60);
     });
     it("Should be able to get the user greeting", function () {
         return new Promise(function (resolve, reject) {

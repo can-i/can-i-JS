@@ -17,27 +17,33 @@ function Next() {
     }
 }
 function Boot() {
+    console.log(index_2.ControllerJobs.length);
     for (var _i = 0, ControllerJobs_1 = index_2.ControllerJobs; _i < ControllerJobs_1.length; _i++) {
         var job_target = ControllerJobs_1[_i];
         (function (job_target) {
-            var jobs = Accessor_1.Accessor(job_target).job;
+            var access = Accessor_1.Accessor(job_target);
+            var jobs = access.job;
             function loop_function(job, index) {
+                console.log("times", index);
+                console.log(job.options);
                 var options = job.options;
                 var method = job_target[job.method_name];
                 setTimeout(function () {
                     method.call(job_target, function () {
-                        loop_function(job, index);
+                        queue.push(function () {
+                            loop_function(job, index);
+                        });
                         Next();
                     });
                 }, options.ever || 60 * 60 * 1000 / 3);
-                queue.push(loop_function);
             }
             var index = 0;
             for (var _i = 0, jobs_1 = jobs; _i < jobs_1.length; _i++) {
                 var job = jobs_1[_i];
                 (function (job, index) {
-                    loop_function(job, index);
-                    queue.push(loop_function);
+                    queue.push(function () {
+                        loop_function(job, index);
+                    });
                 })(job, index);
                 index++;
             }

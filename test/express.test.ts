@@ -8,6 +8,7 @@ import { Get, Post } from "../route/Method";
 import { Injectable} from "../IOC";
 import { Document } from "../help";
 import { MiddleWare, Stack } from "../MiddleWare";
+import {Job} from "../Work";
 import request = require("superagent");
 import sinon = require("sinon");
 var must = require("must");
@@ -28,7 +29,7 @@ let BaseApi = Stack(function (req: any, res: any, next: Express.NextFunction) {
 
 describe("Can-I", function () {
 
-
+    let jobspy = sinon.spy();
     let spy = sinon.spy()
     before(function () {
 
@@ -122,6 +123,14 @@ describe("Can-I", function () {
                     this.send("success");
                 }
             }
+
+
+            @Job({
+                ever:25
+            })
+            post(){
+                jobspy();
+            }
         }
 
 
@@ -139,6 +148,12 @@ describe("Can-I", function () {
             })
         })
 
+    })
+
+    it("Testing if Controller Jobs work with spy",function(next){
+        setTimeout(function(){
+            must(jobspy.callCount).equal(2);
+        },60);
     })
 
 

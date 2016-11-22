@@ -3,26 +3,27 @@ import { Controller } from './../Controller/index';
 import { Accessor } from './../win/Accessor';
 import { ControllerJobs, JobSettings } from './index';
 
-let queue:any[] = [];
+let queue: any[] = [];
 
 let run = false;
 
 
-function Next(){
-    if(!run){
+function Next() {
+    if (!run) {
         return;
     }
     let task = queue.shift();
-    if(task){
+    if (task) {
         task();
-    }else{
-        setTimeout(Next,configurationManager.feature.get("jobTickRate",5000)) //5 secs
+    } else {
+        setTimeout(Next, configurationManager.feature.get("jobTickRate", 5000)) //5 secs
     }
 }
 
-export function Boot(){
-    for(let job_target of ControllerJobs){
-        ((job_target)=>{
+export function Boot() {
+    console.log(ControllerJobs.length)
+    for (let job_target of ControllerJobs) {
+        ((job_target) => {
             //Ensure correct job_target start
 
             /**
@@ -33,45 +34,50 @@ export function Boot(){
              * This could overload the database or do some silly query so i need to ensure
              * that the user is protected from that.
              */
-            let  jobs = Accessor(job_target).job;
+            let access = Accessor(job_target);
+            let jobs = access.job;
+            function loop_function(job: JobSettings, index: number) {
+                //Task
+                console.log("times", index)
+                console.log(job.options);
+                let options = job.options;
+                let method = (<any>job_target)[job.method_name];
 
-                function loop_function(job:JobSettings,index:number){
+                setTimeout(function () {
 
-                    //Task
-                    let options = job.options
-                    let method = (<any>job_target)[job.method_name];
-                    
-                    setTimeout(function(){
-
-                        method.call(job_target,function(){
-                            loop_function(job,index);
-                            Next()
+                    method.call(job_target, function () {
+                        
+                        queue.push(function () {
+                            loop_function(job, index);
                         });
 
-                    },options.ever||60*60*1000/3) //20 mins
+                        Next()
+                    });
+
+                }, options.ever || 60 * 60 * 1000 / 3) //20 mins
 
 
-                    //The push into the queue again
-                    queue.push(loop_function);
-                }
+            }
 
-                let index=0
-            for(let job of jobs){
+            let index = 0
+            for (let job of jobs) {
                 //careful with javascript
-                ((job,index)=>{
+                ((job, index) => {
 
-                    loop_function(job,index)
+                    // loop_function(job,index)
 
                     //initial push into queue
-                    queue.push(loop_function);
+                    queue.push(function () {
+                        loop_function(job, index);
+                    });
 
-                })(job,index)
+                })(job, index)
                 index++;
             }
-            
-            
-            
-            
+
+
+
+
 
 
             //Ensure correct job_target start
@@ -82,14 +88,14 @@ export function Boot(){
 
 
 
-export function Run(){
-    run=true;
+export function Run() {
+    run = true;
     Next();
 }
 
 
-export function Stop(){
-    run=false;
+export function Stop() {
+    run = false;
 }
 
 

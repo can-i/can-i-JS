@@ -27,6 +27,7 @@ export function Job(Options:JobOption){
         })
 
         ControllerJobs.push(target);
+        console.log(access.job);
     }
 }
 
