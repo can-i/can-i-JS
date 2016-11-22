@@ -1,4 +1,4 @@
-import { Feature } from './Feature';
+
 import { Event } from './../Event/index';
 import {Singleton} from "../IOC/Singleton";
 import { AppGetter } from './AppGetter';
