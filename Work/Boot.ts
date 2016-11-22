@@ -15,13 +15,11 @@ function Next() {
     let task = queue.shift();
     if (task) {
         task();
-    } else {
-        setTimeout(Next, configurationManager.feature.get("jobTickRate", 5000)) //5 secs
     }
 }
 
 export function Boot() {
-    console.log(ControllerJobs.length)
+
     for (let job_target of ControllerJobs) {
         ((job_target) => {
             //Ensure correct job_target start
@@ -38,18 +36,19 @@ export function Boot() {
             let jobs = access.job;
             function loop_function(job: JobSettings, index: number) {
                 //Task
-                console.log("times", index)
-                console.log(job.options);
                 let options = job.options;
                 let method = (<any>job_target)[job.method_name];
 
                 setTimeout(function () {
 
                     method.call(job_target, function () {
-                        
-                        queue.push(function () {
-                            loop_function(job, index);
-                        });
+
+                        console.log("second push")
+                        setTimeout(function () {
+                            Push(function () {
+                                loop_function(job, index);
+                            });
+                        },0)
 
                         Next()
                     });
@@ -67,7 +66,8 @@ export function Boot() {
                     // loop_function(job,index)
 
                     //initial push into queue
-                    queue.push(function () {
+                    console.log("original push")
+                    Push(function () {
                         loop_function(job, index);
                     });
 
@@ -86,6 +86,15 @@ export function Boot() {
     Run();
 }
 
+
+
+function Push(...args: any[]) {
+    console.log("pushing")
+    queue.push(...args);
+    if (queue.length === 1) {
+        setTimeout(Next);
+    }
+}
 
 
 export function Run() {

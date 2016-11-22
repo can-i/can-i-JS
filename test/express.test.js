@@ -29,6 +29,7 @@ var sinon = require("sinon");
 var must = require("must");
 var method_pre = sinon.spy();
 var method_post = sinon.spy();
+var jobspy = sinon.spy();
 var parser = require("body-parser");
 var BaseApi = MiddleWare_1.Stack(function (req, res, next) {
     method_pre();
@@ -38,7 +39,6 @@ var BaseApi = MiddleWare_1.Stack(function (req, res, next) {
     next();
 });
 describe("Can-I", function () {
-    var jobspy = sinon.spy();
     var spy = sinon.spy();
     before(function () {
         win_1.BootStrap(null);
@@ -157,8 +157,10 @@ describe("Can-I", function () {
                     this.send("success");
                 }
             };
-            CanPost.prototype.post = function () {
+            CanPost.prototype.post = function (next) {
+                console.log("spy");
                 jobspy();
+                next();
             };
             return CanPost;
         }(index_1.BaseController));
@@ -173,7 +175,7 @@ describe("Can-I", function () {
                 ever: 25
             }),
             __metadata("design:type", Function),
-            __metadata("design:paramtypes", []),
+            __metadata("design:paramtypes", [Object]),
             __metadata("design:returntype", void 0)
         ], CanPost.prototype, "post", null);
         CanPost = __decorate([
@@ -195,6 +197,7 @@ describe("Can-I", function () {
     it("Testing if Controller Jobs work with spy", function (next) {
         setTimeout(function () {
             must(jobspy.callCount).equal(2);
+            next();
         }, 60);
     });
     it("Should be able to get the user greeting", function () {

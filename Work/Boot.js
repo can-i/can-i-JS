@@ -1,7 +1,6 @@
 "use strict";
-var index_1 = require("./../Config/index");
 var Accessor_1 = require("./../win/Accessor");
-var index_2 = require("./index");
+var index_1 = require("./index");
 var queue = [];
 var run = false;
 function Next() {
@@ -12,27 +11,24 @@ function Next() {
     if (task) {
         task();
     }
-    else {
-        setTimeout(Next, index_1.configurationManager.feature.get("jobTickRate", 5000));
-    }
 }
 function Boot() {
-    console.log(index_2.ControllerJobs.length);
-    for (var _i = 0, ControllerJobs_1 = index_2.ControllerJobs; _i < ControllerJobs_1.length; _i++) {
+    for (var _i = 0, ControllerJobs_1 = index_1.ControllerJobs; _i < ControllerJobs_1.length; _i++) {
         var job_target = ControllerJobs_1[_i];
         (function (job_target) {
             var access = Accessor_1.Accessor(job_target);
             var jobs = access.job;
             function loop_function(job, index) {
-                console.log("times", index);
-                console.log(job.options);
                 var options = job.options;
                 var method = job_target[job.method_name];
                 setTimeout(function () {
                     method.call(job_target, function () {
-                        queue.push(function () {
-                            loop_function(job, index);
-                        });
+                        console.log("second push");
+                        setTimeout(function () {
+                            Push(function () {
+                                loop_function(job, index);
+                            });
+                        }, 0);
                         Next();
                     });
                 }, options.ever || 60 * 60 * 1000 / 3);
@@ -41,7 +37,8 @@ function Boot() {
             for (var _i = 0, jobs_1 = jobs; _i < jobs_1.length; _i++) {
                 var job = jobs_1[_i];
                 (function (job, index) {
-                    queue.push(function () {
+                    console.log("original push");
+                    Push(function () {
                         loop_function(job, index);
                     });
                 })(job, index);
@@ -52,6 +49,17 @@ function Boot() {
     Run();
 }
 exports.Boot = Boot;
+function Push() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i - 0] = arguments[_i];
+    }
+    console.log("pushing");
+    queue.push.apply(queue, args);
+    if (queue.length === 1) {
+        setTimeout(Next);
+    }
+}
 function Run() {
     run = true;
     Next();

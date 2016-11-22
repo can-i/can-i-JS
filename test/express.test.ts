@@ -17,6 +17,7 @@ let method_pre = sinon.spy();
 let method_post = sinon.spy();
 
 
+    let jobspy = sinon.spy();
 
 var parser = require("body-parser");
 let BaseApi = Stack(function (req: any, res: any, next: Express.NextFunction) {
@@ -29,7 +30,6 @@ let BaseApi = Stack(function (req: any, res: any, next: Express.NextFunction) {
 
 describe("Can-I", function () {
 
-    let jobspy = sinon.spy();
     let spy = sinon.spy()
     before(function () {
 
@@ -128,8 +128,10 @@ describe("Can-I", function () {
             @Job({
                 ever:25
             })
-            post(){
+            post(next:any){
+                console.log("spy")
                 jobspy();
+                next();
             }
         }
 
@@ -153,6 +155,7 @@ describe("Can-I", function () {
     it("Testing if Controller Jobs work with spy",function(next){
         setTimeout(function(){
             must(jobspy.callCount).equal(2);
+            next();
         },60);
     })
 

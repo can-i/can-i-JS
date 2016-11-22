@@ -11,7 +11,6 @@ function Job(Options) {
             options: Options
         });
         exports.ControllerJobs.push(target);
-        console.log(access.job);
     };
 }
 exports.Job = Job;
