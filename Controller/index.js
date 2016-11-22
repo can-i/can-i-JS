@@ -111,8 +111,8 @@ var BaseController = (function (_super) {
     };
     return BaseController;
 }(Controller));
-exports.BaseController = BaseController;
 BaseController.methods = {};
+exports.BaseController = BaseController;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BaseController;
 //# sourceMappingURL=index.js.map

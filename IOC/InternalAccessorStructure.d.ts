@@ -1,3 +1,4 @@
+import { JobSettings } from './../Work/index';
 import { injectWith } from './InjectWith';
 import { InternalDocumentationStructure } from './../help/InternalDocumentStructure';
 import { MiddleWareFunction } from '../MiddleWare';
@@ -19,4 +20,5 @@ export interface InternalAccessorStructure {
     view: {
         [key: string]: boolean;
     };
+    job: JobSettings[];
 }

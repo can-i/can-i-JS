@@ -1,4 +1,3 @@
-/// <reference types="core-js" />
 import 'reflect-metadata';
 import 'core-js';
 export declare class ServiceBuilder {
@@ -6,7 +5,7 @@ export declare class ServiceBuilder {
     static ConstructService(target: new (...args: any[]) => any): any;
     static ConstructSingleton(target: new (...args: any[]) => any): any;
     static BuildService<T>(target: new (...args: any[]) => T): T;
-    static isIOCCLASS(target: any): boolean;
+    static isIOCCLASS(target: any): any;
     static isManual(target: any): void;
     static isSingletonConstruct(target: new (...args: any[]) => any): boolean;
     static getServiceMethodNeeds(target: Object, key: string): any[];

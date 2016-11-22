@@ -5,6 +5,7 @@ function __export(m) {
 var index_1 = require("./../Event/index");
 var index_2 = require("./../Config/index");
 var consolidate = require("consolidate");
+var Boot_1 = require("../Work/Boot");
 require("reflect-metadata");
 exports.Express = require("express");
 __export(require("./Accessor"));
@@ -63,6 +64,7 @@ function Listen() {
         });
     });
     server = app.listen.apply(app, args);
+    Boot_1.Boot();
 }
 exports.Listen = Listen;
 function Close() {

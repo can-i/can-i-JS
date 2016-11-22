@@ -7,4 +7,6 @@ export declare class Feature extends AppGetter {
     disable(f: string): this;
     disabled(f: string): boolean;
     on(...args: any[]): any;
+    get(name: string, orMe: any): any;
+    set(name: string, value: any): void;
 }

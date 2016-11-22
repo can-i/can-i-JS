@@ -16,6 +16,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var index_1 = require("./../Event/index");
 var Singleton_1 = require("../IOC/Singleton");
 var AppGetter_1 = require("./AppGetter");
+var get_set_box = {};
 var Feature = (function (_super) {
     __extends(Feature, _super);
     function Feature() {
@@ -44,6 +45,18 @@ var Feature = (function (_super) {
             args[_i - 0] = arguments[_i];
         }
         return index_1.Event.on.apply(index_1.Event, args);
+    };
+    Feature.prototype.get = function (name, orMe) {
+        var _return = get_set_box[name];
+        if (_return === undefined) {
+            return orMe;
+        }
+        else {
+            return _return;
+        }
+    };
+    Feature.prototype.set = function (name, value) {
+        get_set_box[name] = value;
     };
     return Feature;
 }(AppGetter_1.AppGetter));
