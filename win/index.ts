@@ -2,6 +2,7 @@ import { Event } from './../Event/index';
 import { Configuration, Engine } from './../Config/Configuration';
 import { configurationManager } from './../Config/index';
 const consolidate = require("consolidate");
+import {Boot} from "../Work/Boot";
 
 
 import "reflect-metadata";
@@ -89,7 +90,9 @@ export function Listen(...args: any[]) {
 
     
     
-    server = app.listen.apply(app, args)
+    server = app.listen.apply(app, args);
+    Boot();
+    
 }
 
 
