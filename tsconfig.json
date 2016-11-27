@@ -5,7 +5,7 @@
         "preserveConstEnums": true,
         "moduleResolution": "Node",
         "strictNullChecks": false,
-        "removeComments": true,
+        "removeComments": false,
         "noImplicitAny": true,
         "module": "commonjs",
         "declaration": true,

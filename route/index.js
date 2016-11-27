@@ -1,6 +1,7 @@
 "use strict";
 var index_1 = require("./../win/index");
 var index_2 = require("./../LikeController/index");
+///////////
 function Route(route) {
     if (route === void 0) { route = "/"; }
     return function RouteAttacher(constructor) {

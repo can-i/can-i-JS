@@ -30,10 +30,12 @@ function Document(info) {
                 break;
             case 3:
                 if (typeof args[2] === "number") {
+                    //property
                     key = args[3];
                     DocumentProperty.call(this, d, key, info);
                 }
                 else {
+                    //method
                     key = args[2];
                     DocumentMethod.call(this, d, key, info);
                 }

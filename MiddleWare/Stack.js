@@ -1,3 +1,4 @@
+//This is useful for stacking up middleware functions to place on your routes
 "use strict";
 function Stack() {
     var middleware = [];

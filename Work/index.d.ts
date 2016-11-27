@@ -1,6 +1,7 @@
 /// <reference types="core-js" />
 export interface JobOption {
     ever?: number;
+    cron?: string;
 }
 export interface JobSettings {
     target: Object;

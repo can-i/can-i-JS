@@ -55,6 +55,7 @@ var Feature = (function (_super) {
             return _return;
         }
     };
+    // Feature.set("my_key_to_delete") :)
     Feature.prototype.set = function (name, value) {
         get_set_box[name] = value;
     };

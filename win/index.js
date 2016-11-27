@@ -18,6 +18,7 @@ function BootStrap(options) {
         console.warn("No BootStrapping config.\nThe only excuse is Unit Testing!!");
     }
     options = options || {};
+    //Good Defaults
     var defaults = {
         controllers: Path.join(process.cwd(), "controllers"),
         services: Path.join(process.cwd(), "services"),
@@ -30,6 +31,7 @@ function BootStrap(options) {
     };
     options = _.defaultsDeep(options, defaults);
     glob.sync(options.controllers + "/**/*.js").filter(function (x) { return /.js$/.test(x); }).map(function (x) {
+        //Can do logs here
         return x;
     }).map(require);
     glob.sync(options.services + "/**/*.js").filter(function (x) { return /.js$/.test(x); }).map(require);

@@ -24,12 +24,14 @@ var IOC_1 = require("../IOC");
 var help_1 = require("../help");
 var MiddleWare_1 = require("../MiddleWare");
 var Work_1 = require("../Work");
+var Log_1 = require("../Utility/Log");
 var request = require("superagent");
 var sinon = require("sinon");
 var must = require("must");
 var method_pre = sinon.spy();
 var method_post = sinon.spy();
 var jobspy = sinon.spy();
+Log_1.Logger.Application("start-----------------------------------------------------------");
 var parser = require("body-parser");
 var BaseApi = MiddleWare_1.Stack(function (req, res, next) {
     method_pre();
@@ -40,6 +42,7 @@ var BaseApi = MiddleWare_1.Stack(function (req, res, next) {
 });
 describe("Can-I", function () {
     var spy = sinon.spy();
+    var cronspy = sinon.spy();
     before(function () {
         win_1.BootStrap(null);
         var Database = (function () {
@@ -162,6 +165,11 @@ describe("Can-I", function () {
                 jobspy();
                 next();
             };
+            CanPost.prototype.CronTask = function (next) {
+                console.log("cron spy");
+                cronspy();
+                next();
+            };
             return CanPost;
         }(index_1.BaseController));
         __decorate([
@@ -172,12 +180,20 @@ describe("Can-I", function () {
         ], CanPost.prototype, "test", null);
         __decorate([
             Work_1.Job({
-                ever: 25
+                ever: 1000
             }),
             __metadata("design:type", Function),
             __metadata("design:paramtypes", [Object]),
             __metadata("design:returntype", void 0)
         ], CanPost.prototype, "post", null);
+        __decorate([
+            Work_1.Job({
+                cron: "* * * * * *"
+            }),
+            __metadata("design:type", Function),
+            __metadata("design:paramtypes", [Function]),
+            __metadata("design:returntype", void 0)
+        ], CanPost.prototype, "CronTask", null);
         CanPost = __decorate([
             MiddleWare_1.MiddleWare(BaseApi),
             route_1.Route("/test"),
@@ -195,10 +211,23 @@ describe("Can-I", function () {
         });
     });
     it("Testing if Controller Jobs work with spy", function (next) {
+        this.timeout(5000);
         setTimeout(function () {
             must(jobspy.callCount).equal(2);
             next();
-        }, 60);
+        }, 2000 + 100);
+    });
+    it("Testing if Controller Jobs work with cron spy", function (next) {
+        this.timeout(20000);
+        setTimeout(function () {
+            try {
+                must(cronspy.callCount).equal(2);
+                next();
+            }
+            catch (e) {
+                next(e);
+            }
+        }, 10);
     });
     it("Should be able to get the user greeting", function () {
         return new Promise(function (resolve, reject) {
@@ -262,4 +291,5 @@ describe("Can-I", function () {
     });
     after(win_1.Close);
 });
+//The Wolf, The Fire, The Fox, and The Blood Moon 
 //# sourceMappingURL=express.test.js.map

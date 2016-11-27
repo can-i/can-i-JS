@@ -1,14 +1,15 @@
 import 'source-map-support/register';
 import { Listen, Close, BootStrap, Express } from "../win";
 import { BaseController } from './../LikeController/index';
-import {Singleton} from "../IOC/Singleton";
-import {Route} from "../route";
+import { Singleton } from "../IOC/Singleton";
+import { Route } from "../route";
 import { Configure } from "../Config"
 import { Get, Post } from "../route/Method";
-import { Injectable} from "../IOC";
+import { Injectable } from "../IOC";
 import { Document } from "../help";
 import { MiddleWare, Stack } from "../MiddleWare";
-import {Job} from "../Work";
+import { Job } from "../Work";
+import { Logger } from '../Utility/Log';
 import request = require("superagent");
 import sinon = require("sinon");
 var must = require("must");
@@ -17,7 +18,9 @@ let method_pre = sinon.spy();
 let method_post = sinon.spy();
 
 
-    let jobspy = sinon.spy();
+let jobspy = sinon.spy();
+
+Logger.Application("start-----------------------------------------------------------")
 
 var parser = require("body-parser");
 let BaseApi = Stack(function (req: any, res: any, next: Express.NextFunction) {
@@ -31,6 +34,7 @@ let BaseApi = Stack(function (req: any, res: any, next: Express.NextFunction) {
 describe("Can-I", function () {
 
     let spy = sinon.spy()
+    let cronspy = sinon.spy();
     before(function () {
 
         BootStrap(null);
@@ -94,7 +98,7 @@ describe("Can-I", function () {
                 this.send(this.service.getUser());
             }
         }
-        
+
         @Route("/item")
         @Document({
             title: "Item Controller",
@@ -126,11 +130,20 @@ describe("Can-I", function () {
 
 
             @Job({
-                ever:25
+                ever: 1000
             })
-            post(next:any){
+            post(next: any) {
                 console.log("spy")
                 jobspy();
+                next();
+            }
+
+            @Job({
+                cron: "* * * * * *"
+            })
+            CronTask(next:Function) {
+                console.log("cron spy");
+                cronspy();
                 next();
             }
         }
@@ -152,11 +165,24 @@ describe("Can-I", function () {
 
     })
 
-    it("Testing if Controller Jobs work with spy",function(next){
-        setTimeout(function(){
+    it("Testing if Controller Jobs work with spy", function (next) {
+        this.timeout(5000);
+        setTimeout(function () {
             must(jobspy.callCount).equal(2);
             next();
-        },60);
+        }, 2000+100);
+    })
+
+    it("Testing if Controller Jobs work with cron spy", function (next) {
+        this.timeout(20000);
+        setTimeout(function () {
+            try {
+                must(cronspy.callCount).equal(2);
+                next();
+            } catch (e) {
+                next(e);
+            }
+        }, 10);
     })
 
 

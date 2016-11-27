@@ -1,7 +1,8 @@
 import { Accessor } from './../win/Accessor';
 
 export interface JobOption{
-    ever?:number
+    ever?:number,
+    cron?:string
 }
 
 
@@ -25,7 +26,7 @@ export function Job(Options:JobOption){
             method_name:str,
             options:Options
         })
-
+        if(!~ControllerJobs.indexOf(target))
         ControllerJobs.push(target);
     }
 }
