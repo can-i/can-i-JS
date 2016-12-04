@@ -47,7 +47,7 @@
     "tiny-emitter": "^1.1.0"
   },
   "scripts": {
-    "test": "bu",
+    "test": "mocha",
     "alpha": "npm publish --tag alpha",
     "doc:live": "fsmonitor -s -d docs cmd /c npm run doc",
     "doc:dev": "concurrently \"live-server _book --wait 1600\" \"npm run doc:live\"",
@@ -56,7 +56,10 @@
     "doc:class": "typedoc --name \"Can I Framework\" --readme ./README.md --out ./_book/classes Win Event Help IOC Middleware Config Controller Middleware Utility Work",
     "doc:class:old": "typedoc --out ./_book/classes Win Event Help IOC Middleware Config Controller Middleware Utility Work",
     "doc": "concurrently \"npm run doc:book\" \"npm run doc:class\" && npm run doc:features",
-    "doc:deploy": "npm run doc && gh-pages -d ./_book --dotfiles"
+    "doc:deploy": "npm run doc && gh-pages -d ./_book --dotfiles",
+
+
+    "prepublish":"npm run doc:deploy && npm run test"
   },
   "repository": {
     "type": "git",
