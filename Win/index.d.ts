@@ -1,4 +1,5 @@
 /// <reference types="express" />
+/// <reference types="core-js" />
 /// <reference types="node" />
 import { Configuration } from './../Config/Configuration';
 import "reflect-metadata";
@@ -22,6 +23,10 @@ export declare const App: () => Express.Application;
  * Clients can now start making request to the server.
  */
 export declare function Listen(...args: any[]): void;
+/**
+ * Use to make sure the application is in a safe state after bootstrap is called
+ */
+export declare function OnReady(...args: Function[]): void;
 /**
  * Gracefully shutdown the server.
  *

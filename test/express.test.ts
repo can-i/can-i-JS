@@ -165,11 +165,13 @@ describe("Can-I", function () {
                 })
             }
 
-            if (State.Ready) {
-                keep_going();
-            }else{
-                Event.on("can-i:bootstrapped",keep_going)
-            }
+            keep_going()
+
+            // if (State.Ready) {
+            //     keep_going();
+            // }else{
+            //     Event.on("can-i:bootstrapped",keep_going)
+            // }
 
         })
 

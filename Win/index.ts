@@ -23,10 +23,11 @@ import { Logger } from '../Utility/Log';
 
 
 
+
 let bootoptions: Configuration | null | void;
 let app: Express.Application;
-export const State={
-    Ready:false
+export const State = {
+    Ready: false
 };
 
 
@@ -44,52 +45,61 @@ export function BootStrap(options?: Configuration | null): Express.Application {
     Logger.Main("Calling BootStrap");
     Logger.Main(`Options\n${JSON.stringify(options)}`)
     app = Express();
-    Logger.Main("Application created");
 
-    if (options === null) {
-        Logger.Main("Options are null\nNo Configuration used")
-        console.warn(`No BootStrapping config.\nThe only excuse is Unit Testing!!`)
-    }
 
-    options = options || <Configuration>{};
+    let on_ready = function () {
 
-    //Good Defaults
-    let defaults: Configuration = {
-        controllers: Path.join(process.cwd(), "controllers"),
-        services: Path.join(process.cwd(), "services"),
-        views: Path.join(process.cwd(), "views"),
-        engine: {
-            extension: 'html',
-            engineName: "vash",
-            engineConfig: null
+        Logger.Main("Application created");
+
+        if (options === null) {
+            Logger.Main("Options are null\nNo Configuration used")
+            console.warn(`No BootStrapping config.\nThe only excuse is Unit Testing!!`)
         }
+
+        options = options || <Configuration>{};
+
+        //Good Defaults
+        let defaults: Configuration = {
+            controllers: Path.join(process.cwd(), "controllers"),
+            services: Path.join(process.cwd(), "services"),
+            views: Path.join(process.cwd(), "views"),
+            engine: {
+                extension: 'html',
+                engineName: "vash",
+                engineConfig: null
+            }
+        }
+
+        Logger.Main("Created default configuration")
+
+        if (options !== null) {
+
+            options = <Configuration>_.defaultsDeep(options, defaults);
+
+            glob.sync(`${options.controllers}/**/*.js`).filter(x => /.js$/.test(x)).map(x => {
+                Logger.Main(`Loading Controller ${x}`)
+                return x;
+            }).map(require);
+
+            glob.sync(`${options.services}/**/*.js`).filter(x => /.js$/.test(x)).map(x => {
+                Logger.Main(`Loading Service ${x}`)
+                return x;
+            }).map(require);
+
+            let e: Engine = <Engine>options.engine
+            app.set('views', options.views);
+            app.set('view engine', e.extension);
+            app.engine(<string>e.extension, consolidate[<string>e.engineName]);
+        }
+
+        State.Ready = true;
+        Logger.Main("Application Ready");
+
     }
 
-    Logger.Main("Created default configuration")
+    OnReady(on_ready);
 
-    if (options !== null) {
-
-        options = <Configuration>_.defaultsDeep(options, defaults);
-        
-        glob.sync(`${options.controllers}/**/*.js`).filter(x => /.js$/.test(x)).map(x => {
-            Logger.Main(`Loading Controller ${x}`)
-            return x;
-        }).map(require);
-
-        glob.sync(`${options.services}/**/*.js`).filter(x => /.js$/.test(x)).map(x=>{
-            Logger.Main(`Loading Service ${x}`)
-            return x;
-        }).map(require);
-
-        let e: Engine = <Engine>options.engine
-        app.set('views', options.views);
-        app.set('view engine', e.extension);
-        app.engine(<string>e.extension, consolidate[<string>e.engineName]);
-    }
-    
-    State.Ready=true;
     Event.emit("can-i:bootstrapped");
-    Logger.Main("Application Ready");
     return app;
 }
 
@@ -102,7 +112,7 @@ export function BootStrap(options?: Configuration | null): Express.Application {
 export const App = function () {
     if (!app) {
         let msg = "Fatal Error. Attempted to Access Application before creation";
-        let error = new Error(msg); 
+        let error = new Error(msg);
         Logger.AppError(error.stack);
         throw error;
     }
@@ -118,12 +128,13 @@ let server: Server;
  * Clients can now start making request to the server.
  */
 export function Listen(...args: any[]) {
+
     Logger.Main("Attaching Listener to http server")
 
     let app = App();
-    
+
     Logger.Main("Attaching Documentation");
-    
+
     app.get("/can-i/document", function (req: any, res: any, next: any) {
         process.nextTick(() => {
             if (configurationManager.feature.enabled('documentation'))
@@ -136,6 +147,19 @@ export function Listen(...args: any[]) {
     server = app.listen.apply(app, args);
     Logger.Main("Starting Job Engine")
     Boot();
+}
+
+/**
+ * Use to make sure the application is in a safe state after bootstrap is called
+ */
+export function OnReady(...args: Function[]) {
+    args.forEach(callback => {
+        if (State.Ready) {
+            callback();
+        } else {
+            Event.on("can-i:bootstrapped", callback)
+        }
+    })
 }
 
 /**

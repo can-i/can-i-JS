@@ -25,8 +25,6 @@ var Help_1 = require("../Help");
 var MiddleWare_1 = require("../MiddleWare");
 var Work_1 = require("../Work");
 var Log_1 = require("../Utility/Log");
-var Win_2 = require("../Win");
-var Event_1 = require("../Event");
 var request = require("superagent");
 var sinon = require("sinon");
 var must = require("must");
@@ -212,12 +210,12 @@ describe("Can-I", function () {
                     resolve();
                 });
             };
-            if (Win_2.State.Ready) {
-                keep_going();
-            }
-            else {
-                Event_1.default.on("can-i:bootstrapped", keep_going);
-            }
+            keep_going();
+            // if (State.Ready) {
+            //     keep_going();
+            // }else{
+            //     Event.on("can-i:bootstrapped",keep_going)
+            // }
         });
     });
     it("Testing if Controller Jobs work with spy", function (next) {
