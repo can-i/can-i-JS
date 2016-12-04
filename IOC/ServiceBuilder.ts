@@ -1,4 +1,7 @@
+import 'reflect-metadata';
 import { Accessor } from './../win/Accessor';
+import 'core-js';
+
 
 const IOC_CONTAINER = new Map<any, any>();
 let ioc = IOC_CONTAINER;
@@ -60,7 +63,8 @@ export class ServiceBuilder {
     static BuildService<T>(target: new (...args: any[]) => T):T {
         
         if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
-            throw new Error(`class ${target.name} is not injectable`)
+            // throw new Error(`class ${target.name} is not injectable`)
+            return null;
         }
 
         if (ServiceBuilder.isSingletonConstruct(target)) {

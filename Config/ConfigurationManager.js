@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,21 +13,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const AppGetter_1 = require('./AppGetter');
-const Singleton_1 = require("../IOC/Singleton");
-const Feature_1 = require("../Config/Feature");
-let ConfigurationManager = class ConfigurationManager extends AppGetter_1.AppGetter {
-    constructor(_feature) {
-        super();
-        this._feature = _feature;
+var AppGetter_1 = require("./AppGetter");
+var Singleton_1 = require("../IOC/Singleton");
+var Feature_1 = require("../Config/Feature");
+var ConfigurationManager = (function (_super) {
+    __extends(ConfigurationManager, _super);
+    function ConfigurationManager(_feature) {
+        var _this = _super.call(this) || this;
+        _this._feature = _feature;
+        return _this;
     }
-    get feature() {
-        return this._feature;
-    }
-};
+    Object.defineProperty(ConfigurationManager.prototype, "feature", {
+        get: function () {
+            return this._feature;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return ConfigurationManager;
+}(AppGetter_1.AppGetter));
 ConfigurationManager = __decorate([
-    Singleton_1.Singleton, 
-    __metadata('design:paramtypes', [Feature_1.Feature])
+    Singleton_1.Singleton,
+    __metadata("design:paramtypes", [Feature_1.Feature])
 ], ConfigurationManager);
 exports.ConfigurationManager = ConfigurationManager;
 //# sourceMappingURL=ConfigurationManager.js.map

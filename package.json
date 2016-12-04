@@ -11,39 +11,59 @@
     "babel-preset-stage-0": "^6.16.0",
     "betterunit": "^1.2.4",
     "body-parser": "^1.15.2",
+    "gh-pages": "^0.12.0",
+    "gitbook": "^3.2.2",
+    "gitbook-cli": "^2.3.0",
+    "mocha": "^3.2.0",
     "must": "^0.13.2",
     "sinon": "^1.17.6",
     "source-map-support": "^0.4.6",
     "superagent": "^2.3.0",
+    "typedoc": "https://github.com/DatenMetzgerX/typedoc/tarball/typescript-2-build",
     "typings": "^1.5.0"
   },
   "name": "can-i",
-  "version": "1.0.4",
+  "version": "1.2.0",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
+    "@types/core-js": "^0.9.34",
     "@types/express": "^4.0.33",
     "@types/glob": "^5.0.30",
+    "@types/lodash": "^4.14.38",
     "body-parser": "^1.15.2",
+    "bunyan": "^1.8.5",
+    "chokidar-cli": "^1.2.0",
     "consolidate": "^0.14.1",
+    "core-js": "^2.4.1",
+    "cron": "^1.1.1",
+    "es6-map": "^0.1.4",
     "express": "^4.14.0",
     "glob": "^7.1.1",
     "lodash": "^4.16.6",
+    "mkdirp": "^0.5.1",
+    "node-cron": "^1.1.2",
     "reflect-metadata": "^0.1.8",
-    "tiny-emitter": "^1.1.0"
+    "tiny-emitter": "^1.1.0",
+    "typescript": "rc"
   },
   "scripts": {
     "test": "bu",
     "alpha": "npm publish --tag alpha",
-    "babel": "babel . --out-dir . --ignore node_modules"
+    "doc": "concurrently \"npm run doc:class\" \"npm run doc:book\"",
+    "doc:live": "fsmonitor -s -d docs cmd /c npm run doc",
+    "doc:dev": "concurrently \"live-server _book --wait 1600\" \"npm run doc:live\"",
+    "doc:deploy": "npm run doc && gh-pages -d ./_book",
+    "doc:class":"typedoc --readme docs/Readme.md --out ./_book/classes Win Event Help IOC Middleware Config Controller Middleware Utility Work", 
+    "doc:book":"gitbook build"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/shavyg2/can-i.git"
   },
-  "author": "",
+  "author": "Shavauhn Gabay",
   "license": "ISC",
   "homepage": "https://bitbucket.org/shavyg2/can-i#readme",
   "description": "",

@@ -1,8 +1,8 @@
 "use strict";
-const map = new Map();
+var map = new Map();
 exports.Accessor = function (obj) {
-    let o = obj.constructor === Function ? obj : obj.constructor;
-    let r = map.get(o);
+    var o = obj.constructor === Function ? obj : obj.constructor;
+    var r = map.get(o);
     if (!r) {
         r = {};
         map.set(o, r);

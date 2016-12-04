@@ -1,6 +1,10 @@
+
 import { Event } from './../Event/index';
 import {Singleton} from "../IOC/Singleton";
 import { AppGetter } from './AppGetter';
+
+
+const get_set_box:{[key:string]:any} = {};
 
 @Singleton
 export class Feature extends AppGetter {
@@ -13,7 +17,8 @@ export class Feature extends AppGetter {
     }
 
     public enable(f: string) {
-        return this.app.enable(this.convert(f))
+        this.app.enable(this.convert(f))
+        return this;
     }
 
     public enabled(f: string) {
@@ -21,7 +26,8 @@ export class Feature extends AppGetter {
     }
 
     public disable(f: string) {
-        return this.app.disable(this.convert(f))
+        this.app.disable(this.convert(f))
+        return this;
     }
 
     public disabled(f: string) {
@@ -30,5 +36,21 @@ export class Feature extends AppGetter {
 
     public on(...args:any[]){
         return (<any>Event.on)(...args);
+    }
+
+
+    public get(name:string,orMe:any){
+        let _return = get_set_box[name];
+        if(_return === undefined){
+            return orMe;
+        }else{
+            return _return;
+        }
+    }
+
+
+    // Feature.set("my_key_to_delete") :)
+    public set(name:string,value:any){
+        get_set_box[name] = value;
     }
 }

@@ -1,1 +1,1 @@
-{"version":3,"file":"Singleton.js","sourceRoot":"","sources":["Singleton.ts"],"names":[],"mappings":";AAAA,iCAA+B,kBAAkB,CAAC,CAAA;AAElD,mBAA0B,WAAoB;IAC1C,+BAAc,CAAC,aAAa,CAAC,WAAW,CAAC,CAAC;IAC1C,+BAAc,CAAC,UAAU,CAAC,WAAW,CAAC,CAAC;AAC3C,CAAC;AAHe,iBAAS,YAGxB,CAAA"}
+{"version":3,"file":"Singleton.js","sourceRoot":"","sources":["Singleton.ts"],"names":[],"mappings":";AAAA,mDAAkD;AAElD,mBAA0B,WAAoB;IAC1C,+BAAc,CAAC,aAAa,CAAC,WAAW,CAAC,CAAC;IAC1C,+BAAc,CAAC,UAAU,CAAC,WAAW,CAAC,CAAC;AAC3C,CAAC;AAHD,8BAGC"}
