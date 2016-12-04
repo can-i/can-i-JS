@@ -56,7 +56,7 @@
     "doc:live": "fsmonitor -s -d docs cmd /c npm run doc",
     "doc:dev": "concurrently \"live-server _book --wait 1600\" \"npm run doc:live\"",
     "doc:deploy": "npm run doc && gh-pages -d ./_book",
-    "doc:class":"typedoc --readme docs/Readme.md --out ./_book/classes Win Event Help IOC Middleware Config Controller Middleware Utility Work", 
+    "doc:class":"typedoc --name \"Can I Framework\" --readme ./docs/README.md --out ./_book/classes Win Event Help IOC Middleware Config Controller Middleware Utility Work", 
     "doc:book":"gitbook build"
   },
   "repository": {
