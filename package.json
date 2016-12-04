@@ -26,10 +26,10 @@
     "must": "^0.13.2",
     "sinon": "^1.17.6",
     "source-map-support": "^0.4.6",
-    "superagent": "^2.3.0",
+    "superagent": "^3.1.0",
     "typedoc": "https://github.com/DatenMetzgerX/typedoc/tarball/typescript-2-build",
     "typescript": "rc",
-    "typings": "^1.5.0"
+    "typings": "^2.0.0"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
