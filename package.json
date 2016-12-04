@@ -11,6 +11,9 @@
     "babel-preset-stage-0": "^6.16.0",
     "betterunit": "^1.2.4",
     "body-parser": "^1.15.2",
+    "gh-pages": "^0.12.0",
+    "gitbook": "^3.2.2",
+    "gitbook-cli": "^2.3.0",
     "mocha": "^3.2.0",
     "must": "^0.13.2",
     "sinon": "^1.17.6",
@@ -31,6 +34,7 @@
     "@types/lodash": "^4.14.38",
     "body-parser": "^1.15.2",
     "bunyan": "^1.8.5",
+    "chokidar-cli": "^1.2.0",
     "consolidate": "^0.14.1",
     "core-js": "^2.4.1",
     "cron": "^1.1.1",
@@ -47,7 +51,10 @@
   "scripts": {
     "test": "bu",
     "alpha": "npm publish --tag alpha",
-    "babel": "babel . --out-dir . --ignore node_modules"
+    "doc": "gitbook build",
+    "doc:live": "fsmonitor -s -d docs cmd /c npm run doc",
+    "doc:dev": "concurrently \"live-server _book --wait 1600\" \"npm run doc:live\"",
+    "doc:deploy": "npm run doc && gh-pages ./docs/_book"
   },
   "repository": {
     "type": "git",
