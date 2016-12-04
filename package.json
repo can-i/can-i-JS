@@ -54,7 +54,7 @@
     "doc": "gitbook build",
     "doc:live": "fsmonitor -s -d docs cmd /c npm run doc",
     "doc:dev": "concurrently \"live-server _book --wait 1600\" \"npm run doc:live\"",
-    "doc:deploy": "npm run doc && gh-pages ./docs/_book"
+    "doc:deploy": "npm run doc && gh-pages -d ./_book"
   },
   "repository": {
     "type": "git",
