@@ -6,6 +6,8 @@
 Can-I is a Web Framework that seeks to make creating backend api very easy. 
 It provides some addtional features as well as being completely built in typescript.
 
+<div><a target="_blank" href="/classes/index.html">Classes Documentation</a></div>
+
 ## Installing {#Installation}
 
 Install the Can-I framework using npm

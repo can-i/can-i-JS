@@ -21,6 +21,10 @@ import { Server } from 'http';
 import { MiddleWareFunction } from "../MiddleWare";
 
 
+/**
+ * The BootStrap function will create the server listener instance but not attach
+ * it to the http listen yet. All directories are parsed for controllers and services at this point.
+ */
 export function BootStrap(options?:Configuration|null):Express.Application|null {
     app = Express();
 
@@ -64,6 +68,9 @@ export function BootStrap(options?:Configuration|null):Express.Application|null 
 
 let app: Express.Application;
 
+/**
+ * Get the Express.Application if it has been created. Otherwise it throws an error
+ */
 export const App = function () {
     if (!app) {
         throw new Error("Application has not been bootstrapped");
@@ -74,7 +81,10 @@ export const App = function () {
 let server: Server;
 
 
-
+/**
+ * Attaches the listener to the Server.
+ * Clients can now start making request to the server.
+ */
 export function Listen(...args: any[]) {
 
 
@@ -86,22 +96,24 @@ export function Listen(...args: any[]) {
                 next();
             }
         });
-    })
-
-    
-    
+    })    
     server = app.listen.apply(app, args);
     Boot();
-    
 }
 
-
+/**
+ * Gracefully shutdown the server.
+ * 
+ */
 export function Close() {
-    server.close();
+    GetServer().close();
     return this;
 }
 
 
+/**
+ * Gets the instance of the server that is running
+ */
 export function GetServer() {
     return server;
 }

@@ -19,6 +19,7 @@
     "sinon": "^1.17.6",
     "source-map-support": "^0.4.6",
     "superagent": "^2.3.0",
+    "typedoc": "https://github.com/DatenMetzgerX/typedoc/tarball/typescript-2-build",
     "typings": "^1.5.0"
   },
   "name": "can-i",
@@ -51,16 +52,18 @@
   "scripts": {
     "test": "bu",
     "alpha": "npm publish --tag alpha",
-    "doc": "gitbook build",
+    "doc": "concurrently \"npm run doc:class\" \"npm run doc:book\"",
     "doc:live": "fsmonitor -s -d docs cmd /c npm run doc",
     "doc:dev": "concurrently \"live-server _book --wait 1600\" \"npm run doc:live\"",
-    "doc:deploy": "npm run doc && gh-pages -d ./_book"
+    "doc:deploy": "npm run doc && gh-pages -d ./_book",
+    "doc:class":"typedoc --readme docs/Readme.md --out ./_book/classes Win Event Help IOC Middleware Config Controller Middleware Utility Work", 
+    "doc:book":"gitbook build"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/shavyg2/can-i.git"
   },
-  "author": "",
+  "author": "Shavauhn Gabay",
   "license": "ISC",
   "homepage": "https://bitbucket.org/shavyg2/can-i#readme",
   "description": "",
