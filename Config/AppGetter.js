@@ -8,14 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var index_1 = require("./../win/index");
+var Win_1 = require("./../Win");
 var Singleton_1 = require("../IOC/Singleton");
 var AppGetter = (function () {
     function AppGetter() {
     }
     Object.defineProperty(AppGetter.prototype, "app", {
         get: function () {
-            return index_1.App();
+            return Win_1.App();
         },
         enumerable: true,
         configurable: true

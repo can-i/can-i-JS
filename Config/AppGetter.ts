@@ -1,4 +1,4 @@
-import { App } from './../win/index';
+import { App } from './../Win';
 import {Singleton} from "../IOC/Singleton";
 import * as Express from "express";
 

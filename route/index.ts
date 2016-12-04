@@ -1,10 +1,9 @@
 import { RouteOption } from './RouteOption';
 import { ServiceBuilder } from './../IOC/ServiceBuilder';
-import { App, Express, Accessor} from './../win/index';
+import { App, Express, Accessor, State } from './../Win';
 import { Stack } from "../MiddleWare";
-import { BaseController, ControllerConfig, IController } from './../LikeController/index';
-
-
+import { BaseController, ControllerConfig, IController } from './../LikeController';
+import Event from '../Event';
 
 
 
@@ -36,7 +35,13 @@ export function Route(route: string = "/") {
                         }
                 }
 
-                App().use(route, router);
+                if (State.Ready) {
+                        App().use(route, router);
+                } else {
+                        Event.on("can-i:bootstrapped", function () {
+                                App().use(route, router)
+                        })
+                }
         }
 }
 

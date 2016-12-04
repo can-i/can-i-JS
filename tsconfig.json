@@ -4,7 +4,7 @@
         "emitDecoratorMetadata": true,
         "preserveConstEnums": true,
         "moduleResolution": "Node",
-        "strictNullChecks": false,
+        "strictNullChecks": true,
         "removeComments": false,
         "noImplicitAny": true,
         "module": "commonjs",

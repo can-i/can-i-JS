@@ -1,15 +1,17 @@
 import 'source-map-support/register';
-import { Listen, Close, BootStrap, Express } from "../win";
-import { BaseController } from './../LikeController/index';
+import { Listen, Close, BootStrap, Express } from "../Win";
+import { BaseController } from './../LikeController';
 import { Singleton } from "../IOC/Singleton";
-import { Route } from "../route";
+import { Route } from "../Route";
 import { Configure } from "../Config"
-import { Get, Post } from "../route/Method";
+import { Get, Post } from "../Route/Method";
 import { Injectable } from "../IOC";
-import { Document } from "../help";
+import { Document } from "../Help";
 import { MiddleWare, Stack } from "../MiddleWare";
 import { Job } from "../Work";
 import { Logger } from '../Utility/Log';
+import { State } from '../Win';
+import Event from '../Event';
 import request = require("superagent");
 import sinon = require("sinon");
 var must = require("must");
@@ -141,7 +143,7 @@ describe("Can-I", function () {
             @Job({
                 cron: "* * * * * *"
             })
-            CronTask(next:Function) {
+            CronTask(next: Function) {
                 console.log("cron spy");
                 cronspy();
                 next();
@@ -150,17 +152,25 @@ describe("Can-I", function () {
 
 
         return new Promise((resolve) => {
+            let keep_going = function () {
+                Configure({
+                    features: [
+                        'documentation'
+                    ]
+                })
 
-            Configure({
-                features: [
-                    'documentation'
-                ]
-            })
 
+                Listen(3000, function () {
+                    resolve();
+                })
+            }
 
-            Listen(3000, function () {
-                resolve();
-            })
+            if (State.Ready) {
+                keep_going();
+            }else{
+                Event.on("can-i:bootstrapped",keep_going)
+            }
+
         })
 
     })
@@ -170,7 +180,7 @@ describe("Can-I", function () {
         setTimeout(function () {
             must(jobspy.callCount).equal(2);
             next();
-        }, 2000+100);
+        }, 2000 + 100);
     })
 
     it("Testing if Controller Jobs work with cron spy", function (next) {

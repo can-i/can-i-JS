@@ -1,12 +1,13 @@
 "use strict";
-var index_1 = require("./../win/index");
-var index_2 = require("./../LikeController/index");
+var Win_1 = require("./../Win");
+var LikeController_1 = require("./../LikeController");
+var Event_1 = require("../Event");
 ///////////
 function Route(route) {
     if (route === void 0) { route = "/"; }
     return function RouteAttacher(constructor) {
-        var router = index_1.Express.Router();
-        var access = index_1.Accessor(constructor);
+        var router = Win_1.Express.Router();
+        var access = Win_1.Accessor(constructor);
         var keys = Object.keys(access.methods || {});
         access.route_prefix = route;
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
@@ -24,9 +25,16 @@ function Route(route) {
                 }
             }
         }
-        index_1.App().use(route, router);
+        if (Win_1.State.Ready) {
+            Win_1.App().use(route, router);
+        }
+        else {
+            Event_1.default.on("can-i:bootstrapped", function () {
+                Win_1.App().use(route, router);
+            });
+        }
     };
 }
 exports.Route = Route;
-var setter = new index_2.ControllerConfig();
+var setter = new LikeController_1.ControllerConfig();
 //# sourceMappingURL=index.js.map

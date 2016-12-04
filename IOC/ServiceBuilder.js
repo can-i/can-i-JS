@@ -1,6 +1,6 @@
 "use strict";
 require("reflect-metadata");
-var Accessor_1 = require("./../win/Accessor");
+var Accessor_1 = require("./../Win/Accessor");
 require("core-js");
 var IOC_CONTAINER = new Map();
 var ioc = IOC_CONTAINER;

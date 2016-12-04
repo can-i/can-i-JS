@@ -1,4 +1,4 @@
-import { BaseController } from './../Controller/index';
+import { BaseController } from './../Controller';
 export declare function Get(route?: string): (target: BaseController, key: string, d: TypedPropertyDescriptor<any>) => TypedPropertyDescriptor<any>;
 export declare function Post(route?: string): (target: BaseController, key: string, d: TypedPropertyDescriptor<any>) => TypedPropertyDescriptor<any>;
 export declare function Put(route?: string): (target: BaseController, key: string, d: TypedPropertyDescriptor<any>) => TypedPropertyDescriptor<any>;

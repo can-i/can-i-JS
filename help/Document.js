@@ -1,7 +1,9 @@
 "use strict";
-var win_1 = require("../win");
+var Win_1 = require("../Win");
+var index_1 = require("../Win/index");
+var index_2 = require("../Event/index");
 function SetupFromConstructor(constructor) {
-    var access = win_1.Accessor(constructor);
+    var access = Win_1.Accessor(constructor);
     var d = access.documentation = access.documentation || { "classname": constructor.name, methods: {} };
     return d;
 }
@@ -42,11 +44,19 @@ function Document(info) {
                 break;
         }
         (function (target) {
-            var klass = win_1.Accessor(target).documentation;
-            win_1.App().use("/can-i/document", function (req, res, next) {
-                res.locals[target.name] = klass;
-                next();
-            });
+            var klass = Win_1.Accessor(target).documentation;
+            var keep_going = function () {
+                Win_1.App().use("/can-i/document", function (req, res, next) {
+                    res.locals[target.name] = klass;
+                    next();
+                });
+            };
+            if (index_1.State.Ready) {
+                keep_going();
+            }
+            else {
+                index_2.default.on("can-i:bootstrapped", keep_going);
+            }
         })(target);
     };
 }

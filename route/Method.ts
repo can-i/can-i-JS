@@ -1,6 +1,6 @@
 import { RouteOption } from './RouteOption';
-import { Accessor } from './../win/Accessor';
-import { BaseController, ControllerConfig } from './../Controller/index';
+import { Accessor } from './../Win/Accessor';
+import { BaseController, ControllerConfig } from './../Controller';
 import { ServiceBuilder } from './../IOC/ServiceBuilder';
 import Express = require("express");
 import {Stack} from "../MiddleWare/Stack";

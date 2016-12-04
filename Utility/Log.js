@@ -4,7 +4,7 @@ var os = require("os");
 var Path = require("path");
 var mkdir = require('mkdirp');
 function get_path(logtype) {
-    if (logtype === void 0) { logtype = null; }
+    if (logtype === void 0) { logtype = ''; }
     var _os = os.platform();
     var dashlog = logtype ? logtype + "-" : '';
     var filename = dashlog + "log.txt";
@@ -82,7 +82,7 @@ function Job() {
     job.info.apply(job, args);
 }
 var app_err = bunyan.createLogger({
-    name: "Application:error",
+    name: "Application:Error",
     streams: error
 });
 function AppError() {
@@ -92,9 +92,21 @@ function AppError() {
     }
     app_err.error.apply(app_err, args);
 }
+var main = bunyan.createLogger({
+    name: "Application:Main",
+    streams: info
+});
+function Main() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i - 0] = arguments[_i];
+    }
+    main.info.apply(main, args);
+}
 exports.Logger = {
     Application: Application,
     Job: Job,
-    AppError: AppError
+    AppError: AppError,
+    Main: Main
 };
 //# sourceMappingURL=Log.js.map

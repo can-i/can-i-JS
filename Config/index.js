@@ -2,7 +2,11 @@
 require("reflect-metadata");
 var ConfigurationManager_1 = require("./ConfigurationManager");
 var ServiceBuilder_1 = require("./../IOC/ServiceBuilder");
-exports.configurationManager = ServiceBuilder_1.ServiceBuilder.BuildService(ConfigurationManager_1.ConfigurationManager);
+var r = ServiceBuilder_1.ServiceBuilder.BuildService(ConfigurationManager_1.ConfigurationManager);
+if (r === null) {
+    throw new Error("Fatal Error, failed to build Configuration Manager Service");
+}
+exports.configurationManager = r;
 function Configure(options) {
     options = options || {};
     var features = options.features || [];
