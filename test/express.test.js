@@ -14,17 +14,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 require("source-map-support/register");
-var win_1 = require("../win");
-var index_1 = require("./../LikeController/index");
+var Win_1 = require("../Win");
+var LikeController_1 = require("./../LikeController");
 var Singleton_1 = require("../IOC/Singleton");
-var route_1 = require("../route");
+var Route_1 = require("../Route");
 var Config_1 = require("../Config");
-var Method_1 = require("../route/Method");
+var Method_1 = require("../Route/Method");
 var IOC_1 = require("../IOC");
-var help_1 = require("../help");
+var Help_1 = require("../Help");
 var MiddleWare_1 = require("../MiddleWare");
 var Work_1 = require("../Work");
 var Log_1 = require("../Utility/Log");
+var Win_2 = require("../Win");
+var Event_1 = require("../Event");
 var request = require("superagent");
 var sinon = require("sinon");
 var must = require("must");
@@ -44,7 +46,7 @@ describe("Can-I", function () {
     var spy = sinon.spy();
     var cronspy = sinon.spy();
     before(function () {
-        win_1.BootStrap(null);
+        Win_1.BootStrap(null);
         var Database = (function () {
             function Database() {
                 spy();
@@ -103,7 +105,7 @@ describe("Can-I", function () {
                 this.send(this.service.getUser());
             };
             return UserController;
-        }(index_1.BaseController));
+        }(LikeController_1.BaseController));
         __decorate([
             Method_1.Get("/greeting"),
             __metadata("design:type", Function),
@@ -117,11 +119,11 @@ describe("Can-I", function () {
             __metadata("design:returntype", void 0)
         ], UserController.prototype, "User", null);
         UserController = __decorate([
-            help_1.Document({
+            Help_1.Document({
                 title: "User Controller",
                 description: "Contains information about the user"
             }),
-            route_1.Route("/user"),
+            Route_1.Route("/user"),
             __metadata("design:paramtypes", [UserService])
         ], UserController);
         var ItemController = (function (_super) {
@@ -135,7 +137,7 @@ describe("Can-I", function () {
                 this.send(this.service.getItem());
             };
             return ItemController;
-        }(index_1.BaseController));
+        }(LikeController_1.BaseController));
         __decorate([
             Method_1.Get("/detail"),
             __metadata("design:type", Function),
@@ -143,8 +145,8 @@ describe("Can-I", function () {
             __metadata("design:returntype", void 0)
         ], ItemController.prototype, "detail", null);
         ItemController = __decorate([
-            route_1.Route("/item"),
-            help_1.Document({
+            Route_1.Route("/item"),
+            Help_1.Document({
                 title: "Item Controller",
                 description: "Contains information about the Item"
             }),
@@ -171,7 +173,7 @@ describe("Can-I", function () {
                 next();
             };
             return CanPost;
-        }(index_1.BaseController));
+        }(LikeController_1.BaseController));
         __decorate([
             Method_1.Post("/test"),
             __metadata("design:type", Function),
@@ -196,18 +198,26 @@ describe("Can-I", function () {
         ], CanPost.prototype, "CronTask", null);
         CanPost = __decorate([
             MiddleWare_1.MiddleWare(BaseApi),
-            route_1.Route("/test"),
+            Route_1.Route("/test"),
             __metadata("design:paramtypes", [])
         ], CanPost);
         return new Promise(function (resolve) {
-            Config_1.Configure({
-                features: [
-                    'documentation'
-                ]
-            });
-            win_1.Listen(3000, function () {
-                resolve();
-            });
+            var keep_going = function () {
+                Config_1.Configure({
+                    features: [
+                        'documentation'
+                    ]
+                });
+                Win_1.Listen(3000, function () {
+                    resolve();
+                });
+            };
+            if (Win_2.State.Ready) {
+                keep_going();
+            }
+            else {
+                Event_1.default.on("can-i:bootstrapped", keep_going);
+            }
         });
     });
     it("Testing if Controller Jobs work with spy", function (next) {
@@ -289,7 +299,7 @@ describe("Can-I", function () {
     afterEach(function () {
         must(spy.calledOnce).true;
     });
-    after(win_1.Close);
+    after(Win_1.Close);
 });
 //The Wolf, The Fire, The Fox, and The Blood Moon 
 //# sourceMappingURL=express.test.js.map

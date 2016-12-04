@@ -1,10 +1,10 @@
 "use strict";
-var win_1 = require("../win");
+var Win_1 = require("../Win");
 var Stack_1 = require("./Stack");
 exports.Stack = Stack_1.Stack;
 function MiddleWare(func) {
     function MiddlewareStack(target, key) {
-        var access = win_1.Accessor(target);
+        var access = Win_1.Accessor(target);
         access.middleware = access.middleware || [];
         var store;
         if (key) {

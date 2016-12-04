@@ -1,4 +1,4 @@
-import { Accessor } from './../win/Accessor';
+import { Accessor } from './../Win/Accessor';
 
 
 export function View(page:string) {

@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Accessor } from './../win/Accessor';
+import { Accessor } from './../Win/Accessor';
 import 'core-js';
 
 
@@ -60,7 +60,7 @@ export class ServiceBuilder {
         }
     }
 
-    static BuildService<T>(target: new (...args: any[]) => T):T {
+    static BuildService<T>(target: new (...args: any[]) => T):T|null {
         
         if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
             // throw new Error(`class ${target.name} is not injectable`)

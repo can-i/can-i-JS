@@ -1,4 +1,4 @@
-import { Accessor,Express } from "../win";
+import { Accessor,Express } from "../Win";
 export { Stack } from "./Stack";
 
 

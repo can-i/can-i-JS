@@ -34,8 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var Accessor_1 = require("./../win/Accessor");
-var index_1 = require("./../Controller/index");
+var Accessor_1 = require("./../Win/Accessor");
+var Controller_1 = require("./../Controller");
 var ServiceBuilder_1 = require("./../IOC/ServiceBuilder");
 var Stack_1 = require("../MiddleWare/Stack");
 function Get(route) {
@@ -188,7 +188,7 @@ function ExtendRequest(route, type) {
                                 _b.label = 2;
                             case 2:
                                 controller_instance = ServiceBuilder_1.ServiceBuilder.ConstructService(constructor_1);
-                                setter = new index_1.ControllerConfig();
+                                setter = new Controller_1.ControllerConfig();
                                 setter.set_up_controller(controller_instance, req, res, next);
                                 controller_instance.onInit();
                                 if (!(access_1.middleware && access_1.middleware.route && access_1.middleware.route[key] && access_1.middleware.route[key].length))

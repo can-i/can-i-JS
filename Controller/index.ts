@@ -1,6 +1,6 @@
 import Express = require('express');
-import { GetServer, App } from "../win";
-import { configurationManager } from './../Config/index';
+import { GetServer, App } from "../Win";
+import { configurationManager } from './../Config';
 import { ConfigurationManager } from '../Config/ConfigurationManager';
 import { Server } from 'http';
 import { Feature } from '../Config/Feature';

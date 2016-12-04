@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as Path from "path";
 const mkdir = require('mkdirp');
 
-function get_path(logtype: string = null) {
+function get_path(logtype: string = '') {
     let _os = os.platform();
     let dashlog = logtype ? `${logtype}-` : '';
     let filename = `${dashlog}log.txt`;
@@ -92,7 +92,7 @@ function Job(...args:any[]){
 
 
 let app_err = bunyan.createLogger({
-    name:"Application:error",
+    name:"Application:Error",
     streams:error
 })
 
@@ -100,9 +100,19 @@ function AppError(...args:any[]){
     app_err.error(...args);
 }
 
+let main = bunyan.createLogger({
+    name:"Application:Main",
+    streams:info
+})
+
+function Main(...args:any[]){
+    main.info(...args)
+}
+
 export const Logger = {
     Application,
     Job,
-    AppError
+    AppError,
+    Main
 } 
 

@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var win_1 = require("../win");
-var index_1 = require("./../Config/index");
+var Win_1 = require("../Win");
+var Config_1 = require("./../Config");
 var Controller = (function () {
     function Controller() {
     }
@@ -35,21 +35,21 @@ var BaseController = (function (_super) {
     }
     Object.defineProperty(BaseController.prototype, "ConfigurationManager", {
         get: function () {
-            return index_1.configurationManager;
+            return Config_1.configurationManager;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(BaseController.prototype, "Server", {
         get: function () {
-            return win_1.GetServer();
+            return Win_1.GetServer();
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(BaseController.prototype, "App", {
         get: function () {
-            return win_1.App();
+            return Win_1.App();
         },
         enumerable: true,
         configurable: true

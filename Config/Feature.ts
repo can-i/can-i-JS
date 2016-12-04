@@ -1,5 +1,5 @@
 
-import { Event } from './../Event/index';
+import { Event } from './../Event';
 import {Singleton} from "../IOC/Singleton";
 import { AppGetter } from './AppGetter';
 

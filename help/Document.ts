@@ -1,13 +1,15 @@
 import { InternalDocumentationStructure } from './InternalDocumentStructure';
 import { InternalAccessorStructure } from './../IOC/InternalAccessorStructure';
-import { App, Accessor, Express } from "../win";
+import { App, Accessor, Express } from "../Win";
 import { APIDetail } from './APIDetail';
+import { State } from '../Win/index';
+import Event from '../Event/index';
 
 function SetupFromConstructor(constructor: Function) {
 
 
     let access = Accessor(constructor);
-    let d:InternalDocumentationStructure = access.documentation = access.documentation || (<any> { "classname": constructor.name, methods: {} })
+    let d: InternalDocumentationStructure = access.documentation = access.documentation || (<any>{ "classname": constructor.name, methods: {} })
 
     return d;
 }
@@ -54,10 +56,20 @@ export function Document(info: APIDetail) {
         (function (target) {
 
             let klass: InternalDocumentationStructure = Accessor(target).documentation;
-            App().use(`/can-i/document`, function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
-                res.locals[target.name] = klass;
-                next();
-            })
+
+            let keep_going = function () {
+                App().use(`/can-i/document`, function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
+                    res.locals[target.name] = klass;
+                    next();
+                })
+            }
+
+            if(State.Ready){
+                keep_going()
+            }else{
+                Event.on("can-i:bootstrapped",keep_going);
+            }
+
         })(target)
     }
 }
