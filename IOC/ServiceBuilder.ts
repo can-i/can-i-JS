@@ -39,7 +39,8 @@ export class ServiceBuilder {
         throw new Error(error);
     }
 
-    static ConstructService(target: new (...args: any[]) => any) {
+    static ConstructService<T>(target: new (...args: any[]) => T) {
+        //TODO needs to know if it's an interface
         let needs: any[] = Reflect.getMetadata("design:paramtypes", target);
         if (!needs) {
             console.warn(metadata_error);

@@ -1,15 +1,20 @@
 
 import { Event } from './../Event';
 import {Singleton} from "../IOC/Singleton";
-import { AppGetter } from './AppGetter';
+import { AppGetter, IAppGetter } from './AppGetter';
 
 
 const get_set_box:{[key:string]:any} = {};
 
 @Singleton
-export class Feature extends AppGetter {
-    constructor() { 
-        super();
+export class Feature implements IAppGetter {
+    constructor(public iapp:AppGetter|IAppGetter) { 
+
+    }
+
+
+    get app(){
+        return this.iapp.app;
     }
 
     private convert(f: string) {
