@@ -27,7 +27,7 @@
     "superagent": "^3.1.0",
     "typedoc": "https://github.com/DatenMetzgerX/typedoc/tarball/typescript-2-build",
     "typescript": "rc",
-    "typings": "^2.0.0"
+    "typings": "^2.1.0"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
