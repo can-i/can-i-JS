@@ -17,62 +17,12 @@ export function Route(route: string = "/") {
         log.info(`new route: ${route}`);
         return function RouteAttacher(constructor: new (...args: any[]) => BaseController) {
 
-                // let router = Express.Router();
-
-
-                // router.use(function (req, res, next) {
-                //         log.debug(`using route:${route}`);
-                //         next();
-                // })
-
-
-
                 /**
                         Every class will have it's individual access object.
                         The Access Object is unique to every controller.
                         So using the access it can gain access to specific controller settings
                  */
                 let class_accessor = Accessor(constructor);
-
-
-                /**
-                All of the methods that are available on a particular controller
-                will be placed in the access.methods object.
-                This allows the controller to know which methods needs to be given a route.
-                 */
-
-                // let class_method_names = Object.keys(class_accessor.methods || {});
-                // class_accessor.route_prefix = route;
-
-
-                // for (let class_method_name of class_method_names) {
-
-                //         let routeOptions: RouteOption[] = class_accessor.methods[class_method_name];
-                //         for (let route_option of routeOptions) {
-                //                 /**
-                //                  * This is the express url to connect to the class method that needs to be used
-                //                  */
-                //                 router.use(route_option.route_name, function (req, res, next) {
-                //                         log.info(`route: ${route} url ${route_option.route_name}`);
-                //                         next();
-                //                 })
-
-                //                 switch (class_method_name.toLowerCase()) {
-                //                         case 'get':
-                //                                 router.get(route_option.route_name, route_option.route_function);
-                //                                 break;
-                //                         case 'post':
-                //                                 router.post(route_option.route_name, route_option.route_function);
-                //                                 break;
-                //                 }
-                //         }
-                // }
-
-
-                /**
-                 * The Aplication may not be ready so it's important to only call this once the class is ready
-                 */
-
 
                 let binder = new ExpressRouteBinder(route, new ExpressRouterProvider(), Accessor(constructor));
                 binder.bind();
@@ -87,13 +37,13 @@ let setter = new ControllerConfig();
 
 
 
-interface IRouterProxy {
+export interface IRouterProxy {
         get(url: string, action: Function): void;
         post(url: string, action: Function): void;
 }
 
 
-abstract class RouterProxy implements IRouterProxy {
+export abstract class RouterProxy implements IRouterProxy {
 
 
         _proxyRouter: IRouterProxy
@@ -108,16 +58,18 @@ abstract class RouterProxy implements IRouterProxy {
 
         }
         get(url: string, action: Function) {
-                this.proxyRouter.get(url, action);
+                this.router.get(url, action);
         }
 
         post(url: string, action: Function) {
-                this.proxyRouter.post(url, action);
+                this.router.post(url, action);
         }
+
+        abstract get router():any
 }
 
 
-class ExpressRouterProxy extends RouterProxy {
+export class ExpressRouterProxy extends RouterProxy {
 
         private _router: Express.Router
 
@@ -129,11 +81,11 @@ class ExpressRouterProxy extends RouterProxy {
         }
 }
 
-interface IRouteBinder {
+export interface IRouteBinder {
 
 }
 
-class ExpressRouteBinder implements IRouteBinder {
+export class ExpressRouteBinder implements IRouteBinder {
         constructor(protected route: string, protected provider: IRouterProvider, protected classAccess: InternalAccessorStructure) {
 
         }
@@ -155,7 +107,7 @@ class ExpressRouteBinder implements IRouteBinder {
                 }
 
                 if (State.Ready) {
-                        App().use(this.route);
+                        App().use(this.route,router.router);
                 } else {
                         Event.on("can-i:bootstrapped", () => {
                                 App().use(this.route,router.router)
@@ -165,17 +117,19 @@ class ExpressRouteBinder implements IRouteBinder {
 }
 
 
-
-interface IRouterProvider {
+/**
+ * Provides access to the proxy router that will bind to the underlying router
+ */
+export interface IRouterProvider {
         provide(): IRouterProxy;
 }
-abstract class RouterProvider implements IRouterProvider {
+export abstract class RouterProvider implements IRouterProvider {
         abstract provide(): IRouterProxy;
 }
 
 
 
-class ExpressRouterProvider extends RouterProvider {
+export class ExpressRouterProvider extends RouterProvider {
 
         provide(): IRouterProxy {
                 return new ExpressRouterProxy(this);
