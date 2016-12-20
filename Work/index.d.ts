@@ -1,4 +1,3 @@
-/// <reference types="core-js" />
 export interface JobOption {
     ever?: number;
     cron?: string;

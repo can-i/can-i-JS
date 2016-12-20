@@ -1,5 +1,4 @@
 /// <reference types="express" />
-/// <reference types="core-js" />
 /// <reference types="node" />
 import { Configuration } from './../Config/Configuration';
 import "reflect-metadata";

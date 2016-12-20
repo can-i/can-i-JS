@@ -83,14 +83,14 @@ var BaseController = (function (_super) {
     BaseController.prototype.sendFile = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
+            args[_i] = arguments[_i];
         }
         this.res.sendFile.apply(this.res, args);
     };
     BaseController.prototype.status = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
+            args[_i] = arguments[_i];
         }
         this.res.status.apply(this.res, args);
     };
@@ -100,7 +100,7 @@ var BaseController = (function (_super) {
     BaseController.prototype.send = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
+            args[_i] = arguments[_i];
         }
         if (this.internal_options.render) {
             return this.render.apply(this, [this.internal_options.renderPage].concat(args));
@@ -111,8 +111,8 @@ var BaseController = (function (_super) {
     };
     return BaseController;
 }(Controller));
-exports.BaseController = BaseController;
 BaseController.methods = {};
+exports.BaseController = BaseController;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BaseController;
 //# sourceMappingURL=index.js.map

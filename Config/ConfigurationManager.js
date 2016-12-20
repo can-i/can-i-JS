@@ -16,15 +16,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var AppGetter_1 = require("./AppGetter");
 var Singleton_1 = require("../IOC/Singleton");
 var Feature_1 = require("../Config/Feature");
+var Log_1 = require("../Utility/Log");
 var ConfigurationManager = (function (_super) {
     __extends(ConfigurationManager, _super);
     function ConfigurationManager(_feature) {
         var _this = _super.call(this) || this;
         _this._feature = _feature;
+        Log_1.AppLog.info("Booting Configuration manager");
         return _this;
     }
     Object.defineProperty(ConfigurationManager.prototype, "feature", {
         get: function () {
+            Log_1.AppLog.debug("Getting features");
             return this._feature;
         },
         enumerable: true,

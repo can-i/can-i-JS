@@ -1,6 +1,5 @@
 /// <reference types="express" />
 /// <reference types="node" />
-/// <reference types="core-js" />
 import Express = require('express');
 import { ConfigurationManager } from '../Config/ConfigurationManager';
 import { Server } from 'http';

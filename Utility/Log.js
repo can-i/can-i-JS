@@ -2,6 +2,16 @@
 var bunyan = require("bunyan");
 var os = require("os");
 var Path = require("path");
+var limberjack_1 = require("limberjack");
+exports.AppLog = new limberjack_1.default("Application", {
+    file: ".can-i/log.log",
+    tags: ["app"]
+});
+var StartLog = exports.AppLog.extend("Start", {
+    tags: ["start"]
+});
+StartLog.info("*************START*************");
+exports.RouteLog = exports.AppLog.extend("route");
 var mkdir = require('mkdirp');
 function get_path(logtype) {
     if (logtype === void 0) { logtype = ''; }
@@ -66,7 +76,7 @@ var application = bunyan.createLogger({
 function Application() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     application.info.apply(application, args);
 }
@@ -77,7 +87,7 @@ var job = bunyan.createLogger({
 function Job() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     job.info.apply(job, args);
 }
@@ -88,7 +98,7 @@ var app_err = bunyan.createLogger({
 function AppError() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     app_err.error.apply(app_err, args);
 }
@@ -99,7 +109,7 @@ var main = bunyan.createLogger({
 function Main() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     main.info.apply(main, args);
 }

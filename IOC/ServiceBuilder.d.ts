@@ -1,4 +1,3 @@
-/// <reference types="core-js" />
 import 'reflect-metadata';
 import 'core-js';
 export declare class ServiceBuilder {

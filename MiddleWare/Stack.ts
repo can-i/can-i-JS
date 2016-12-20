@@ -2,6 +2,7 @@
 //This is useful for stacking up middleware functions to place on your routes
 
 export function Stack(...middleware: MiddleWareFunction[]): MiddleWareFunction {
+    AppLog.debug("stacking middleware");
     return function (req: Express.Request, res: Express.Response, next?: Express.NextFunction) {
 
         let i =-1, len=middleware.length;
@@ -21,4 +22,4 @@ export function Stack(...middleware: MiddleWareFunction[]): MiddleWareFunction {
 
 export default Stack;
 import { MiddleWareFunction } from '.';
-import { Express } from "../Win";
+import { Express } from "../Win";import { AppLog } from '../Utility/Log';

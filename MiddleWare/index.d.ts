@@ -1,5 +1,4 @@
 /// <reference types="express" />
-/// <reference types="core-js" />
 import { Express } from "../Win";
 export { Stack } from "./Stack";
 export declare type MiddleWareFunction = (req: Express.Request, res: Express.Response, next?: Express.NextFunction) => any;

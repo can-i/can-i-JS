@@ -65,7 +65,7 @@ var ServiceBuilder = (function () {
     ServiceBuilder.InjectWith = function () {
         var _args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            _args[_i - 0] = arguments[_i];
+            _args[_i] = arguments[_i];
         }
         var target = _args[0], key = _args[1], args = _args[2];
         var access = Accessor_1.Accessor(target);

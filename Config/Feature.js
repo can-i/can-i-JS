@@ -16,11 +16,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var Event_1 = require("./../Event");
 var Singleton_1 = require("../IOC/Singleton");
 var AppGetter_1 = require("./AppGetter");
+var Log_1 = require("../Utility/Log");
 var get_set_box = {};
 var Feature = (function (_super) {
     __extends(Feature, _super);
     function Feature() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        Log_1.AppLog.debug("Booting Feature class");
+        return _this;
     }
     Feature.prototype.convert = function (f) {
         return "can-i feature " + f;
@@ -42,7 +45,7 @@ var Feature = (function (_super) {
     Feature.prototype.on = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
+            args[_i] = arguments[_i];
         }
         return Event_1.Event.on.apply(Event_1.Event, args);
     };

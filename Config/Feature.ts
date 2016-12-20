@@ -2,6 +2,7 @@
 import { Event } from './../Event';
 import {Singleton} from "../IOC/Singleton";
 import { AppGetter } from './AppGetter';
+import { AppLog } from '../Utility/Log';
 
 
 const get_set_box:{[key:string]:any} = {};
@@ -10,6 +11,7 @@ const get_set_box:{[key:string]:any} = {};
 export class Feature extends AppGetter {
     constructor() { 
         super();
+        AppLog.debug("Booting Feature class");
     }
 
     private convert(f: string) {

@@ -10,11 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var Win_1 = require("./../Win");
 var Singleton_1 = require("../IOC/Singleton");
+var Log_1 = require("../Utility/Log");
 var AppGetter = (function () {
     function AppGetter() {
     }
     Object.defineProperty(AppGetter.prototype, "app", {
         get: function () {
+            Log_1.AppLog.debug("getting App");
             return Win_1.App();
         },
         enumerable: true,

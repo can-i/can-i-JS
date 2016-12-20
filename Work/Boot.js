@@ -110,7 +110,7 @@ exports.Boot = Boot;
 function Push() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     queue.push.apply(queue, args);
     Log_1.Logger.Job({ 'Queue Size': queue.length }, "Added to Job Stack");

@@ -21,7 +21,7 @@ function Document(info) {
     return function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
+            args[_i] = arguments[_i];
         }
         var target = args[0], key_or_num = args[1], descriptor = args[2];
         var d = SetUp(target);

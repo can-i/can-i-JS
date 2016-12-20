@@ -94,7 +94,7 @@ var server;
 function Listen() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     Log_1.Logger.Main("Attaching Listener to http server");
     var app = exports.App();
@@ -119,7 +119,7 @@ exports.Listen = Listen;
 function OnReady() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     args.forEach(function (callback) {
         if (exports.State.Ready) {

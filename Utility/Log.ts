@@ -2,6 +2,30 @@ const bunyan = require("bunyan");
 import * as os from "os";
 import * as fs from 'fs';
 import * as Path from "path";
+import LimberJack from 'limberjack';
+
+export const AppLog = new LimberJack("Application",{
+    file:".can-i/log.log",
+    tags:["app"]
+})
+
+
+const StartLog = AppLog.extend("Start",{
+    tags:["start"]
+});
+
+
+StartLog.info("*************START*************");
+
+
+export const RouteLog = AppLog.extend("route");
+
+
+
+
+
+
+
 const mkdir = require('mkdirp');
 
 function get_path(logtype: string = '') {
@@ -109,10 +133,10 @@ function Main(...args:any[]){
     main.info(...args)
 }
 
+
 export const Logger = {
     Application,
     Job,
     AppError,
     Main
-} 
-
+}
