@@ -38,12 +38,6 @@ var RouterProxy = (function () {
         enumerable: true,
         configurable: true
     });
-    RouterProxy.prototype.get = function (url, action) {
-        this.router.get(url, action);
-    };
-    RouterProxy.prototype.post = function (url, action) {
-        this.router.post(url, action);
-    };
     return RouterProxy;
 }());
 exports.RouterProxy = RouterProxy;
@@ -52,6 +46,12 @@ var ExpressRouterProxy = (function (_super) {
     function ExpressRouterProxy() {
         return _super.apply(this, arguments) || this;
     }
+    ExpressRouterProxy.prototype.get = function (url, action) {
+        this.router.get(url, action);
+    };
+    ExpressRouterProxy.prototype.post = function (url, action) {
+        this.router.post(url, action);
+    };
     Object.defineProperty(ExpressRouterProxy.prototype, "router", {
         get: function () {
             if (!this._router) {
@@ -79,7 +79,7 @@ var ExpressRouteBinder = (function () {
         var _loop_1 = function (key) {
             var router_options = this_1.classAccess.methods[key];
             router_options.forEach(function (router_option) {
-                _this.provider.provide()[key](router_option.route_name, router_option.route_function);
+                router[key](router_option.route_name, router_option.route_function);
             });
         };
         var this_1 = this;

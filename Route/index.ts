@@ -37,9 +37,13 @@ let setter = new ControllerConfig();
 
 
 
+/**
+ * This will map to the routing application.
+ * it provides get and post methods
+ */
 export interface IRouterProxy {
         get(url: string, action: Function): void;
-        post(url: string, action: Function): void;
+        post(url: string, action: any): void;
 }
 
 
@@ -57,15 +61,10 @@ export abstract class RouterProxy implements IRouterProxy {
         constructor(protected provider: IRouterProvider) {
 
         }
-        get(url: string, action: Function) {
-                this.router.get(url, action);
-        }
 
-        post(url: string, action: Function) {
-                this.router.post(url, action);
-        }
+        abstract get(url:string,callback:any):void;
+        abstract post(url:string,callback:any):void;
 
-        abstract get router():any
 }
 
 
@@ -73,6 +72,13 @@ export class ExpressRouterProxy extends RouterProxy {
 
         private _router: Express.Router
 
+        get(url: string, action: any) {
+                this.router.get(url, action);
+        }
+
+        post(url: string, action: any) {
+                this.router.post(url, action);
+        }
         public  get router() {
                 if (!this._router) {
                         this._router = Express.Router()
@@ -82,30 +88,24 @@ export class ExpressRouterProxy extends RouterProxy {
 }
 
 export interface IRouteBinder {
-
+        bind():void;
 }
 
 export class ExpressRouteBinder implements IRouteBinder {
         constructor(protected route: string, protected provider: IRouterProvider, protected classAccess: InternalAccessorStructure) {
 
         }
-
         bind() {
                 let router = <ExpressRouterProxy>this.provider.provide();
-
-                type ExpressKey = keyof IRouterProxy;
+                type ExpressKey = "get"|"post"//keyof IRouterProxy;
                 let class_methods_of_options = this.classAccess.methods;
                 let keys = <ExpressKey[]>Object.keys(class_methods_of_options) || [];
-
                 for (const key of keys) {
                         let router_options: RouteOption[] = this.classAccess.methods[key];
-
-                        router_options.forEach(router_option => {
-                                this.provider.provide()[key](router_option.route_name, router_option.route_function);
+                        router_options.forEach(router_option => {       
+                               router[key](router_option.route_name, router_option.route_function);
                         })
-
                 }
-
                 if (State.Ready) {
                         App().use(this.route,router.router);
                 } else {
@@ -115,8 +115,6 @@ export class ExpressRouteBinder implements IRouteBinder {
                 }
         }
 }
-
-
 /**
  * Provides access to the proxy router that will bind to the underlying router
  */
@@ -126,11 +124,7 @@ export interface IRouterProvider {
 export abstract class RouterProvider implements IRouterProvider {
         abstract provide(): IRouterProxy;
 }
-
-
-
 export class ExpressRouterProvider extends RouterProvider {
-
         provide(): IRouterProxy {
                 return new ExpressRouterProxy(this);
         }

@@ -1,6 +1,6 @@
 var must = require("must");
 
-describe("A Node Test",function(){
+xdescribe("A Node Test",function(){
 
     let number:number;
     before(function(){
