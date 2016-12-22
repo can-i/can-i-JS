@@ -1,10 +1,9 @@
 "use strict";
 require("reflect-metadata");
 var ConfigurationManager_1 = require("./ConfigurationManager");
-var ServiceBuilder_1 = require("./../IOC/ServiceBuilder");
 var index_1 = require("../Win/index");
 var Log_1 = require("../Utility/Log");
-var r = ServiceBuilder_1.ServiceBuilder.BuildService(ConfigurationManager_1.ConfigurationManager);
+var r = ConfigurationManager_1.ConfigurationFactory.ConfigurationManager();
 if (r === null) {
     throw new Error("Fatal Error, failed to build Configuration Manager Service");
 }

@@ -31,8 +31,10 @@ export interface IRouteBinder {
 export declare class ExpressRouteBinder implements IRouteBinder {
     protected route: string;
     protected provider: IRouterProvider;
-    protected classAccess: InternalAccessorStructure;
-    constructor(route: string, provider: IRouterProvider, classAccess: InternalAccessorStructure);
+    protected classAccess: Partial<InternalAccessorStructure>;
+    protected app_provider: IAppProvider;
+    protected stateProvider: IStateProvider;
+    constructor(route: string, provider: IRouterProvider, classAccess: Partial<InternalAccessorStructure>, app_provider: IAppProvider, stateProvider: IStateProvider);
     bind(): void;
 }
 /**
@@ -46,4 +48,27 @@ export declare abstract class RouterProvider implements IRouterProvider {
 }
 export declare class ExpressRouterProvider extends RouterProvider {
     provide(): IRouterProxy;
+}
+export declare class RouteBindingFactory {
+    static ExpressRouteBinder(route: string, constructor: new () => BaseController): ExpressRouteBinder;
+}
+export interface IApp {
+    use(route: string, callback: Function): any;
+}
+export interface IAppProvider {
+    getApp(): IApp;
+}
+export declare class ExpressAppProvider implements IAppProvider {
+    getApp(): Express.Application;
+}
+export interface IStateProvider {
+    getState(): IState;
+}
+export interface IState {
+    Ready: boolean;
+}
+export declare class ExpressStateProvider implements IStateProvider {
+    getState(): {
+        Ready: boolean;
+    };
 }

@@ -6,6 +6,7 @@ var Log_1 = require("../Utility/Log");
 var cron = require("node-cron");
 var CronJob = require("cron").CronJob;
 var queue = [];
+var cronqueue = [];
 var run = false;
 function Next() {
     if (!run) {
@@ -73,6 +74,7 @@ function Boot() {
                         });
                     };
                     var _job = cron.schedule(job.options.cron, Schedule);
+                    cronqueue.push(_job);
                     // let _job = new CronJob(job.options.cron,Schedule);
                     // _job.start();
                     Log_1.Logger.Job("Job started");
@@ -126,6 +128,7 @@ function Run() {
 exports.Run = Run;
 function Stop() {
     run = false;
+    cronqueue.forEach(function (c) { return c.stop(); });
 }
 exports.Stop = Stop;
 Object.defineProperty(exports, "__esModule", { value: true });

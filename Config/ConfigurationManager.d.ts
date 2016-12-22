@@ -5,3 +5,6 @@ export declare class ConfigurationManager extends AppGetter {
     constructor(_feature: Feature);
     readonly feature: Feature;
 }
+export declare class ConfigurationFactory {
+    static ConfigurationManager(): ConfigurationManager;
+}

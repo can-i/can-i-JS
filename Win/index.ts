@@ -59,7 +59,7 @@ export function BootStrap(options?: Configuration | null): Express.Application {
         options = options || <Configuration>{};
 
         //Good Defaults
-        let defaults: Configuration = {
+        let defaults: Partial<Configuration> = {
             controllers: Path.join(process.cwd(), "controllers"),
             services: Path.join(process.cwd(), "services"),
             views: Path.join(process.cwd(), "views"),
@@ -137,8 +137,10 @@ export function Listen(...args: any[]) {
 
     app.get("/can-i/document", function (req: any, res: any, next: any) {
         process.nextTick(() => {
-            if (configurationManager.feature.enabled('documentation'))
+            console.log(configurationManager.feature.enabled("documentation"))
+            if (configurationManager.feature.enabled('documentation')) {
                 res.send(res.locals);
+            }
             else {
                 next();
             }

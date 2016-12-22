@@ -24,7 +24,10 @@ export function Route(route: string = "/") {
                  */
                 let class_accessor = Accessor(constructor);
 
-                let binder = new ExpressRouteBinder(route, new ExpressRouterProvider(), Accessor(constructor));
+
+                let binder = RouteBindingFactory.ExpressRouteBinder(route, constructor);
+
+                // let binder = new ExpressRouteBinder(route, new ExpressRouterProvider(), Accessor(constructor));
                 binder.bind();
         }
 }
@@ -62,8 +65,8 @@ export abstract class RouterProxy implements IRouterProxy {
 
         }
 
-        abstract get(url:string,callback:any):void;
-        abstract post(url:string,callback:any):void;
+        abstract get(url: string, callback: any): void;
+        abstract post(url: string, callback: any): void;
 
 }
 
@@ -79,7 +82,7 @@ export class ExpressRouterProxy extends RouterProxy {
         post(url: string, action: any) {
                 this.router.post(url, action);
         }
-        public  get router() {
+        public get router() {
                 if (!this._router) {
                         this._router = Express.Router()
                 }
@@ -88,29 +91,39 @@ export class ExpressRouterProxy extends RouterProxy {
 }
 
 export interface IRouteBinder {
-        bind():void;
+        bind(): void;
 }
 
+
+
+//TODO I need to find a way to not be so bounded to express;
+//I wanted express as a quick setup and not as a fully tied to framework
+//Design solution is needed here
+
 export class ExpressRouteBinder implements IRouteBinder {
-        constructor(protected route: string, protected provider: IRouterProvider, protected classAccess: InternalAccessorStructure) {
+        constructor(protected route: string, protected provider: IRouterProvider, protected classAccess: Partial<InternalAccessorStructure>, protected app_provider: IAppProvider,protected stateProvider:IStateProvider) {
 
         }
         bind() {
                 let router = <ExpressRouterProxy>this.provider.provide();
-                type ExpressKey = "get"|"post"//keyof IRouterProxy;
+                type ExpressKey = "get" | "post"//keyof IRouterProxy;
                 let class_methods_of_options = this.classAccess.methods;
                 let keys = <ExpressKey[]>Object.keys(class_methods_of_options) || [];
                 for (const key of keys) {
                         let router_options: RouteOption[] = this.classAccess.methods[key];
-                        router_options.forEach(router_option => {       
-                               router[key](router_option.route_name, router_option.route_function);
+                        debugger;
+                        router_options.forEach(router_option => {
+                                debugger;
+                                router[key](router_option.route_name, router_option.route_function);
                         })
                 }
-                if (State.Ready) {
-                        App().use(this.route,router.router);
+                if (this.stateProvider.getState().Ready) {
+                        let App = this.app_provider.getApp()
+                        App.use(this.route, router.router);
                 } else {
                         Event.on("can-i:bootstrapped", () => {
-                                App().use(this.route,router.router)
+                                let App = this.app_provider.getApp();
+                                App.use(this.route, router.router)
                         })
                 }
         }
@@ -133,3 +146,42 @@ export class ExpressRouterProvider extends RouterProvider {
 
 
 
+export class RouteBindingFactory {
+        static ExpressRouteBinder(route: string, constructor: new () => BaseController) {
+                let binder = new ExpressRouteBinder(route, new ExpressRouterProvider(), Accessor(constructor), new ExpressAppProvider(),new ExpressStateProvider);
+                return binder;
+        }
+}
+
+
+
+export interface IApp {
+        use(route: string, callback: Function): any;
+}
+
+
+
+export interface IAppProvider {
+        getApp(): IApp;
+}
+export class ExpressAppProvider implements IAppProvider {
+        getApp() {
+                return App();
+        }
+}
+
+
+export interface IStateProvider{
+        getState():IState;
+}
+
+
+export interface IState{
+        Ready:boolean
+}
+
+export class ExpressStateProvider implements IStateProvider{
+        getState(){
+                return State
+        }
+}

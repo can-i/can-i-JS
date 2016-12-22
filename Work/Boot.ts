@@ -9,6 +9,8 @@ const cron = require("node-cron");
 const {CronJob} = require("cron");
 let queue: any[] = [];
 
+let cronqueue:any[]=[];
+
 let run = false;
 
 function Next() {
@@ -109,6 +111,7 @@ export function Boot() {
                     }
 
                     let _job = cron.schedule(job.options.cron, Schedule);
+                    cronqueue.push(_job);
                     // let _job = new CronJob(job.options.cron,Schedule);
                     // _job.start();
                     Logger.Job("Job started");
@@ -166,6 +169,7 @@ export function Run() {
 
 export function Stop() {
     run = false;
+    cronqueue.forEach(c=>c.stop())
 }
 
 

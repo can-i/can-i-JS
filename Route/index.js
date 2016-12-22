@@ -18,7 +18,8 @@ function Route(route) {
                 So using the access it can gain access to specific controller settings
          */
         var class_accessor = Win_1.Accessor(constructor);
-        var binder = new ExpressRouteBinder(route, new ExpressRouterProvider(), Win_1.Accessor(constructor));
+        var binder = RouteBindingFactory.ExpressRouteBinder(route, constructor);
+        // let binder = new ExpressRouteBinder(route, new ExpressRouterProvider(), Accessor(constructor));
         binder.bind();
     };
 }
@@ -65,11 +66,16 @@ var ExpressRouterProxy = (function (_super) {
     return ExpressRouterProxy;
 }(RouterProxy));
 exports.ExpressRouterProxy = ExpressRouterProxy;
+//TODO I need to find a way to not be so bounded to express;
+//I wanted express as a quick setup and not as a fully tied to framework
+//Design solution is needed here
 var ExpressRouteBinder = (function () {
-    function ExpressRouteBinder(route, provider, classAccess) {
+    function ExpressRouteBinder(route, provider, classAccess, app_provider, stateProvider) {
         this.route = route;
         this.provider = provider;
         this.classAccess = classAccess;
+        this.app_provider = app_provider;
+        this.stateProvider = stateProvider;
     }
     ExpressRouteBinder.prototype.bind = function () {
         var _this = this;
@@ -78,7 +84,9 @@ var ExpressRouteBinder = (function () {
         var keys = Object.keys(class_methods_of_options) || [];
         var _loop_1 = function (key) {
             var router_options = this_1.classAccess.methods[key];
+            debugger;
             router_options.forEach(function (router_option) {
+                debugger;
                 router[key](router_option.route_name, router_option.route_function);
             });
         };
@@ -87,12 +95,14 @@ var ExpressRouteBinder = (function () {
             var key = keys_1[_i];
             _loop_1(key);
         }
-        if (Win_1.State.Ready) {
-            Win_1.App().use(this.route, router.router);
+        if (this.stateProvider.getState().Ready) {
+            var App_1 = this.app_provider.getApp();
+            App_1.use(this.route, router.router);
         }
         else {
             Event_1.default.on("can-i:bootstrapped", function () {
-                Win_1.App().use(_this.route, router.router);
+                var App = _this.app_provider.getApp();
+                App.use(_this.route, router.router);
             });
         }
     };
@@ -116,4 +126,32 @@ var ExpressRouterProvider = (function (_super) {
     return ExpressRouterProvider;
 }(RouterProvider));
 exports.ExpressRouterProvider = ExpressRouterProvider;
+var RouteBindingFactory = (function () {
+    function RouteBindingFactory() {
+    }
+    RouteBindingFactory.ExpressRouteBinder = function (route, constructor) {
+        var binder = new ExpressRouteBinder(route, new ExpressRouterProvider(), Win_1.Accessor(constructor), new ExpressAppProvider(), new ExpressStateProvider);
+        return binder;
+    };
+    return RouteBindingFactory;
+}());
+exports.RouteBindingFactory = RouteBindingFactory;
+var ExpressAppProvider = (function () {
+    function ExpressAppProvider() {
+    }
+    ExpressAppProvider.prototype.getApp = function () {
+        return Win_1.App();
+    };
+    return ExpressAppProvider;
+}());
+exports.ExpressAppProvider = ExpressAppProvider;
+var ExpressStateProvider = (function () {
+    function ExpressStateProvider() {
+    }
+    ExpressStateProvider.prototype.getState = function () {
+        return Win_1.State;
+    };
+    return ExpressStateProvider;
+}());
+exports.ExpressStateProvider = ExpressStateProvider;
 //# sourceMappingURL=index.js.map

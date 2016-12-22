@@ -1,5 +1,5 @@
 import { Accessor,Express } from "../Win";
-export { Stack } from "./Stack";
+
 
 
 

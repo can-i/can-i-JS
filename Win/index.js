@@ -101,8 +101,10 @@ function Listen() {
     Log_1.Logger.Main("Attaching Documentation");
     app.get("/can-i/document", function (req, res, next) {
         process.nextTick(function () {
-            if (Config_1.configurationManager.feature.enabled('documentation'))
+            console.log(Config_1.configurationManager.feature.enabled("documentation"));
+            if (Config_1.configurationManager.feature.enabled('documentation')) {
                 res.send(res.locals);
+            }
             else {
                 next();
             }
