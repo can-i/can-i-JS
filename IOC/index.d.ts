@@ -4,4 +4,4 @@ export declare function Injectable(constructor: Function): void;
 export declare class Provider {
     provide(): any[];
 }
-export declare function Provides(provider: Provider): (constructor: new () => any) => void;
+export declare function Provides(provider: Provider): (constructor: new (...parameters: any[]) => any) => void;

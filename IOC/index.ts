@@ -17,7 +17,7 @@ export class Provider {
 
 export function Provides(provider: Provider) {
 
-    return function ProviderDecorator(constructor: new () => any) {
+    return function ProviderDecorator(constructor: new (...parameters:any[]) => any) {
         let access = Accessor(constructor);
         access.provider = provider;
     }
