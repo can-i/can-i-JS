@@ -79,14 +79,13 @@ var ExpressRouteBinder = (function () {
     }
     ExpressRouteBinder.prototype.bind = function () {
         var _this = this;
+        //The express router object
         var router = this.provider.provide();
         var class_methods_of_options = this.classAccess.methods;
         var keys = Object.keys(class_methods_of_options) || [];
         var _loop_1 = function (key) {
             var router_options = this_1.classAccess.methods[key];
-            debugger;
             router_options.forEach(function (router_option) {
-                debugger;
                 router[key](router_option.route_name, router_option.route_function);
             });
         };

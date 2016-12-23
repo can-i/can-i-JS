@@ -2,6 +2,7 @@ import { JobOption, JobSettings } from './../Work/index';
 import { injectWith } from './InjectWith';
 import { InternalDocumentationStructure } from './../help/InternalDocumentStructure';
 import { MiddleWareFunction } from '../MiddleWare';
+import { Provider } from './index';
 
 export interface InternalAccessorStructure {
     inject: { [key: string]: any[] }
@@ -11,6 +12,8 @@ export interface InternalAccessorStructure {
     middleware: { global?: MiddleWareFunction[], route?: { [key: string]: MiddleWareFunction[] } }
     singleton?: boolean
     injectWith: injectWith
+
+    provider:Provider
     view:{[key:string]:boolean},
     job:JobSettings[]
 }

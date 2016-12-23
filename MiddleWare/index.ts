@@ -1,3 +1,4 @@
+export * from "./Stack";
 import { Accessor,Express } from "../Win";
 
 
@@ -14,10 +15,12 @@ export function MiddleWare(func: MiddleWareFunction) {
         access.middleware = access.middleware || [];
         let store: MiddleWareFunction[];
         if (key) {
+            //Middleware on Specific routes
             access.middleware.route = access.middleware.route || {};
             store = access.middleware.route[key] = access.middleware.route[key] || [];
-            store.push(func);
+            // store.push(func);
         } else {
+            //Middleware on global Object
             store = access.middleware.global = access.middleware.global || [];
         }
         store.push(func);
@@ -25,4 +28,5 @@ export function MiddleWare(func: MiddleWareFunction) {
 
     return MiddlewareStack;
 }
+
 

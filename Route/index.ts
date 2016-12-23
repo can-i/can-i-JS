@@ -1,7 +1,7 @@
 import { RouteOption } from './RouteOption';
 import { ServiceBuilder } from './../IOC/ServiceBuilder';
 import { App, Express, Accessor, State } from './../Win';
-import { Stack } from "../MiddleWare";
+
 import { BaseController, ControllerConfig, IController } from './../LikeController';
 import Event from '../Event';
 import { RouteLog as log } from '../Utility/Log';
@@ -105,15 +105,16 @@ export class ExpressRouteBinder implements IRouteBinder {
 
         }
         bind() {
+                //The express router object
                 let router = <ExpressRouterProxy>this.provider.provide();
+
+
                 type ExpressKey = "get" | "post"//keyof IRouterProxy;
                 let class_methods_of_options = this.classAccess.methods;
                 let keys = <ExpressKey[]>Object.keys(class_methods_of_options) || [];
                 for (const key of keys) {
                         let router_options: RouteOption[] = this.classAccess.methods[key];
-                        debugger;
                         router_options.forEach(router_option => {
-                                debugger;
                                 router[key](router_option.route_name, router_option.route_function);
                         })
                 }

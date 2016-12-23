@@ -12,7 +12,14 @@ var ServiceBuilder = (function () {
         throw new Error(error);
     }
     ServiceBuilder.ConstructService = function (target) {
-        var needs = Reflect.getMetadata("design:paramtypes", target);
+        var access = Accessor_1.Accessor(target);
+        var needs;
+        if (access.provider) {
+            needs = access.provider.provide();
+        }
+        else {
+            needs = Reflect.getMetadata("design:paramtypes", target);
+        }
         if (!needs) {
             console.warn(metadata_error);
             needs = [];
