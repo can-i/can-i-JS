@@ -15,7 +15,6 @@ export class Provider {
     }
 }
 
-
 export function Provides(provider: Provider) {
 
     return function ProviderDecorator(constructor: new () => BaseController) {
