@@ -9,10 +9,8 @@ export function Injectable(constructor: Function) {
     ServiceBuilder.Injectable(s);
 }
 
-export class Provider {
-    provide(): any[] {
-        return []
-    }
+export interface Provider {
+    provide(): any[];
 }
 
 export function Provides(provider: Provider) {

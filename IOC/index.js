@@ -10,15 +10,6 @@ function Injectable(constructor) {
     ServiceBuilder_2.ServiceBuilder.Injectable(s);
 }
 exports.Injectable = Injectable;
-var Provider = (function () {
-    function Provider() {
-    }
-    Provider.prototype.provide = function () {
-        return [];
-    };
-    return Provider;
-}());
-exports.Provider = Provider;
 function Provides(provider) {
     return function ProviderDecorator(constructor) {
         var access = Accessor_1.default(constructor);
