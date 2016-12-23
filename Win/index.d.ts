@@ -12,7 +12,7 @@ export declare const State: {
  * The BootStrap function will create the server listener instance but not attach
  * it to the http listen yet. All directories are parsed for controllers and services at this point.
  */
-export declare function BootStrap(options?: Configuration | null): Express.Application;
+export declare function BootStrap(options?: Partial<Configuration> | null): Express.Application;
 /**
  * Get the Express.Application if it has been created. Otherwise it throws an error
  */

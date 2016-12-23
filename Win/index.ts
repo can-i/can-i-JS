@@ -35,7 +35,7 @@ export const State = {
  * The BootStrap function will create the server listener instance but not attach
  * it to the http listen yet. All directories are parsed for controllers and services at this point.
  */
-export function BootStrap(options?: Configuration | null): Express.Application {
+export function BootStrap(options?: Partial<Configuration> | null): Express.Application {
     //Guard against multiple Boot
     if (app) {
         Logger.AppError("Attempted boot multiple times");
