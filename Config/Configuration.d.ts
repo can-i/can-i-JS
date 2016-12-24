@@ -3,7 +3,7 @@ export interface Configuration {
     controllers: string;
     services: string;
     views: string;
-    engine: Engine;
+    engine: Partial<Engine>;
 }
 export interface Engine {
     extension: string;

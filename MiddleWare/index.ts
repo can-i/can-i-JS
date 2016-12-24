@@ -30,3 +30,4 @@ export function MiddleWare(func: MiddleWareFunction) {
 }
 
 
+export default MiddleWare;

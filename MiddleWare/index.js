@@ -23,4 +23,6 @@ function MiddleWare(func) {
     return MiddlewareStack;
 }
 exports.MiddleWare = MiddleWare;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = MiddleWare;
 //# sourceMappingURL=index.js.map
