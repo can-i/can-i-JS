@@ -2,17 +2,20 @@
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
+require("reflect-metadata");
 var Event_1 = require("./../Event");
 var Config_1 = require("./../Config");
 var consolidate = require("consolidate");
 var Boot_1 = require("../Work/Boot");
-require("reflect-metadata");
-exports.Express = require("express");
-__export(require("./Accessor"));
+var Application_1 = require("./Application");
 var _ = require("lodash");
 var glob = require("glob");
 var Path = require("path");
+exports.Express = require("express");
+__export(require("./Accessor"));
 var Log_1 = require("../Utility/Log");
+var application = Application_1.ApplicationFactory.ExpressApplication();
+var newway = true;
 var bootoptions;
 var app;
 exports.State = {
@@ -23,6 +26,9 @@ exports.State = {
  * it to the http listen yet. All directories are parsed for controllers and services at this point.
  */
 function BootStrap(options) {
+    if (newway) {
+        return application.BootStrap(options);
+    }
     //Guard against multiple Boot
     if (app) {
         Log_1.Logger.AppError("Attempted boot multiple times");
@@ -77,6 +83,8 @@ exports.BootStrap = BootStrap;
  * Get the Express.Application if it has been created. Otherwise it throws an error
  */
 exports.App = function () {
+    if (newway)
+        return application.server.App;
     if (!app) {
         var msg = "Fatal Error. Attempted to Access Application before creation";
         var error = new Error(msg);
@@ -95,6 +103,12 @@ function Listen() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
+    }
+    var port;
+    var callback;
+    port = args[0], callback = args[1];
+    if (newway) {
+        return application.Listen(port, callback);
     }
     Log_1.Logger.Main("Attaching Listener to http server");
     var app = exports.App();
@@ -123,6 +137,12 @@ function OnReady() {
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
+    if (newway) {
+        args.forEach(function (cb) {
+            application.onReady(cb);
+        });
+        return void 0;
+    }
     args.forEach(function (callback) {
         if (exports.State.Ready) {
             callback();
@@ -138,15 +158,14 @@ exports.OnReady = OnReady;
  *
  */
 function Close() {
-    GetServer().close();
-    return this;
+    application.Close();
 }
 exports.Close = Close;
 /**
  * Gets the instance of the server that is running
  */
 function GetServer() {
-    return server;
+    return application.server.httpServer;
 }
 exports.GetServer = GetServer;
 //# sourceMappingURL=index.js.map

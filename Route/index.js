@@ -6,8 +6,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Win_1 = require("./../Win");
 var LikeController_1 = require("./../LikeController");
-var Event_1 = require("../Event");
 var Log_1 = require("../Utility/Log");
+var index_1 = require("../Win/index");
 function Route(route) {
     if (route === void 0) { route = "/"; }
     Log_1.RouteLog.info("new route: " + route);
@@ -94,16 +94,10 @@ var ExpressRouteBinder = (function () {
             var key = keys_1[_i];
             _loop_1(key);
         }
-        if (this.stateProvider.getState().Ready) {
-            var App_1 = this.app_provider.getApp();
-            App_1.use(this.route, router.router);
-        }
-        else {
-            Event_1.default.on("can-i:bootstrapped", function () {
-                var App = _this.app_provider.getApp();
-                App.use(_this.route, router.router);
-            });
-        }
+        index_1.OnReady(function () {
+            var App = _this.app_provider.getApp();
+            App.use(_this.route, router.router);
+        });
     };
     return ExpressRouteBinder;
 }());

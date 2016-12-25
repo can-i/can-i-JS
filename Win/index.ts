@@ -1,27 +1,27 @@
+import "reflect-metadata";
 import { Event } from './../Event';
 import { Configuration, Engine } from './../Config/Configuration';
 import { configurationManager } from './../Config';
 const consolidate = require("consolidate");
 import { Boot } from "../Work/Boot";
-
-
-import "reflect-metadata";
-
-export import Express = require("express");
-
-export * from "./Accessor";
-
-let application = ApplicationFactory.ExpressApplication()
-
+import { ApplicationFactory, ExpressServer } from './Application';
 
 const _ = require("lodash");
 import glob = require("glob");
 import Path = require("path");
 import { Server } from 'http';
 
+export import Express = require("express");
+export * from "./Accessor";
 import { MiddleWareFunction } from "../MiddleWare";
 import { Logger } from '../Utility/Log';
-import { ApplicationFactory, ExpressServer } from './Application';
+
+
+
+let application = ApplicationFactory.ExpressApplication()
+
+
+
 
 let newway = true;
 

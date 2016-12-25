@@ -146,6 +146,7 @@ var ExpressBootStrapInterpreter = (function () {
             return __generator(this, function (_a) {
                 //#region Base Default options
                 if (config !== null) {
+                    config = config || {};
                     config.engine = config.engine || {};
                     app = this.serverProvider.provide();
                     controllers = Path.join(process.cwd(), "controllers");
@@ -255,7 +256,8 @@ var ExpressBasedApplication = (function () {
         this.server = this.serverProvider.provide();
     }
     ExpressBasedApplication.prototype.BootStrap = function (config) {
-        this.interpreter.parse(config);
+        if (config !== null)
+            this.interpreter.parse(config);
     };
     ExpressBasedApplication.prototype.Listen = function (port, callback) {
         var _this = this;

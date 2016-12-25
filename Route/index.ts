@@ -6,6 +6,7 @@ import { BaseController, ControllerConfig, IController } from './../LikeControll
 import Event from '../Event';
 import { RouteLog as log } from '../Utility/Log';
 import { InternalAccessorStructure } from '../IOC/InternalAccessorStructure';
+import { OnReady } from '../Win/index';
 
 
 
@@ -118,15 +119,11 @@ export class ExpressRouteBinder implements IRouteBinder {
                                 router[key](router_option.route_name, router_option.route_function);
                         })
                 }
-                if (this.stateProvider.getState().Ready) {
+
+                OnReady(()=>{
                         let App = this.app_provider.getApp()
                         App.use(this.route, router.router);
-                } else {
-                        Event.on("can-i:bootstrapped", () => {
-                                let App = this.app_provider.getApp();
-                                App.use(this.route, router.router)
-                        })
-                }
+                })
         }
 }
 /**
