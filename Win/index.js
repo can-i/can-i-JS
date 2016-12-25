@@ -108,22 +108,24 @@ function Listen() {
     var callback;
     port = args[0], callback = args[1];
     if (newway) {
+        OnReady(function () {
+            exports.App().get("/can-i/document", function (req, res, next) {
+                process.nextTick(function () {
+                    console.log(Config_1.configurationManager.feature.enabled("documentation"));
+                    if (Config_1.configurationManager.feature.enabled('documentation')) {
+                        res.send(res.locals);
+                    }
+                    else {
+                        next();
+                    }
+                });
+            });
+        });
         return application.Listen(port, callback);
     }
     Log_1.Logger.Main("Attaching Listener to http server");
     var app = exports.App();
     Log_1.Logger.Main("Attaching Documentation");
-    app.get("/can-i/document", function (req, res, next) {
-        process.nextTick(function () {
-            console.log(Config_1.configurationManager.feature.enabled("documentation"));
-            if (Config_1.configurationManager.feature.enabled('documentation')) {
-                res.send(res.locals);
-            }
-            else {
-                next();
-            }
-        });
-    });
     server = app.listen.apply(app, args);
     Log_1.Logger.Main("Starting Job Engine");
     Boot_1.Boot();

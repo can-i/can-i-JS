@@ -139,12 +139,26 @@ let server: Server;
  */
 export function Listen(...args: any[]) {
 
-    let port:number;
-    let callback:Function;
-    [port,callback] = args;
+    let port: number;
+    let callback: Function;
+    [port, callback] = args;
 
-    if(newway){
-        return application.Listen(port,callback);
+    if (newway) {
+        OnReady(function () {
+            App().get("/can-i/document", function (req: any, res: any, next: any) {
+                process.nextTick(() => {
+                    console.log(configurationManager.feature.enabled("documentation"))
+                    if (configurationManager.feature.enabled('documentation')) {
+                        res.send(res.locals);
+                    }
+                    else {
+                        next();
+                    }
+                });
+            })
+
+        })
+        return application.Listen(port, callback);
     }
 
 
@@ -154,17 +168,6 @@ export function Listen(...args: any[]) {
 
     Logger.Main("Attaching Documentation");
 
-    app.get("/can-i/document", function (req: any, res: any, next: any) {
-        process.nextTick(() => {
-            console.log(configurationManager.feature.enabled("documentation"))
-            if (configurationManager.feature.enabled('documentation')) {
-                res.send(res.locals);
-            }
-            else {
-                next();
-            }
-        });
-    })
     server = app.listen.apply(app, args);
     Logger.Main("Starting Job Engine")
     Boot();
@@ -174,11 +177,11 @@ export function Listen(...args: any[]) {
  * Use to make sure the application is in a safe state after bootstrap is called
  */
 export function OnReady(...args: Function[]) {
-    if(newway){
-        args.forEach(cb=>{
+    if (newway) {
+        args.forEach(cb => {
             application.onReady(cb);
         })
-        return void 0;   
+        return void 0;
     }
 
     args.forEach(callback => {
