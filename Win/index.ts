@@ -11,6 +11,7 @@ export import Express = require("express");
 
 export * from "./Accessor";
 
+let application = ApplicationFactory.ExpressApplication()
 
 
 const _ = require("lodash");
@@ -20,7 +21,9 @@ import { Server } from 'http';
 
 import { MiddleWareFunction } from "../MiddleWare";
 import { Logger } from '../Utility/Log';
+import { ApplicationFactory, ExpressServer } from './Application';
 
+let newway = true;
 
 
 
@@ -35,7 +38,11 @@ export const State = {
  * The BootStrap function will create the server listener instance but not attach
  * it to the http listen yet. All directories are parsed for controllers and services at this point.
  */
-export function BootStrap(options?: Partial<Configuration> | null): Express.Application {
+export function BootStrap(options?: Partial<Configuration> | null) {
+
+    if (newway) {
+        return application.BootStrap(options);
+    }
     //Guard against multiple Boot
     if (app) {
         Logger.AppError("Attempted boot multiple times");
@@ -110,6 +117,9 @@ export function BootStrap(options?: Partial<Configuration> | null): Express.Appl
  * Get the Express.Application if it has been created. Otherwise it throws an error
  */
 export const App = function () {
+    if (newway)
+        return (<ExpressServer>application.server).App
+
     if (!app) {
         let msg = "Fatal Error. Attempted to Access Application before creation";
         let error = new Error(msg);
@@ -128,6 +138,15 @@ let server: Server;
  * Clients can now start making request to the server.
  */
 export function Listen(...args: any[]) {
+
+    let port:number;
+    let callback:Function;
+    [port,callback] = args;
+
+    if(newway){
+        return application.Listen(port,callback);
+    }
+
 
     Logger.Main("Attaching Listener to http server")
 
@@ -155,6 +174,13 @@ export function Listen(...args: any[]) {
  * Use to make sure the application is in a safe state after bootstrap is called
  */
 export function OnReady(...args: Function[]) {
+    if(newway){
+        args.forEach(cb=>{
+            application.onReady(cb);
+        })
+        return void 0;   
+    }
+
     args.forEach(callback => {
         if (State.Ready) {
             callback();
@@ -169,8 +195,7 @@ export function OnReady(...args: Function[]) {
  * 
  */
 export function Close() {
-    GetServer().close();
-    return this;
+    application.Close();
 }
 
 
@@ -178,7 +203,7 @@ export function Close() {
  * Gets the instance of the server that is running
  */
 export function GetServer() {
-    return server;
+    return (<ExpressServer>application.server).httpServer
 }
 
 

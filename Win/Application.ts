@@ -16,9 +16,7 @@ export interface IServer {
     disable(feature: string): void;
     enabled(feature: string): boolean;
     disabled(feature: string): boolean;
-
     close(): void;
-
 }
 
 
@@ -26,7 +24,7 @@ export class ExpressServer implements IServer {
 
 
     private static _app: Express.Application;
-    private httpServer: http.Server;
+    httpServer: http.Server;
     get App() {
         return ExpressServer._app || (ExpressServer._app = Express());
     }
@@ -132,7 +130,7 @@ export class ExpressFeatureLoader extends AbstractFeatureLoader {
 //#region BootStrap
 
 export interface IBootStrapInterpreter {
-    parse(config: Partial<Configuration>): void;
+    parse(config?: Partial<Configuration>): void;
 }
 
 
@@ -140,10 +138,10 @@ export class ExpressBootStrapInterpreter implements IBootStrapInterpreter {
     constructor(protected serverProvider: IServerProvider, protected featureLoader: IFeatureLoader) {
 
     }
-    async parse(config: Partial<Configuration>) {
+    async parse(config?: Partial<Configuration>) {
         //#region Base Default options
         if (config !== null) {
-
+            config =  config ||{};
             config.engine = config.engine || {};
             //#endregion
 
@@ -232,7 +230,8 @@ export class ExpressBasedApplication {
     }
 
 
-    BootStrap(config: Partial<Configuration>) {
+    BootStrap(config?: Partial<Configuration>|null) {
+        if(config!==null)
         this.interpreter.parse(config);
     }
 
