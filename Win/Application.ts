@@ -8,6 +8,11 @@ import * as Path from 'path';
 import * as glob from "glob";
 import * as http from "http";
 import Boot from '../Work/Boot';
+import { AppLog } from '../Utility/Log';
+import { Applog } from '../../ubungo/log/SimpleLog';
+import { Ready, IReady } from './Ready';
+import { Constant } from './Constant';
+
 
 //#region Servers
 export interface IServer {
@@ -20,22 +25,29 @@ export interface IServer {
 }
 
 
+
+let key = "__GLOBAL__UBUNGO__SERVER_INSTANCE";
+
+
+
 export class ExpressServer implements IServer {
 
 
     private static _app: Express.Application;
     httpServer: http.Server;
-    get App() {
-        return ExpressServer._app || (ExpressServer._app = Express());
+    get App():Express.Application {
+        return Constant.set("EXPRESS",Express());
     }
     Listen(port: number, callback: Function) {
-        this.httpServer = this.App.listen(port, callback);
+        return this.httpServer = Constant.set("__GLOBAL_EXPRESS_SERVER_LISTEN", this.App.listen(port, callback));
     }
 
     enable(feature: string): void {
+        AppLog.info(`enabling ${feature}`)
         this.App.enable(feature);
     }
     disable(feature: string): void {
+        AppLog.info(`disabling ${feature}`)
         this.App.disable(feature);
     }
     enabled(feature: string) {
@@ -86,7 +98,7 @@ export abstract class AbstractFeatureLoader implements IFeatureLoader {
     }
 
     get App() {
-        return this.serverProvider.provide();
+        return Constant.set("SERVER_PROVIDER_FEATURE_KEY",this.serverProvider.provide());
     }
     abstract load(config: Configuration): void;
 
@@ -138,10 +150,10 @@ export class ExpressBootStrapInterpreter implements IBootStrapInterpreter {
     constructor(protected serverProvider: IServerProvider, protected featureLoader: IFeatureLoader) {
 
     }
-    async parse(config?: Partial<Configuration>) {
+    parse(config?: Partial<Configuration>) {
         //#region Base Default options
         if (config !== null) {
-            config =  config ||{};
+            config = config || {};
             config.engine = config.engine || {};
             //#endregion
 
@@ -154,13 +166,16 @@ export class ExpressBootStrapInterpreter implements IBootStrapInterpreter {
             let engine = {
                 extension: "html",
                 engineName: "vash",
-                engineConfig: null
+                engineConfig: <any>null
             }
             let default_config = { controllers, services, views, engine }
 
             config.engine = { ...default_config.engine, ...config.engine };
             config = { ...default_config, ...config };
 
+            this.loadControllers(config);
+            this.loadServices(config);
+            this.loadFeatures(config);
 
         } else {
 
@@ -169,96 +184,89 @@ export class ExpressBootStrapInterpreter implements IBootStrapInterpreter {
     }
 
 
-    async loadControllers(config: Configuration) {
-        await this.loadFolder(config.controllers)
+    loadControllers(config: Partial<Configuration>) {
+        this.loadFolder(config.controllers)
     }
-    async loadServices(config: Configuration) {
-        await this.loadFolder(config.services);
-    }
-
-    async loadFeatures(config: Configuration) {
-
+    loadServices(config: Partial<Configuration>) {
+        this.loadFolder(config.services);
     }
 
+    loadFeatures(config: Partial<Configuration>) {
 
-    async loadFolder(folder: string) {
-        let files = await this.getFolderFiles(folder);
-        files.forEach(require);
     }
 
 
-    protected async getFolderFiles(folder: string) {
-        return Promise.resolve((async () => {
-            let resolve: any;
-            let reject: any;
-            let folders: string[] = [];
+    loadFolder(folder?: string) {
+        if (folder) {
+            let files = this.getFolderFiles(folder);
+            files.forEach(require);
+        }
+    }
 
 
-            glob(`${folder}/**/*.js`, (err, files) => {
-                folders = files;
-                resolve();
-            })
-            await new Promise((r, rj) => {
-                resolve = r;
-                reject = rj;
-            })
-
-            return folders;
-        })())
+    protected getFolderFiles(folder: string) {
+        let resolve: any;
+        let reject: any;
+        let folders: string[] = [];
+        folders = glob.sync(`${folder}/**/*.js`)
+        return folders;
     }
 }
 
 //#endregion
 
-
-
+const SERVER_INSTANCE_KEY="GLOBAL_SERVER_INSTANCE_KEY";
+const SERVER_PROVIDER_PROVIDE_KEY="SERVER_PROVIDER_PROVIDE_KEY";
 export class ExpressBasedApplication {
     server: IServer;
-    ready: Promise<any>
-    private resolve: any;
 
-    private server_instance: http.Server
-    constructor(protected serverProvider: IServerProvider, protected interpreter: IBootStrapInterpreter) {
+    server_instance:http.Server;
+
+
+    constructor(protected serverProvider: IServerProvider, protected interpreter: IBootStrapInterpreter, protected readyProvider: IReady) {
         //#region Setup
-        this.ready = new Promise((r, rj) => {
-            this.resolve = r;
-        })
+        AppLog.info("ExpressBased Application Created")
+
         //#endregion
-
-
-        this.server = this.serverProvider.provide();
+        this.server = Constant.set(SERVER_PROVIDER_PROVIDE_KEY,this.serverProvider.provide());
     }
 
 
-    BootStrap(config?: Partial<Configuration>|null) {
-        if(config!==null)
-        this.interpreter.parse(config);
+    BootStrap(config?: Partial<Configuration> | null) {
+        if (config !== null)
+            this.interpreter.parse(config);
+        this.readyProvider.Ready();
     }
+
+
 
     Listen(port: number, callback: Function) {
-        let server_instance = this.server.Listen(port, () => {
-            callback();
-            Boot();
-            this.resolve();
-        })
+        try {
+            var server_instance = this.server.Listen(port, () => {
+                Applog.info(`Application Listening started`);
+                callback();
+                Boot();
+                this.readyProvider.Ready();
+            })
 
-        this.server_instance = server_instance;
+        } catch (e) {
+        }
+        return this.server_instance = Constant.set("__GLOBAL_APPLICATION_LISTEN", server_instance);
     }
 
 
     async Close() {
-        await this.ready;
         this.server.close();
     }
 
 
-    async onReady(callback: Function) {
-        await this.ready;
-        callback()
+    onReady(callback: Function) {
+        this.readyProvider.OnReady(function () {
+            callback();
+        });
     }
 
 }
-
 
 
 
@@ -269,7 +277,8 @@ export class ApplicationFactory {
         let serverProvider = new ExpressServerProvider()
         let featureLoader = new ExpressFeatureLoader(serverProvider);
         let bootstrapInterpreter = new ExpressBootStrapInterpreter(serverProvider, featureLoader);
-        return new ExpressBasedApplication(serverProvider, bootstrapInterpreter);
+        let ReadyProvider = new Ready();
+        return new ExpressBasedApplication(serverProvider, bootstrapInterpreter, ReadyProvider);
     }
 }
 

@@ -86,6 +86,7 @@ var ExpressRouteBinder = (function () {
         var _loop_1 = function (key) {
             var router_options = this_1.classAccess.methods[key];
             router_options.forEach(function (router_option) {
+                Log_1.RouteLog.info("" + _this.route + router_option.route_name + " created");
                 router[key](router_option.route_name, router_option.route_function);
             });
         };

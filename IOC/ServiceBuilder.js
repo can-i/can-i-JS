@@ -39,7 +39,6 @@ var ServiceBuilder = (function () {
     };
     ServiceBuilder.BuildService = function (target) {
         if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
-            // throw new Error(`class ${target.name} is not injectable`)
             return target;
         }
         if (ServiceBuilder.isSingletonConstruct(target)) {

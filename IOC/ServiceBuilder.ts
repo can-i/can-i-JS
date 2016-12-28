@@ -70,7 +70,6 @@ export class ServiceBuilder {
     static BuildService<T>(target: new (...args: any[]) => T):T{
         
         if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
-            // throw new Error(`class ${target.name} is not injectable`)
             return <T><any>target;
         }
 

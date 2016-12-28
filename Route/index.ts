@@ -116,6 +116,7 @@ export class ExpressRouteBinder implements IRouteBinder {
                 for (const key of keys) {
                         let router_options: RouteOption[] = this.classAccess.methods[key];
                         router_options.forEach(router_option => {
+                                log.info(`${this.route}${router_option.route_name} created`);
                                 router[key](router_option.route_name, router_option.route_function);
                         })
                 }

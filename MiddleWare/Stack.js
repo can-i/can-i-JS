@@ -1,5 +1,5 @@
-//This is useful for stacking up middleware functions to place on your routes
 "use strict";
+var Log_1 = require("../Utility/Log");
 function Stack() {
     var middleware = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -23,5 +23,4 @@ function Stack() {
 exports.Stack = Stack;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Stack;
-var Log_1 = require("../Utility/Log");
 //# sourceMappingURL=Stack.js.map

@@ -5,7 +5,7 @@ export declare class ServiceBuilder {
     static ConstructService(target: new (...args: any[]) => any): any;
     static ConstructSingleton(target: new (...args: any[]) => any): any;
     static BuildService<T>(target: new (...args: any[]) => T): T;
-    static isIOCCLASS(target: any): boolean;
+    static isIOCCLASS(target: any): any;
     static isManual(target: any): void;
     static isSingletonConstruct(target: new (...args: any[]) => any): boolean | undefined;
     static getServiceMethodNeeds(target: Object, key: string): any[];

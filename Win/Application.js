@@ -52,23 +52,30 @@ var Express = require("express");
 var Path = require("path");
 var glob = require("glob");
 var Boot_1 = require("../Work/Boot");
+var Log_1 = require("../Utility/Log");
+var SimpleLog_1 = require("../../ubungo/log/SimpleLog");
+var Ready_1 = require("./Ready");
+var Constant_1 = require("./Constant");
+var key = "__GLOBAL__UBUNGO__SERVER_INSTANCE";
 var ExpressServer = (function () {
     function ExpressServer() {
     }
     Object.defineProperty(ExpressServer.prototype, "App", {
         get: function () {
-            return ExpressServer._app || (ExpressServer._app = Express());
+            return Constant_1.Constant.set("EXPRESS", Express());
         },
         enumerable: true,
         configurable: true
     });
     ExpressServer.prototype.Listen = function (port, callback) {
-        this.httpServer = this.App.listen(port, callback);
+        return this.httpServer = Constant_1.Constant.set("__GLOBAL_EXPRESS_SERVER_LISTEN", this.App.listen(port, callback));
     };
     ExpressServer.prototype.enable = function (feature) {
+        Log_1.AppLog.info("enabling " + feature);
         this.App.enable(feature);
     };
     ExpressServer.prototype.disable = function (feature) {
+        Log_1.AppLog.info("disabling " + feature);
         this.App.disable(feature);
     };
     ExpressServer.prototype.enabled = function (feature) {
@@ -97,7 +104,7 @@ var AbstractFeatureLoader = (function () {
     }
     Object.defineProperty(AbstractFeatureLoader.prototype, "App", {
         get: function () {
-            return this.serverProvider.provide();
+            return Constant_1.Constant.set("SERVER_PROVIDER_FEATURE_KEY", this.serverProvider.provide());
         },
         enumerable: true,
         configurable: true
@@ -141,157 +148,97 @@ var ExpressBootStrapInterpreter = (function () {
         this.featureLoader = featureLoader;
     }
     ExpressBootStrapInterpreter.prototype.parse = function (config) {
-        return __awaiter(this, void 0, void 0, function () {
-            var app, controllers, services, views, engine, default_config;
-            return __generator(this, function (_a) {
-                //#region Base Default options
-                if (config !== null) {
-                    config = config || {};
-                    config.engine = config.engine || {};
-                    app = this.serverProvider.provide();
-                    controllers = Path.join(process.cwd(), "controllers");
-                    services = Path.join(process.cwd(), "services");
-                    views = Path.join(process.cwd(), "views");
-                    engine = {
-                        extension: "html",
-                        engineName: "vash",
-                        engineConfig: null
-                    };
-                    default_config = { controllers: controllers, services: services, views: views, engine: engine };
-                    config.engine = __assign({}, default_config.engine, config.engine);
-                    config = __assign({}, default_config, config);
-                }
-                else {
-                }
-                return [2 /*return*/];
-            });
-        });
+        //#region Base Default options
+        if (config !== null) {
+            config = config || {};
+            config.engine = config.engine || {};
+            //#endregion
+            var app = this.serverProvider.provide();
+            var controllers = Path.join(process.cwd(), "controllers");
+            var services = Path.join(process.cwd(), "services");
+            var views = Path.join(process.cwd(), "views");
+            var engine = {
+                extension: "html",
+                engineName: "vash",
+                engineConfig: null
+            };
+            var default_config = { controllers: controllers, services: services, views: views, engine: engine };
+            config.engine = __assign({}, default_config.engine, config.engine);
+            config = __assign({}, default_config, config);
+            this.loadControllers(config);
+            this.loadServices(config);
+            this.loadFeatures(config);
+        }
+        else {
+        }
     };
     ExpressBootStrapInterpreter.prototype.loadControllers = function (config) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.loadFolder(config.controllers)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
+        this.loadFolder(config.controllers);
     };
     ExpressBootStrapInterpreter.prototype.loadServices = function (config) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.loadFolder(config.services)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
+        this.loadFolder(config.services);
     };
     ExpressBootStrapInterpreter.prototype.loadFeatures = function (config) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
     };
     ExpressBootStrapInterpreter.prototype.loadFolder = function (folder) {
-        return __awaiter(this, void 0, void 0, function () {
-            var files;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getFolderFiles(folder)];
-                    case 1:
-                        files = _a.sent();
-                        files.forEach(require);
-                        return [2 /*return*/];
-                }
-            });
-        });
+        if (folder) {
+            var files = this.getFolderFiles(folder);
+            files.forEach(require);
+        }
     };
     ExpressBootStrapInterpreter.prototype.getFolderFiles = function (folder) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, Promise.resolve((function () { return __awaiter(_this, void 0, void 0, function () {
-                        var resolve, reject, folders;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    folders = [];
-                                    glob(folder + "/**/*.js", function (err, files) {
-                                        folders = files;
-                                        resolve();
-                                    });
-                                    return [4 /*yield*/, new Promise(function (r, rj) {
-                                            resolve = r;
-                                            reject = rj;
-                                        })];
-                                case 1:
-                                    _a.sent();
-                                    return [2 /*return*/, folders];
-                            }
-                        });
-                    }); })())];
-            });
-        });
+        var resolve;
+        var reject;
+        var folders = [];
+        folders = glob.sync(folder + "/**/*.js");
+        return folders;
     };
     return ExpressBootStrapInterpreter;
 }());
 exports.ExpressBootStrapInterpreter = ExpressBootStrapInterpreter;
 //#endregion
+var SERVER_INSTANCE_KEY = "GLOBAL_SERVER_INSTANCE_KEY";
+var SERVER_PROVIDER_PROVIDE_KEY = "SERVER_PROVIDER_PROVIDE_KEY";
 var ExpressBasedApplication = (function () {
-    function ExpressBasedApplication(serverProvider, interpreter) {
-        var _this = this;
+    function ExpressBasedApplication(serverProvider, interpreter, readyProvider) {
         this.serverProvider = serverProvider;
         this.interpreter = interpreter;
+        this.readyProvider = readyProvider;
         //#region Setup
-        this.ready = new Promise(function (r, rj) {
-            _this.resolve = r;
-        });
+        Log_1.AppLog.info("ExpressBased Application Created");
         //#endregion
-        this.server = this.serverProvider.provide();
+        this.server = Constant_1.Constant.set(SERVER_PROVIDER_PROVIDE_KEY, this.serverProvider.provide());
     }
     ExpressBasedApplication.prototype.BootStrap = function (config) {
         if (config !== null)
             this.interpreter.parse(config);
+        this.readyProvider.Ready();
     };
     ExpressBasedApplication.prototype.Listen = function (port, callback) {
         var _this = this;
-        var server_instance = this.server.Listen(port, function () {
-            callback();
-            Boot_1.default();
-            _this.resolve();
-        });
-        this.server_instance = server_instance;
+        try {
+            var server_instance = this.server.Listen(port, function () {
+                SimpleLog_1.Applog.info("Application Listening started");
+                callback();
+                Boot_1.default();
+                _this.readyProvider.Ready();
+            });
+        }
+        catch (e) {
+        }
+        return this.server_instance = Constant_1.Constant.set("__GLOBAL_APPLICATION_LISTEN", server_instance);
     };
     ExpressBasedApplication.prototype.Close = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.ready];
-                    case 1:
-                        _a.sent();
-                        this.server.close();
-                        return [2 /*return*/];
-                }
+                this.server.close();
+                return [2 /*return*/];
             });
         });
     };
     ExpressBasedApplication.prototype.onReady = function (callback) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.ready];
-                    case 1:
-                        _a.sent();
-                        callback();
-                        return [2 /*return*/];
-                }
-            });
+        this.readyProvider.OnReady(function () {
+            callback();
         });
     };
     return ExpressBasedApplication;
@@ -305,7 +252,8 @@ var ApplicationFactory = (function () {
         var serverProvider = new ExpressServerProvider();
         var featureLoader = new ExpressFeatureLoader(serverProvider);
         var bootstrapInterpreter = new ExpressBootStrapInterpreter(serverProvider, featureLoader);
-        return new ExpressBasedApplication(serverProvider, bootstrapInterpreter);
+        var ReadyProvider = new Ready_1.Ready();
+        return new ExpressBasedApplication(serverProvider, bootstrapInterpreter, ReadyProvider);
     };
     return ApplicationFactory;
 }());

@@ -4,9 +4,10 @@ import {Singleton} from "../IOC/Singleton";
 import { AppGetter } from './AppGetter';
 import { AppLog } from '../Utility/Log';
 import { App } from '../Win/index';
+import { Constant } from '../Win/Constant';
 
 
-const get_set_box:{[key:string]:any} = {};
+const get_set_box:{[key:string]:any} = Constant.set("GLOBAL_KEY_GET_SET_BOX",{});
 
 
 export class Feature extends AppGetter {

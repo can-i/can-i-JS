@@ -16,7 +16,7 @@ function Next() {
     var task = queue.shift();
     if (task) {
         Log_1.Logger.Job({ 'Job Count': queue.length }, "Performing next job");
-        setTimeout(task);
+        setTimeout(task, 0);
     }
 }
 function Boot() {

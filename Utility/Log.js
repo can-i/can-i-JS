@@ -3,7 +3,7 @@ var bunyan = require("bunyan");
 var os = require("os");
 var Path = require("path");
 var limberjack_1 = require("limberjack");
-exports.AppLog = new limberjack_1.default("Application", {
+exports.AppLog = limberjack_1.default("Application", {
     file: ".can-i/log.log",
     tags: ["app"]
 });
@@ -11,7 +11,9 @@ var StartLog = exports.AppLog.extend("Start", {
     tags: ["start"]
 });
 StartLog.info("*************START*************");
-exports.RouteLog = exports.AppLog.extend("route");
+exports.RouteLog = exports.AppLog.extend("route", {
+    tags: ["route"]
+});
 var mkdir = require('mkdirp');
 function get_path(logtype) {
     if (logtype === void 0) { logtype = ''; }

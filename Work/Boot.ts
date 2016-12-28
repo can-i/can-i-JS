@@ -21,7 +21,7 @@ function Next() {
     let task = queue.shift();
     if (task) {
         Logger.Job({ 'Job Count': queue.length }, `Performing next job`)
-        setTimeout(task);
+        setTimeout(task,0);
     }
 }
 

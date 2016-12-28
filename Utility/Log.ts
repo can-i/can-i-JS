@@ -3,8 +3,9 @@ import * as os from "os";
 import * as fs from 'fs';
 import * as Path from "path";
 import LimberJack from 'limberjack';
+import {ILimberJack} from "limberjack/lib/limberjack"
 
-export const AppLog = new LimberJack("Application",{
+export const AppLog = LimberJack("Application",{
     file:".can-i/log.log",
     tags:["app"]
 })
@@ -18,7 +19,9 @@ const StartLog = AppLog.extend("Start",{
 StartLog.info("*************START*************");
 
 
-export const RouteLog = AppLog.extend("route");
+export const RouteLog = AppLog.extend("route",{
+    tags:["route"]
+});
 
 
 

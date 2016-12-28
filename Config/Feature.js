@@ -7,7 +7,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Event_1 = require("./../Event");
 var AppGetter_1 = require("./AppGetter");
 var Log_1 = require("../Utility/Log");
-var get_set_box = {};
+var Constant_1 = require("../Win/Constant");
+var get_set_box = Constant_1.Constant.set("GLOBAL_KEY_GET_SET_BOX", {});
 var Feature = (function (_super) {
     __extends(Feature, _super);
     function Feature(enablerdisabler) {
