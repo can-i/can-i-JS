@@ -4,7 +4,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
@@ -171,8 +171,7 @@ function ExtendRequest(route, type) {
                                 _b.trys.push([0, 10, , 11]);
                                 constructor_1 = target.constructor;
                                 access_1 = Accessor_1.Accessor(constructor_1);
-                                if (!(access_1.middleware && access_1.middleware.global && access_1.middleware.global.length))
-                                    return [3 /*break*/, 2];
+                                if (!(access_1.middleware && access_1.middleware.global && access_1.middleware.global.length)) return [3 /*break*/, 2];
                                 middleware_1 = Stack_1.Stack.apply(this, access_1.middleware.global);
                                 //TODO why the reject
                                 return [4 /*yield*/, new Promise(function (reject, resolve) {
@@ -206,8 +205,7 @@ function ExtendRequest(route, type) {
                             case 3:
                                 //Allow Async for init function
                                 _b.sent();
-                                if (!(access_1.middleware && access_1.middleware.route && access_1.middleware.route[key] && access_1.middleware.route[key].length))
-                                    return [3 /*break*/, 5];
+                                if (!(access_1.middleware && access_1.middleware.route && access_1.middleware.route[key] && access_1.middleware.route[key].length)) return [3 /*break*/, 5];
                                 middleware_2 = Stack_1.Stack.apply(this, access_1.middleware.route[key]);
                                 return [4 /*yield*/, new Promise(function (resolve, reject) {
                                         middleware_2(req, res, function (response) {

@@ -60,7 +60,7 @@ exports.Feature = Feature;
 var ExpressSettingsEnableDisable = (function (_super) {
     __extends(ExpressSettingsEnableDisable, _super);
     function ExpressSettingsEnableDisable() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     ExpressSettingsEnableDisable.prototype.enable = function (settings) {
         this.app.enable(settings);
@@ -80,7 +80,7 @@ exports.ExpressSettingsEnableDisable = ExpressSettingsEnableDisable;
 var ExpressSettingsEnableDisableLogger = (function (_super) {
     __extends(ExpressSettingsEnableDisableLogger, _super);
     function ExpressSettingsEnableDisableLogger() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     ExpressSettingsEnableDisableLogger.prototype.enable = function (settings) {
         console.log("enabling " + settings);

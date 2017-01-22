@@ -15,7 +15,7 @@ exports.Controller = Controller;
 var ControllerConfig = (function (_super) {
     __extends(ControllerConfig, _super);
     function ControllerConfig() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     ControllerConfig.prototype.set_up_controller = function (controller, req, res, next) {
         var c = controller;

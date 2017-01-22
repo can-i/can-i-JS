@@ -1,5 +1,6 @@
 /// <reference types="node" />
 /// <reference types="express" />
+/// <reference types="core-js" />
 import "reflect-metadata";
 import * as Express from 'express';
 import { Configuration } from '../Config/Configuration';
@@ -72,7 +73,7 @@ export declare class ExpressBasedApplication {
     constructor(serverProvider: IServerProvider, interpreter: IBootStrapInterpreter, readyProvider: IReady);
     BootStrap(config?: Partial<Configuration> | null): void;
     Listen(port: number, callback: Function): any;
-    Close(): any;
+    Close(): Promise<void>;
     onReady(callback: Function): void;
 }
 export declare class ApplicationFactory {

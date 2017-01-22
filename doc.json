@@ -14,7 +14,8 @@
   },
   "exclude": [
     "node_modules",
-    "test_legacy"
+    "test_legacy",
+    "test"
   ],
   "files": [
     "C:/Users/shavauhng/Documents/dev/can-i-JS/Config/AppGetter.ts",

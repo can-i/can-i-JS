@@ -45,7 +45,7 @@ exports.RouterProxy = RouterProxy;
 var ExpressRouterProxy = (function (_super) {
     __extends(ExpressRouterProxy, _super);
     function ExpressRouterProxy() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     ExpressRouterProxy.prototype.get = function (url, action) {
         this.router.get(url, action);
@@ -112,7 +112,7 @@ exports.RouterProvider = RouterProvider;
 var ExpressRouterProvider = (function (_super) {
     __extends(ExpressRouterProvider, _super);
     function ExpressRouterProvider() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     ExpressRouterProvider.prototype.provide = function () {
         return new ExpressRouterProxy(this);
