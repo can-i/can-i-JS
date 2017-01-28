@@ -11,7 +11,9 @@ import { OnReady } from '../Win/index';
 
 
 
-
+/**
+ * The Route decorator allows a user to configure the route for a controller.
+ */
 export function Route(route: string = "/") {
 
 

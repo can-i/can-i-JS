@@ -6,12 +6,23 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Win_1 = require("../Win");
 var Config_1 = require("./../Config");
+/**
+ * The Controller is the lowest form of the Controller classes.
+ * This is used to give the default properties that every
+ * controller expects to have.
+ * The req,res and next variables
+ */
 var Controller = (function () {
     function Controller() {
     }
     return Controller;
 }());
 exports.Controller = Controller;
+/**
+ * This class is used internally to help with the instanciation of
+ * a new controller. It allows the protected fields.
+ * req,res and next to be set.
+ */
 var ControllerConfig = (function (_super) {
     __extends(ControllerConfig, _super);
     function ControllerConfig() {
@@ -26,6 +37,12 @@ var ControllerConfig = (function (_super) {
     return ControllerConfig;
 }(Controller));
 exports.ControllerConfig = ControllerConfig;
+/**
+ * The BaseController is the controller that users will use in order
+ * to extend and create there own controllers.
+ *
+ * It provides access to basic things that a user might find useful.
+ */
 var BaseController = (function (_super) {
     __extends(BaseController, _super);
     function BaseController() {
@@ -34,6 +51,9 @@ var BaseController = (function (_super) {
         return _this;
     }
     Object.defineProperty(BaseController.prototype, "ConfigurationManager", {
+        /**
+         * Access to the Configuration Manager
+         */
         get: function () {
             return Config_1.configurationManager;
         },
@@ -41,6 +61,9 @@ var BaseController = (function (_super) {
         configurable: true
     });
     Object.defineProperty(BaseController.prototype, "Server", {
+        /**
+         * Access to the running instance of the server.
+         */
         get: function () {
             return Win_1.GetServer();
         },
@@ -48,6 +71,9 @@ var BaseController = (function (_super) {
         configurable: true
     });
     Object.defineProperty(BaseController.prototype, "App", {
+        /**
+         * Access to the App Instance that was created from Express
+         */
         get: function () {
             return Win_1.App();
         },
@@ -111,6 +137,9 @@ var BaseController = (function (_super) {
     };
     return BaseController;
 }(Controller));
+/**
+ *
+ */
 BaseController.methods = {};
 exports.BaseController = BaseController;
 Object.defineProperty(exports, "__esModule", { value: true });

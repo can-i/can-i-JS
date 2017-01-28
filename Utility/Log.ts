@@ -4,10 +4,12 @@ import * as fs from 'fs';
 import * as Path from "path";
 import LimberJack from 'limberjack';
 import {ILimberJack} from "limberjack/lib/limberjack"
+import {LOGLEVEL} from "limberjack";
 
 export const AppLog = LimberJack("Application",{
     file:".can-i/log.log",
-    tags:["app"]
+    tags:["app"],
+    level:LOGLEVEL.DEBUG
 })
 
 

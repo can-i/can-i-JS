@@ -8,6 +8,9 @@ var Win_1 = require("./../Win");
 var LikeController_1 = require("./../LikeController");
 var Log_1 = require("../Utility/Log");
 var index_1 = require("../Win/index");
+/**
+ * The Route decorator allows a user to configure the route for a controller.
+ */
 function Route(route) {
     if (route === void 0) { route = "/"; }
     Log_1.RouteLog.info("new route: " + route);

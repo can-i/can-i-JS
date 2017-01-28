@@ -2,6 +2,9 @@
 import { Express } from './../Win';
 import { BaseController } from './../LikeController';
 import { InternalAccessorStructure } from '../IOC/InternalAccessorStructure';
+/**
+ * The Route decorator allows a user to configure the route for a controller.
+ */
 export declare function Route(route?: string): (constructor: new (...args: any[]) => BaseController) => void;
 /**
  * This will map to the routing application.

@@ -10,6 +10,9 @@ function Injectable(constructor) {
     ServiceBuilder_2.ServiceBuilder.Injectable(s);
 }
 exports.Injectable = Injectable;
+/**
+ * The Provides function is a decorator that is used to constructor the requirements that a class would need when it is instanciated.
+ */
 function Provides(provider) {
     return function ProviderDecorator(constructor) {
         var access = Accessor_1.default(constructor);

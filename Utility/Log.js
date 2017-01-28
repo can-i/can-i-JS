@@ -3,9 +3,11 @@ var bunyan = require("bunyan");
 var os = require("os");
 var Path = require("path");
 var limberjack_1 = require("limberjack");
+var limberjack_2 = require("limberjack");
 exports.AppLog = limberjack_1.default("Application", {
     file: ".can-i/log.log",
-    tags: ["app"]
+    tags: ["app"],
+    level: limberjack_2.LOGLEVEL.DEBUG
 });
 var StartLog = exports.AppLog.extend("Start", {
     tags: ["start"]
