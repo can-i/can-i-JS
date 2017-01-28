@@ -1,12 +1,15 @@
-import { Get, Post, Delete, Put, Patch, Use } from './Route/Method';
-export {BaseController} from './Controller/index';
+import { Controller } from './lib/Controller/Controller';
+import { BaseController } from './lib/Controller/BaseController';
 
 
-export module Decorators{
 
-    export module Documentation {
-        
+export module CanIWin {
+
+    export const Controllers = {
+        BaseController,
+        Controller
     }
 }
 
 
+export default CanIWin;

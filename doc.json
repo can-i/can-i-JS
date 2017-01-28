@@ -1,23 +1,11 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "preserveConstEnums": true,
     "moduleResolution": "Node",
-    "strictNullChecks": true,
-    "removeComments": false,
-    "noImplicitAny": true,
+    "target": "ES5",
     "module": "commonjs",
-    "declaration": true,
-    "sourceMap": true,
-    "target": "es5"
+    "sourceMap": true
   },
-  "exclude": [
-    "node_modules",
-    "test_legacy",
-    "test"
-  ],
   "files": [
-    "Decorators/index.ts"
+    "index.ts"
   ]
 }
