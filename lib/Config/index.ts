@@ -1,6 +1,8 @@
 let requiredir = require("require-dir");
-requiredir("./Settings");
+requiredir("./Configuration");
 
-import ConfigurationManager from './ApplicationSettings';
+import ConfigurationManager from './Settings';
 export default ConfigurationManager
+
+
 

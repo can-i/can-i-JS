@@ -13,16 +13,20 @@ export class Accessor{
     }
 }
 
-export class AccessorManager{
-    private static ControllerAccessor = new Map<ControllerCreator,any>();
 
+
+export class AccessorManager{
 
     private get controller_accessor(){
         let root = this.root;
+        let map: Map<ControllerCreator,ControllerAccessor>;
         if(!root.controller_accessor){
-            root.controller_accessor = 
+            map = root.controller_accessor = new Map<ControllerCreator,ControllerAccessor>();
+        }else {
+            map = root.controller_accessor;
         }
-        return result;
+
+        return map;
     }
 
     /**
@@ -35,6 +39,11 @@ export class AccessorManager{
 
     GetControllerAccessor(Controller:ControllerCreator){
         let accessor = this.controller_accessor;
+        if(!accessor.has(Controller)){
+            accessor.set(Controller,new ControllerAccessor);
+        }
+
+        return accessor.get(Controller);
     }
 
 
