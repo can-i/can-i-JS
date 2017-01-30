@@ -1,22 +1,20 @@
 {
   "name": "can-i",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha",
-    "build": "gulp && tsc",
-    "doc:generation": "typedoc --tsconfig doc.json --ignoreCompilerErrors --out _book/classes"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/can-i/can-i-JS.git"
-  },
   "author": "Shavauhn Gabay",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/can-i/can-i-JS/issues"
   },
-  "homepage": "https://github.com/can-i/can-i-JS#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "limberjack": "^2.2.6",
+    "mkdirp": "^0.5.1",
+    "promise-lib": "^0.1.3",
+    "require-dir": "^0.3.1",
+    "tslib": "^1.5.0",
+    "unhandled-rejection": "^1.0.0",
+    "uuid": "^3.0.1"
+  },
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/express": "^4.0.35",
@@ -28,20 +26,27 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "mocha": "^3.2.0",
+    "pump": "^1.0.2",
+    "run-sequence": "^1.2.2",
     "source-map-support": "^0.4.11",
     "ts-glob": "0.0.9",
     "typedoc": "^0.5.5",
     "typescript": "^2.1.5"
   },
-  "dependencies": {
-    "express": "^4.14.0",
-    "limberjack": "^2.2.6",
-    "mkdirp": "^0.5.1",
-    "promise-lib": "^0.1.3",
-    "require-dir": "^0.3.1",
-    "tslib": "^1.5.0",
-    "unhandled-rejection": "^1.0.0",
-    "uuid": "^3.0.1"
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/can-i/can-i-JS#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/can-i/can-i-JS.git"
+  },
+  "scripts": {
+    "build": "gulp",
+    "doc:generation": "typedoc --tsconfig doc.json --ignoreCompilerErrors --out _book/classes",
+    "test": "mocha"
   },
   "ts": [
     {
@@ -61,9 +66,5 @@
       ],
       "exclude": "/d\\.ts$/"
     }
-  ],
-  "directories": {
-    "test": "test"
-  },
-  "description": ""
+  ]
 }

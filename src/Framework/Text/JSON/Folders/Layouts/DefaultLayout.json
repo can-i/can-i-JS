@@ -20,6 +20,15 @@
                     "LibraryBuilder.ts":true
                 }
             }
+        },
+        "Core":{
+            "Components":{
+                "Controllers":{
+                    "Controller.ts":true,
+                    "BaseController.ts":true,
+                    "MainController.ts":true
+                }
+            }
         }
     }
 }

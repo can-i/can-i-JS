@@ -30,7 +30,7 @@ export class LayoutBuilder {
 
 
     onItemFoundAction: OnItemFoundAction;
-    constructor(protected _root_directory: string, protected _settings: any) {
+    constructor(protected _root_directory: string, protected _settings: {[key:string]:any}) {
         this.onItemFoundAction = this.onItemAction;
     }
 

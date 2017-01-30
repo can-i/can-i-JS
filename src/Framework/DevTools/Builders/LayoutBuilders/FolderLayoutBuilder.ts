@@ -30,9 +30,10 @@ export class FolderLayoutBuilder extends LayoutBuilder {
 
 
     async onItemAction(item: NameDataStructure) {
-        if (typeof item === "object") {
+        if (typeof item.data === "object") {
             
-            this.CreateFolder(this.root_directory, this.settings);
+            await this.CreateFolder(this.root_directory,item.name);
+            log.info(`Created Folder ${this.CreateFolderPath(this.root_directory,item.name)}`)
             //Create folder
         } else {
             //skip
@@ -74,7 +75,8 @@ export class FolderLayoutBuilder extends LayoutBuilder {
 
 
     CreateFolderPath(root: string, name: string) {
-        let namepath = name.replace(/\./g, path.sep);
+        log.info(`root: ${root} name: ${name}`);
+        let namepath = name? name.replace(/\./g, path.sep):"";
         return path.join(root, namepath);
     }
 
