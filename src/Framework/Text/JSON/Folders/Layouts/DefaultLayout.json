@@ -1,0 +1,25 @@
+{
+    "Framework":{
+        "Text":{
+            "JSON":{
+                "Folders":{
+                    "Layouts":{
+                        "DefaultLayout.json":true,
+                        "FakeLayoutCreationTest.json":true
+                    }
+                }
+            }
+        },
+        "DevTools":{
+            "Builders":{
+                "LayoutBuilders":{
+                    "LayoutBuilder.ts":true,
+                    "ItemBuilder.ts":true,
+                    "FolderBuilder.ts":true,
+                    "FileBuilder.ts":true,
+                    "LibraryBuilder.ts":true
+                }
+            }
+        }
+    }
+}
