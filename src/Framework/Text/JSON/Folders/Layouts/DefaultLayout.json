@@ -1,32 +1,45 @@
 {
-    "Framework":{
-        "Text":{
-            "JSON":{
-                "Folders":{
-                    "Layouts":{
-                        "DefaultLayout.json":true,
-                        "FakeLayoutCreationTest.json":true
+    "Framework": {
+        "Text": {
+            "JSON": {
+                "Folders": {
+                    "Layouts": {
+                        "DefaultLayout.json": true,
+                        "FakeLayoutCreationTest.json": true
                     }
                 }
             }
         },
-        "DevTools":{
-            "Builders":{
-                "LayoutBuilders":{
-                    "LayoutBuilder.ts":true,
-                    "ItemBuilder.ts":true,
-                    "FolderBuilder.ts":true,
-                    "FileBuilder.ts":true,
-                    "LibraryBuilder.ts":true
+        "DevTools": {
+            "Builders": {
+                "LayoutBuilders": {
+                    "LayoutBuilder.ts": true,
+                    "ItemBuilder.ts": true,
+                    "FolderBuilder.ts": true,
+                    "FileBuilder.ts": true,
+                    "LibraryBuilder.ts": true
                 }
             }
         },
-        "Core":{
-            "Components":{
-                "Controllers":{
-                    "Controller.ts":true,
-                    "BaseController.ts":true,
-                    "MainController.ts":true
+        "Core": {
+            "Components": {
+                "Controllers": {
+                    "Controller.ts": true,
+                    "BaseController.ts": true,
+                    "MainController.ts": true
+                }
+            }
+        },
+        "Contracts": {
+            "FileSystem": {
+                "Nodes": {
+                    "Node.ts": true,
+                    "NodeCreator.ts": true,
+                    "NodeRemover.ts":true,
+                    "ParentNode.ts": true,
+                    "ChildNode.ts": true,
+                    "NodeInformation.ts":true,
+                    "SubKeyInformation.ts":true
                 }
             }
         }
