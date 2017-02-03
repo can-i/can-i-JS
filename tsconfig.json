@@ -48,6 +48,8 @@
     "src/Framework/DevTools/Utilities/File/Queries/IsFilePathQuery.ts",
     "src/Framework/DevTools/Utilities/FileSystem/Navigation/Previous.ts",
     "src/Framework/DevTools/Utilities/Promises/UnhandledRejectionCrasher.ts",
-    "scripts/folder_file_builder.script.ts"
+    "scripts/folder_file_builder.script.ts",
+    "test/ControllerFactory.test.ts",
+    "test/Framework.Core.Components.Decorators.DecoratorBuilder.ts"
   ]
 }

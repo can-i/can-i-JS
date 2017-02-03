@@ -38,10 +38,12 @@ describe("Test",function(){
         
         class Test{
             @decorator
-            method(){
+            getResult(){
                 return null;
             }
         }
+
+        
 
     })
 

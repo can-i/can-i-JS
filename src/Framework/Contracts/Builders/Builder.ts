@@ -9,7 +9,7 @@ export namespace Framework.Contracts.Builders{
      */
     export abstract class Builder {
 
-        abstract build(): Promise<any>;
+        abstract build(...args:any[]):any;
     }
 
 }

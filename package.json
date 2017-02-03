@@ -305,7 +305,8 @@
         "gulpfile.ts",
         "index.ts",
         "src/Framework/**/*.ts",
-        "scripts/**/*.ts"
+        "scripts/**/*.ts",
+        "test/**/*.ts"
       ],
       "exclude": "/d\\.ts$/"
     },
