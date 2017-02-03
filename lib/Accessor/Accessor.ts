@@ -45,12 +45,6 @@ export class AccessorManager{
 
         return accessor.get(Controller);
     }
-
-
-
-
-
-    
 }
 
 

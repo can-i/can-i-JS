@@ -28,8 +28,9 @@
     "src/Framework/Core/Components/Decorators/DecoratorBuilder.ts",
     "src/Framework/Core/Components/Structure/NameDataStructure.ts",
     "src/Framework/Core/Components/Types/Actions/Action.ts",
-    "src/Framework/Core/Components/Types/Actions/ConstructorAction.ts",
     "src/Framework/Core/Components/Types/Actions/ControllerAction.ts",
+    "src/Framework/Core/Components/Types/Actions/DecoratorConstructorAction.ts",
+    "src/Framework/Core/Components/Types/Actions/DecoratorMethodAction.ts",
     "src/Framework/Core/Components/Types/Actions/OnItemFoundAction.ts",
     "src/Framework/Core/Components/Types/Generic/StringKeyPair.ts",
     "src/Framework/DevTools/Builders/LayoutBuilders/FileBuilder.ts",
@@ -47,6 +48,8 @@
     "src/Framework/DevTools/Utilities/File/Queries/IsFilePathQuery.ts",
     "src/Framework/DevTools/Utilities/FileSystem/Navigation/Previous.ts",
     "src/Framework/DevTools/Utilities/Promises/UnhandledRejectionCrasher.ts",
-    "scripts/folder_file_builder.script.ts"
+    "scripts/folder_file_builder.script.ts",
+    "test/ControllerFactory.test.ts",
+    "test/Framework.Core.Components.Decorators.DecoratorBuilder.ts"
   ]
 }

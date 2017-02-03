@@ -14,8 +14,9 @@
 import Action from "../../Types/Actions/Action";
 
 export namespace Framework.Core.Types.Actions {
-    export type ConstructorAction = Action;
-    export const name="hello";
+    export type DecoratorConstructorAction = <T extends Function>(_class:{new():T})=>T|void;
 }
 
-export default Framework.Core.Types.Actions.ConstructorAction;
+export type DecoratorConstructorAction = Framework.Core.Types.Actions.DecoratorConstructorAction;
+
+export default DecoratorConstructorAction;
