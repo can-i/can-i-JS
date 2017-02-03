@@ -14,4 +14,6 @@ export namespace Framework.Contracts.Builders{
 
 }
 
-export default Framework.Contracts.Builders.Builder;
+const Builder = Framework.Contracts.Builders.Builder;
+
+export default Builder;
