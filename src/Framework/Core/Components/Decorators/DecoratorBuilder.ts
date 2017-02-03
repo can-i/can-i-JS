@@ -13,6 +13,10 @@ export class DecoratorBuilder extends Builder {
     protected constructorAction: DecoratorConstructorAction;
     protected methodAction: DecoratorMethodAction;
 
+
+    public get Construct(){
+        return this.constructorAction;
+    }
     public set Construct(constructorAction: DecoratorConstructorAction) {
         this.constructorAction = constructorAction;
     }
@@ -21,7 +25,11 @@ export class DecoratorBuilder extends Builder {
         this.methodAction = methodAction;
     }
 
-    build() {
+    public get Method(){
+        return this.methodAction;
+    }
+
+    build():Function {
         return (...args: any[]) => {
             if (args.length === 1) {
                 return this.Construct(args[0]);

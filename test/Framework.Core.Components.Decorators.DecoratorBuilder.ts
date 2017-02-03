@@ -11,15 +11,16 @@ const expect = chai.expect;
 
 
 
-describe("Test",function(){
+describe("DecoratorBuilder",function(){
 
     const builder = new DecoratorBuilder();
 
     
 
     before(async function(){
+
         builder.Construct = function<T extends Function>(_class:T){
-            expect(arguments.length ===1 )
+            (_class as any).addition = true;
         }
 
 
@@ -29,13 +30,27 @@ describe("Test",function(){
             }
             return pd;
         }
+
+
+    })
+
+    it("should be able to decorate class constructor",async function(){
+        let decorator = builder.build();
+
+        @decorator
+        class Test{
+            getResult(){
+                return null;
+            }
+        }
+
+       expect((Test as any).addition).to.be.true;
+
     })
 
 
-    it("should",async function(){
-        let decorator = await builder.build();
-
-        
+    it("should be able to decorate class methods",async function(){
+        let decorator = builder.build();
         class Test{
             @decorator
             getResult(){
@@ -43,7 +58,7 @@ describe("Test",function(){
             }
         }
 
-        
+        expect("hello world").to.equal(new Test().getResult())
 
     })
 
