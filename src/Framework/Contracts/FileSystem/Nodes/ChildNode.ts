@@ -1,7 +1,12 @@
 import Node from './Node';
-export abstract class ChildNode extends Node{
 
+
+export namespace Framework.Contracts.FileSystem.Nodes {
+
+    export abstract class ChildNode extends Node {
+
+    }
 }
 
 
-export default ChildNode;
+export default Framework.Contracts.FileSystem.Nodes.ChildNode;

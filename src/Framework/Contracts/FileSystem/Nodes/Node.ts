@@ -1,4 +1,4 @@
-import { NodeCreator } from './NodeCreator';
+import NodeCreator from './NodeCreator';
 import NodeRemover from './NodeRemover';
 
 
