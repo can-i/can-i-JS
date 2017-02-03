@@ -13,6 +13,9 @@
 
 import Action from "../../Types/Actions/Action";
 
-export type ConstructorAction = Action;
+export namespace Framework.Core.Types.Actions {
+    export type ConstructorAction = Action;
+    export const name="hello";
+}
 
-export default ConstructorAction;
+export default Framework.Core.Types.Actions.ConstructorAction;
