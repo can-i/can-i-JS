@@ -13,12 +13,19 @@ export class Controller extends ControllerSetter {
 
     private _next: express.NextFunction;
 
+    /**
+     * Express req Object
+     */
     set req(v) {
         if (!this._req) {
             this._req = v;
         }
     }
 
+
+    /**
+     * Express res Object
+     */
     set res(v) {
         if (!this._res) {
             this._res = v;
@@ -38,17 +45,35 @@ export class Controller extends ControllerSetter {
         return this._next;
     }
 
+
+    /**
+     * Express req Object
+     */
     get req() {
         return this._req;
     }
 
+    /**
+     * The express res Object
+     */
     get res() {
         return this._res;
     }
 
-    get App(): express.Application {
 
+
+    send(body?: any) {
+        this.send(body);
+        return this;
+    }
+
+    get App(): express.Application {
         return AppGetter()
+    }
+
+    status(code: number) {
+        this.res.status(code);
+        return this;
     }
 
 

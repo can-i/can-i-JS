@@ -1,9 +1,9 @@
 import * as express from "express";
-import { Internal } from '../../../DevTools/Utilities/Internal';
+import { Root } from '../../../Utilities/Internal';
 
 
 export function AppGetter(){
-    let root = Internal();
+    let root = Root();
 
     if(!root.App){
         root.App = express();
@@ -11,6 +11,9 @@ export function AppGetter(){
 
     return root.App;
 }
+
+
+
 
 
 export default AppGetter;
