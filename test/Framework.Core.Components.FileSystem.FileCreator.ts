@@ -3,7 +3,7 @@ import * as chai from "chai";
 import * as os from 'os';
 import * as path from 'path';
 import * as uuid from "uuid/v1";
-import { FileCreator } from '../src/Framework/Core/Components/FileSystem/FileCreator';
+import { FileCreator } from '../Framework/Core/Components/FileSystem/FileCreator';
 import * as fs from 'fs';
 import { CallBack } from 'promise-lib';
 const expect = chai.expect;

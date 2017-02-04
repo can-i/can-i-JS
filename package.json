@@ -45,7 +45,7 @@
   },
   "scripts": {
     "build": "gulp",
-    "doc:generation": "typedoc --tsconfig doc.json --ignoreCompilerErrors --out _book/classes",
+    "doc:generation": "typedoc --tsconfig doc.json --ignoreCompilerErrors --out _book/classes  --excludeExternals --excludePrivate --mode file",
     "test": "mocha"
   },
   "ts": [
@@ -54,7 +54,7 @@
       "files": [
         "gulpfile.ts",
         "index.ts",
-        "src/Framework/**/*.ts",
+        "Framework/**/*.ts",
         "scripts/**/*.ts",
         "test/**/*.ts"
       ],
@@ -63,7 +63,8 @@
     {
       "config": "doc.json",
       "files": [
-        "index.ts"
+        "index.ts",
+        "Framework/**/*.ts"
       ],
       "exclude": "/d\\.ts$/"
     }

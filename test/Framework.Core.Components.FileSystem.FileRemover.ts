@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 import * as uuid from 'uuid/v1';
-import { FileRemover } from '../src/Framework/Core/Components/FileSystem/FileRemover';
+import { FileRemover } from '../Framework/Core/Components/FileSystem/FileRemover';
 
 const expect = chai.expect;
 

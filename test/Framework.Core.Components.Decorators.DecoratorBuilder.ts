@@ -2,7 +2,7 @@
 
 import * as sinon from "sinon";
 import * as chai from "chai";
-import { DecoratorBuilder } from '../src/Framework/Core/Components/Decorators/DecoratorBuilder';
+import { DecoratorBuilder } from '../Framework/Core/Components/Decorators/DecoratorBuilder';
 import { Accessor } from '../lib/Accessor/Accessor';
 
 const expect = chai.expect;
