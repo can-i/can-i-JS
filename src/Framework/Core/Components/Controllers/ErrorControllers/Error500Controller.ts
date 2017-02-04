@@ -1,7 +1,7 @@
-import { Controller } from "../Controller";
+import { CommunicationController } from "../Controller";
 
-export class Error500Controller extends Controller {
-    
+export class Error500Controller extends CommunicationController {
+
   InternalServerError(body: any) {
     this.status(500).send(body);
   }

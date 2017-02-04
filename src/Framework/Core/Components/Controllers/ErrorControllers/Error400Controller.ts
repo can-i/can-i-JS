@@ -1,9 +1,9 @@
-import { Controller } from "../Controller";
+import { CommunicationController } from "../Controller";
 
 /**
  * All of these might not get implemented but it's good to have them
  */
-export class Error400Controller extends Controller {
+export class Error400Controller extends CommunicationController {
   BadRequest(body: any) {
     this.status(400).send(body);
   }

@@ -1,6 +1,7 @@
-import { Controller } from '../Controller';
+import { CommunicationController } from '../Controller';
 
-export class Error200Controller extends Controller {
+
+export class Error200Controller extends CommunicationController {
 
     OK(body: any) {
         this.status(200).send(body);

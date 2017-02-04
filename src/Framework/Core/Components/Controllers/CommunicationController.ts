@@ -1,12 +1,10 @@
 import AppGetter from '../App/AppGetter';
 import * as express from 'express';
+import { ApplicationController } from './ApplicationController';
 
 
-export class ControllerSetter {
 
-}
-
-export class Controller extends ControllerSetter {
+export class CommunicationController extends ApplicationController {
 
     private _req: express.Request;
     private _res: express.Response;
@@ -61,16 +59,15 @@ export class Controller extends ControllerSetter {
     }
 
 
-
     send(body?: any) {
-        this.send(body);
+        this.res.send(body);
         return this;
     }
 
-    get App(): express.Application {
-        return AppGetter()
-    }
 
+    /**
+     * Set the Status of the response
+     */
     status(code: number) {
         this.res.status(code);
         return this;

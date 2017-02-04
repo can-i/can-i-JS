@@ -1,6 +1,6 @@
-import { Controller } from "../Controller";
+import { CommunicationController } from "../Controller";
 
-export class Error300Controller extends Controller {
+export class Error300Controller extends CommunicationController {
   MultipleChoices(body: any) {
     this.status(300).send(body);
   }
