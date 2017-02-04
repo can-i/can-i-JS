@@ -57,6 +57,7 @@
     "test/ControllerFactory.test.ts",
     "test/Framework.Contracts.FileSystem.Nodes.NodeCreator.ts",
     "test/Framework.Core.Components.Decorators.DecoratorBuilder.ts",
-    "test/Framework.Core.Components.FileSystem.FileCreator.ts"
+    "test/Framework.Core.Components.FileSystem.FileCreator.ts",
+    "test/Framework.Core.Components.FileSystem.FileRemover.ts"
   ]
 }
