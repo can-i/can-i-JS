@@ -8,7 +8,10 @@ export class FileCreator extends NodeCreator{
         let [err,stats] = await CallBack.Call(fs.stat,_path);
         if(err){
             let [err] = await CallBack.Call(fs.writeFile,_path,"");
-            if(err) throw err;
+            if(err) {
+                console.error(err.stack);
+                throw err;
+            }
         }
     }
 

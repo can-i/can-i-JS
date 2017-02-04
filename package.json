@@ -29,6 +29,7 @@
     "pump": "^1.0.2",
     "run-sequence": "^1.2.2",
     "source-map-support": "^0.4.11",
+    "ts-glob": "0.0.9",
     "typedoc": "^0.5.5",
     "typescript": "^2.1.5"
   },

@@ -14,6 +14,7 @@
     "index.ts",
     "src/Framework/Contracts/Builders/Builder.ts",
     "src/Framework/Contracts/FileSystem/Nodes/ChildNode.ts",
+    "src/Framework/Contracts/FileSystem/Nodes/index.ts",
     "src/Framework/Contracts/FileSystem/Nodes/Node.ts",
     "src/Framework/Contracts/FileSystem/Nodes/NodeCreator.ts",
     "src/Framework/Contracts/FileSystem/Nodes/NodeInformation.ts",
@@ -26,6 +27,10 @@
     "src/Framework/Core/Components/Controllers/Controller.ts",
     "src/Framework/Core/Components/Controllers/MainController.ts",
     "src/Framework/Core/Components/Decorators/DecoratorBuilder.ts",
+    "src/Framework/Core/Components/FileSystem/FileCreator.ts",
+    "src/Framework/Core/Components/FileSystem/FileNode.ts",
+    "src/Framework/Core/Components/FileSystem/FileRemover.ts",
+    "src/Framework/Core/Components/FileSystem/index.ts",
     "src/Framework/Core/Components/Structure/NameDataStructure.ts",
     "src/Framework/Core/Components/Types/Actions/Action.ts",
     "src/Framework/Core/Components/Types/Actions/ControllerAction.ts",
@@ -51,6 +56,7 @@
     "scripts/folder_file_builder.script.ts",
     "test/ControllerFactory.test.ts",
     "test/Framework.Contracts.FileSystem.Nodes.NodeCreator.ts",
-    "test/Framework.Core.Components.Decorators.DecoratorBuilder.ts"
+    "test/Framework.Core.Components.Decorators.DecoratorBuilder.ts",
+    "test/Framework.Core.Components.FileSystem.FileCreator.ts"
   ]
 }
