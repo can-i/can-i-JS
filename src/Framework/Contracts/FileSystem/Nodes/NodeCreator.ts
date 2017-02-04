@@ -1,14 +1,12 @@
 
 
-export namespace Framework.Contracts.FileSystem.Nodes {
-    export abstract class NodeCreator {
+export abstract class NodeCreator {
+    constructor() {
 
-        construct() {
-
-        }
     }
 
+    abstract create(information:any):any;
 }
 
 
-export default Framework.Contracts.FileSystem.Nodes.NodeCreator;
+export default NodeCreator;

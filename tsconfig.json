@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "moduleResolution": "Node",
-    "target": "ES5",
+    "target": "es5",
     "module": "commonjs",
     "sourceMap": true,
     "strictNullChecks": true,
@@ -50,6 +50,7 @@
     "src/Framework/DevTools/Utilities/Promises/UnhandledRejectionCrasher.ts",
     "scripts/folder_file_builder.script.ts",
     "test/ControllerFactory.test.ts",
+    "test/Framework.Contracts.FileSystem.Nodes.NodeCreator.ts",
     "test/Framework.Core.Components.Decorators.DecoratorBuilder.ts"
   ]
 }
