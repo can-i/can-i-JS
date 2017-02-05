@@ -56,6 +56,7 @@
     "Framework/DevTools/Getters/PackageJsonGetter.ts",
     "Framework/DevTools/Log/MainLogger.ts",
     "Framework/Utilities/FileSystem/Navigation/Previous.ts",
+    "Framework/Utilities/Getters/PackageJsonGetter.ts",
     "Framework/Utilities/Internal.ts",
     "Framework/Utilities/Promises/UnhandledRejectionCrasher.ts",
     "scripts/folder_file_builder.script.ts",
@@ -63,6 +64,7 @@
     "test/Framework.Contracts.FileSystem.Nodes.NodeCreator.ts",
     "test/Framework.Core.Components.Decorators.DecoratorBuilder.ts",
     "test/Framework.Core.Components.FileSystem.FileCreator.ts",
-    "test/Framework.Core.Components.FileSystem.FileRemover.ts"
+    "test/Framework.Core.Components.FileSystem.FileRemover.ts",
+    "test/Framework.Utilities.Getters.PackageJsonGetter.ts"
   ]
 }

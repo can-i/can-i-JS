@@ -2,10 +2,7 @@ import { CallBack } from 'promise-lib';
 import * as fs from 'fs';
 import * as path from 'path';
 
-
-
-
-function PackageJsonGetter(root?:string){
+export function PackageJsonGetter(root?:string){
     let start = path.resolve(root||__dirname);
 
     const loop_up = async ()=>{
@@ -14,7 +11,7 @@ function PackageJsonGetter(root?:string){
             throw err;
         }
         if(listing.find(file=>file === "package.json")){
-            return start;
+            return path.join(start,"package.json");
         }else{
             let newstart = path.resolve(start,"..");
 
@@ -26,5 +23,11 @@ function PackageJsonGetter(root?:string){
             }
         }
     }
+
+
+    return loop_up();
 }
 
+
+
+export default PackageJsonGetter;
