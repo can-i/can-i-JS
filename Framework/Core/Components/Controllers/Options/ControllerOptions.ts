@@ -7,8 +7,10 @@ const root = Root();
 export class ControllerOptions<T extends MainController>{
 
 
-    klass:{new():T}
-    private _route="/"
+    get klass(){
+        return this._class;
+    }
+    private _route="/";
 
     get route(){
         return this._route;

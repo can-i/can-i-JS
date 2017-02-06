@@ -49,6 +49,8 @@
     "Framework/Core/Components/index.ts",
     "Framework/Core/Components/Routing/index.ts",
     "Framework/Core/Components/Routing/Methods/BaseControllerDecoratorBuilder.ts",
+    "Framework/Core/Components/Routing/Methods/Get.ts",
+    "Framework/Core/Components/Routing/Methods/GetControllerDecoratorBuilder.ts",
     "Framework/Core/Components/Routing/Methods/index.ts",
     "Framework/Core/Components/Routing/Methods/MethodControllerDecoratorBuilder.ts",
     "Framework/Core/Components/Routing/RouteFormatter.ts",

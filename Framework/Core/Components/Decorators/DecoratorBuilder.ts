@@ -10,6 +10,12 @@ let genErr = new Error("General Failure")
 
 export abstract class DecoratorBuilder extends Builder {
 
+    private _params:any[];
+
+    get params(){
+        return this._params;
+    }
+
     constructor(){
         super();
         this.Construct = this.onConstructor as DecoratorConstructorAction;
@@ -38,7 +44,9 @@ export abstract class DecoratorBuilder extends Builder {
     abstract onConstructor<T extends MainController>(_class:{new():T}):void;
     abstract onMethod<T extends MainController>(target:T,key:string,pd:PropertyDescriptor|undefined):PropertyDescriptor;
 
-    build():Function {
+    build(...args:any[]):Function {
+        this._params = args;
+
         return (...args: any[]) => {
             if (args.length === 1) {
                 return this.Construct(args[0]);

@@ -21,13 +21,12 @@ export class MethodControllerDecoratorBuilder<T extends MainController> extends 
     onConstructor(construct:Constructor<T>){
 
     }
-
     onMethod(target:{constructor:Constructor<T>},key:string,pd:PropertyDescriptor){
 
+        let [path]:[string] =  this.params as [string];
         const mo = this.getMethodOption(target.constructor,key);
         mo.method_type=this.type;
-
-        
+        mo.method_path = path;
         return pd;
     }
 }

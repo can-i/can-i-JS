@@ -10,4 +10,6 @@ export class ControllerMethodOptions<T extends MainController> extends Controlle
     }
     method_type:string;
     method_name:string;
+
+    method_path:string;
 }
