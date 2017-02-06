@@ -1,17 +1,23 @@
 import Builder from '../../../Contracts/Builders/Builder';
 import DecoratorConstructorAction from '../../../Core/Components/Types/Actions/DecoratorConstructorAction';
 import DecoratorMethodAction from '../Types/Actions/DecoratorMethodAction';
+import { MainController } from '../Controllers/MainController';
 
 
 
 
 let genErr = new Error("General Failure")
 
-export class DecoratorBuilder extends Builder {
+export abstract class DecoratorBuilder extends Builder {
 
+    constructor(){
+        super();
+        this.Construct = this.onConstructor as DecoratorConstructorAction;
+        this.Method = this.onMethod as DecoratorMethodAction;
+    }
 
-    protected constructorAction: DecoratorConstructorAction;
-    protected methodAction: DecoratorMethodAction;
+    private constructorAction: DecoratorConstructorAction;
+    private methodAction: DecoratorMethodAction;
 
 
     public get Construct(){
@@ -29,6 +35,9 @@ export class DecoratorBuilder extends Builder {
         return this.methodAction;
     }
 
+    abstract onConstructor<T extends MainController>(_class:{new():T}):void;
+    abstract onMethod<T extends MainController>(target:T,key:string,pd:PropertyDescriptor|undefined):PropertyDescriptor;
+
     build():Function {
         return (...args: any[]) => {
             if (args.length === 1) {
@@ -38,7 +47,7 @@ export class DecoratorBuilder extends Builder {
                 const arg1 = (typeof args[1] === "string");
 
                 if (arg0 && arg1) {
-                    this.methodAction(args[0], args[1], args[2]);
+                    this.Method(args[0], args[1], args[2]);
                 } else {
                     //error
                     throw genErr;

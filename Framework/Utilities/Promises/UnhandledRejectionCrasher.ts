@@ -10,3 +10,4 @@ rejectionEmitter.on("unhandledRejection", (error, promise) => {
     process.exit();
 });
 
+export default null;
