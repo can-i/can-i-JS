@@ -28,7 +28,7 @@
     "source-map-support": "^0.4.7",
     "superagent": "^3.1.0",
     "typedoc": "^0.5.5",
-    "typescript": "^2.1.5",
+    "typescript": "^2.1.6",
     "typings": "^2.0.0"
   },
   "dependencies": {
