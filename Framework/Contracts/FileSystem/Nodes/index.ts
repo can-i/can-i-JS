@@ -11,12 +11,19 @@
         
             import * as ParentNode from './ParentNode'
         
+<<<<<<< HEAD
             import * as SubKeyInformation from './SubKeyInformation'
         
+=======
+>>>>>>> routing
 export default {ChildNode,
 Node,
 NodeCreator,
 NodeInformation,
 NodeRemover,
+<<<<<<< HEAD
 ParentNode,
 SubKeyInformation};
+=======
+ParentNode};
+>>>>>>> routing
