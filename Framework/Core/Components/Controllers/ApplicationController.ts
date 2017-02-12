@@ -1,4 +1,4 @@
-import { CommunicationController } from './Controller';
+import { CommunicationController } from './CommunicationController';
 import AppGetter from '../App/AppGetter';
 import * as express from 'express';
 

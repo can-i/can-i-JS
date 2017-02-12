@@ -1,4 +1,4 @@
-import { CommunicationController } from '../Controller';
+import { CommunicationController } from '../CommunicationController';
 import { Error500Controller } from './Error500Controller';
 import { Error200Controller } from './Error200Controller';
 import { Error300Controller } from './Error300Controller';

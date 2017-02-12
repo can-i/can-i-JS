@@ -1,4 +1,4 @@
-import { CommunicationController } from "../Controller";
+import { CommunicationController } from "../CommunicationController";
 
 /**
  * All of these might not get implemented but it's good to have them

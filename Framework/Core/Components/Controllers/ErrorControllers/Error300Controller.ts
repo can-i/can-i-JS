@@ -1,4 +1,4 @@
-import { CommunicationController } from "../Controller";
+import { CommunicationController } from "../CommunicationController";
 
 export class Error300Controller extends CommunicationController {
   MultipleChoices(body: any) {

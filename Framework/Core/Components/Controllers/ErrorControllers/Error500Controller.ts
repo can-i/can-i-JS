@@ -1,4 +1,4 @@
-import { CommunicationController } from "../Controller";
+import { CommunicationController } from "../CommunicationController";
 
 export class Error500Controller extends CommunicationController {
 
