@@ -17,10 +17,6 @@
     "Framework/Contracts/FileSystem/Nodes/NodeInformation.ts",
     "Framework/Contracts/FileSystem/Nodes/NodeRemover.ts",
     "Framework/Contracts/FileSystem/Nodes/ParentNode.ts",
-<<<<<<< HEAD
-    "Framework/Contracts/FileSystem/Nodes/SubKeyInformation.ts",
-=======
->>>>>>> routing
     "Framework/Contracts/index.ts",
     "Framework/Core/Components/Actions/Action.ts",
     "Framework/Core/Components/Actions/ConstructorAction.ts",
@@ -37,11 +33,8 @@
     "Framework/Core/Components/Controllers/ErrorControllers/Error500Controller.ts",
     "Framework/Core/Components/Controllers/ErrorControllers/ErrorController.ts",
     "Framework/Core/Components/Controllers/ErrorControllers/index.ts",
-<<<<<<< HEAD
-=======
     "Framework/Core/Components/Controllers/GetControllerMethodOptions.ts",
     "Framework/Core/Components/Controllers/GetControllerOptions.ts",
->>>>>>> routing
     "Framework/Core/Components/Controllers/index.ts",
     "Framework/Core/Components/Controllers/MainController.ts",
     "Framework/Core/Components/Controllers/Options/ControllerMethodOptions.ts",
@@ -55,17 +48,13 @@
     "Framework/Core/Components/FileSystem/index.ts",
     "Framework/Core/Components/index.ts",
     "Framework/Core/Components/Routing/index.ts",
-<<<<<<< HEAD
-    "Framework/Core/Components/Routing/Methods/Get.ts",
-    "Framework/Core/Components/Routing/Methods/index.ts",
-=======
     "Framework/Core/Components/Routing/Methods/BaseControllerDecoratorBuilder.ts",
     "Framework/Core/Components/Routing/Methods/Get.ts",
     "Framework/Core/Components/Routing/Methods/GetControllerDecoratorBuilder.ts",
     "Framework/Core/Components/Routing/Methods/index.ts",
     "Framework/Core/Components/Routing/Methods/MethodControllerDecoratorBuilder.ts",
+    "Framework/Core/Components/Routing/Methods/Post.ts",
     "Framework/Core/Components/Routing/RouteFormatter.ts",
->>>>>>> routing
     "Framework/Core/Components/Structure/index.ts",
     "Framework/Core/Components/Structure/NameDataStructure.ts",
     "Framework/Core/Components/Types/Actions/Action.ts",
@@ -74,14 +63,6 @@
     "Framework/Core/Components/Types/Actions/DecoratorMethodAction.ts",
     "Framework/Core/Components/Types/Actions/index.ts",
     "Framework/Core/Components/Types/Actions/OnItemFoundAction.ts",
-<<<<<<< HEAD
-    "Framework/Core/Components/Types/Generic/index.ts",
-    "Framework/Core/Components/Types/Generic/StringKeyPair.ts",
-    "Framework/Core/Components/Types/index.ts",
-    "Framework/Core/index.ts",
-    "Framework/DevTools/Builders/index.ts",
-    "Framework/DevTools/Builders/LayoutBuilders/FileBuilder.ts",
-=======
     "Framework/Core/Components/Types/Generic/Constructor.ts",
     "Framework/Core/Components/Types/Generic/index.ts",
     "Framework/Core/Components/Types/Generic/StringKeyPair.ts",
@@ -90,26 +71,13 @@
     "Framework/Core/Components/Types/Routing/MethodKeys.ts",
     "Framework/Core/index.ts",
     "Framework/DevTools/Builders/index.ts",
->>>>>>> routing
     "Framework/DevTools/Builders/LayoutBuilders/FileLayoutBuilder.ts",
     "Framework/DevTools/Builders/LayoutBuilders/FileSystemBuilder.ts",
     "Framework/DevTools/Builders/LayoutBuilders/FolderLayoutBuilder.ts",
     "Framework/DevTools/Builders/LayoutBuilders/index.ts",
-<<<<<<< HEAD
-    "Framework/DevTools/Builders/LayoutBuilders/ItemBuilder.ts",
-    "Framework/DevTools/Builders/LayoutBuilders/LayoutBuilder.ts",
-    "Framework/DevTools/Builders/LayoutBuilders/LibraryBuilder.ts",
-    "Framework/DevTools/Getters/index.ts",
-    "Framework/DevTools/Getters/PackageJsonGetter.ts",
-    "Framework/DevTools/index.ts",
-    "Framework/DevTools/Log/index.ts",
-    "Framework/DevTools/Log/MainLogger.ts",
-    "Framework/index.ts",
-    "Framework/Text/index.ts",
-    "Framework/Text/JSON/Folders/index.ts",
-=======
     "Framework/DevTools/Builders/LayoutBuilders/indexBuilder.ts",
     "Framework/DevTools/Builders/LayoutBuilders/LayoutBuilder.ts",
+    "Framework/DevTools/Getters/index.ts",
     "Framework/DevTools/index.ts",
     "Framework/DevTools/Log/index.ts",
     "Framework/DevTools/Log/MainLogger.ts",
@@ -119,7 +87,6 @@
     "Framework/Text/JSON/Folders/index.ts",
     "Framework/Text/JSON/Folders/Layouts/dummy.ts",
     "Framework/Text/JSON/Folders/Layouts/index.ts",
->>>>>>> routing
     "Framework/Text/JSON/index.ts",
     "Framework/Utilities/FileSystem/index.ts",
     "Framework/Utilities/FileSystem/Navigation/index.ts",

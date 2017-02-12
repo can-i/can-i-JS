@@ -1,13 +1,16 @@
 
-<<<<<<< HEAD
+            import * as BaseControllerDecoratorBuilder from './BaseControllerDecoratorBuilder'
+        
             import * as Get from './Get'
         
-export default {Get};
-=======
-            import * as BaseControllerDecoratorBuilder from './BaseControllerDecoratorBuilder'
+            import * as GetControllerDecoratorBuilder from './GetControllerDecoratorBuilder'
         
             import * as MethodControllerDecoratorBuilder from './MethodControllerDecoratorBuilder'
         
+            import * as Post from './Post'
+        
 export default {BaseControllerDecoratorBuilder,
-MethodControllerDecoratorBuilder};
->>>>>>> routing
+Get,
+GetControllerDecoratorBuilder,
+MethodControllerDecoratorBuilder,
+Post};
