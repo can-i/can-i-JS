@@ -3,7 +3,7 @@ import { Accessor } from './../Win/Accessor';
 import { BaseController, ControllerConfig } from './../Controller';
 import { ServiceBuilder } from './../IOC/ServiceBuilder';
 import Express = require("express");
-import {Stack} from "../MiddleWare/Stack";
+import { Stack } from "../MiddleWare/Stack";
 
 
 export function Get(route: string = '') {
@@ -69,42 +69,42 @@ export function Notify(route: string = '') {
 }
 
 export function Options(route: string = '') {
-        return ExtendRequest(route,'options');
+        return ExtendRequest(route, 'options');
 }
 
 export function Patch(route: string = '') {
-        return ExtendRequest(route,'patch');
+        return ExtendRequest(route, 'patch');
 }
 
 export function Report(route: string = '') {
-        return ExtendRequest(route,'report');
+        return ExtendRequest(route, 'report');
 }
 
 export function Search(route: string = '') {
-        return ExtendRequest(route,'search');
+        return ExtendRequest(route, 'search');
 }
 
 export function Subscribe(route: string = '') {
-        return ExtendRequest(route,'subscribe');
+        return ExtendRequest(route, 'subscribe');
 }
 
 
 export function Trace(route: string = '') {
-        return ExtendRequest(route,'trace');
+        return ExtendRequest(route, 'trace');
 }
 
 export function Unlock(route: string = '') {
-        return ExtendRequest(route,'unlock');
+        return ExtendRequest(route, 'unlock');
 }
 
 export function unsubscribe(route: string = '') {
-        return ExtendRequest(route,'unsubscribe');
+        return ExtendRequest(route, 'unsubscribe');
 }
 
 
 
 function ExtendRequest(route: string, type: string) {
-
+        //TODO clean up this mess
         return function (target: BaseController, key: string, d: TypedPropertyDescriptor<any>) {
 
                 let constructor: any = target.constructor;
@@ -127,7 +127,10 @@ function ExtendRequest(route: string, type: string) {
 
                                         if (access.middleware && access.middleware.global && access.middleware.global.length) {
                                                 let middleware = Stack.apply(this, access.middleware.global);
+
+                                                //TODO why the reject
                                                 await new Promise((reject, resolve) => {
+                                                        //TODO next with a string is an error, don't know why i did that
                                                         middleware(req, res, function (response: any) {
                                                                 if (response instanceof String) {
                                                                         next(response);
@@ -138,34 +141,41 @@ function ExtendRequest(route: string, type: string) {
                                                 })
                                         }
 
+                                        let controller_instance: BaseController;
+                                        if (access.provider) {
+                                                let args = access.provider.provide();
+                                                controller_instance = new constructor(...args);
+                                        } else {
+                                                controller_instance = ServiceBuilder.ConstructService(constructor);
 
-                                        let controller_instance: BaseController = ServiceBuilder.ConstructService(constructor);
+                                        }
 
 
                                         let setter = new ControllerConfig();
                                         setter.set_up_controller(controller_instance, req, res, next);
-                                        controller_instance.onInit();
+                                        //Allow Async for init function
+                                        await Promise.resolve(controller_instance.onInit());
 
-
+                                        //The methods middleware stack
                                         if (access.middleware && access.middleware.route && access.middleware.route[key] && access.middleware.route[key].length) {
 
                                                 let middleware = Stack.apply(this, access.middleware.route[key]);
-                                                await new Promise((reject, resolve) => {
+                                                await new Promise((resolve, reject) => {
                                                         middleware(req, res, function (response: any) {
                                                                 if (response instanceof String) {
                                                                         next(response);
                                                                 } else {
-                                                                        reject(response);
+                                                                        resolve(response);
                                                                 }
                                                         });
                                                 })
                                         }
 
                                         let params: any = [];
+                                        //Dependency injection
                                         params = ServiceBuilder.getServiceMethodNeeds(target, key);
 
                                         try {
-
                                                 await Promise.resolve(((<any>controller_instance)[key](...params)));
                                         } catch (e) {
                                                 next(e)

@@ -6,6 +6,7 @@ var Log_1 = require("../Utility/Log");
 var cron = require("node-cron");
 var CronJob = require("cron").CronJob;
 var queue = [];
+var cronqueue = [];
 var run = false;
 function Next() {
     if (!run) {
@@ -15,7 +16,7 @@ function Next() {
     var task = queue.shift();
     if (task) {
         Log_1.Logger.Job({ 'Job Count': queue.length }, "Performing next job");
-        setTimeout(task);
+        setTimeout(task, 0);
     }
 }
 function Boot() {
@@ -73,6 +74,7 @@ function Boot() {
                         });
                     };
                     var _job = cron.schedule(job.options.cron, Schedule);
+                    cronqueue.push(_job);
                     // let _job = new CronJob(job.options.cron,Schedule);
                     // _job.start();
                     Log_1.Logger.Job("Job started");
@@ -110,7 +112,7 @@ exports.Boot = Boot;
 function Push() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     queue.push.apply(queue, args);
     Log_1.Logger.Job({ 'Queue Size': queue.length }, "Added to Job Stack");
@@ -126,6 +128,7 @@ function Run() {
 exports.Run = Run;
 function Stop() {
     run = false;
+    cronqueue.forEach(function (c) { return c.stop(); });
 }
 exports.Stop = Stop;
 Object.defineProperty(exports, "__esModule", { value: true });

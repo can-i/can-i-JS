@@ -5,7 +5,7 @@ function View(page) {
         d.value = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
+                args[_i] = arguments[_i];
             }
             this.internal_options.render = true;
             this.internal_options.renderPage = page;

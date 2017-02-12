@@ -2,17 +2,16 @@
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-var Event_1 = require("./../Event");
+require("reflect-metadata");
 var Config_1 = require("./../Config");
 var consolidate = require("consolidate");
-var Boot_1 = require("../Work/Boot");
-require("reflect-metadata");
+var Application_1 = require("./Application");
+var _ = require("lodash");
 exports.Express = require("express");
 __export(require("./Accessor"));
-var _ = require("lodash");
-var glob = require("glob");
-var Path = require("path");
-var Log_1 = require("../Utility/Log");
+var Constant_1 = require("./Constant");
+var EXPRESS_BASED_APPLICATION_KEY = "EXPRESS_BASED_APPLICATION_KEY";
+var application = Constant_1.Constant.set(EXPRESS_BASED_APPLICATION_KEY, Application_1.ApplicationFactory.ExpressApplication());
 var bootoptions;
 var app;
 exports.State = {
@@ -23,68 +22,14 @@ exports.State = {
  * it to the http listen yet. All directories are parsed for controllers and services at this point.
  */
 function BootStrap(options) {
-    //Guard against multiple Boot
-    if (app) {
-        Log_1.Logger.AppError("Attempted boot multiple times");
-        return app;
-    }
-    Log_1.Logger.Main("Calling BootStrap");
-    Log_1.Logger.Main("Options\n" + JSON.stringify(options));
-    app = exports.Express();
-    var on_ready = function () {
-        Log_1.Logger.Main("Application created");
-        if (options === null) {
-            Log_1.Logger.Main("Options are null\nNo Configuration used");
-            console.warn("No BootStrapping config.\nThe only excuse is Unit Testing!!");
-        }
-        options = options || {};
-        //Good Defaults
-        var defaults = {
-            controllers: Path.join(process.cwd(), "controllers"),
-            services: Path.join(process.cwd(), "services"),
-            views: Path.join(process.cwd(), "views"),
-            engine: {
-                extension: 'html',
-                engineName: "vash",
-                engineConfig: null
-            }
-        };
-        Log_1.Logger.Main("Created default configuration");
-        if (options !== null) {
-            options = _.defaultsDeep(options, defaults);
-            glob.sync(options.controllers + "/**/*.js").filter(function (x) { return /.js$/.test(x); }).map(function (x) {
-                Log_1.Logger.Main("Loading Controller " + x);
-                return x;
-            }).map(require);
-            glob.sync(options.services + "/**/*.js").filter(function (x) { return /.js$/.test(x); }).map(function (x) {
-                Log_1.Logger.Main("Loading Service " + x);
-                return x;
-            }).map(require);
-            var e = options.engine;
-            app.set('views', options.views);
-            app.set('view engine', e.extension);
-            app.engine(e.extension, consolidate[e.engineName]);
-        }
-        exports.State.Ready = true;
-        Log_1.Logger.Main("Application Ready");
-    };
-    OnReady(on_ready);
-    Event_1.Event.emit("can-i:bootstrapped");
-    return app;
+    return application.BootStrap(options);
 }
 exports.BootStrap = BootStrap;
 /**
  * Get the Express.Application if it has been created. Otherwise it throws an error
  */
 exports.App = function () {
-    if (!app) {
-        var msg = "Fatal Error. Attempted to Access Application before creation";
-        var error = new Error(msg);
-        Log_1.Logger.AppError(error.stack);
-        throw error;
-    }
-    Log_1.Logger.Main("Retrieving Express App");
-    return app;
+    return application.server.App;
 };
 var server;
 /**
@@ -94,23 +39,25 @@ var server;
 function Listen() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
-    Log_1.Logger.Main("Attaching Listener to http server");
-    var app = exports.App();
-    Log_1.Logger.Main("Attaching Documentation");
-    app.get("/can-i/document", function (req, res, next) {
-        process.nextTick(function () {
-            if (Config_1.configurationManager.feature.enabled('documentation'))
-                res.send(res.locals);
-            else {
-                next();
-            }
+    var port;
+    var callback;
+    port = args[0], callback = args[1];
+    OnReady(function () {
+        exports.App().get("/can-i/document", function (req, res, next) {
+            process.nextTick(function () {
+                console.log(Config_1.configurationManager.feature.enabled("documentation"));
+                if (Config_1.configurationManager.feature.enabled('documentation')) {
+                    res.send(res.locals);
+                }
+                else {
+                    next();
+                }
+            });
         });
     });
-    server = app.listen.apply(app, args);
-    Log_1.Logger.Main("Starting Job Engine");
-    Boot_1.Boot();
+    return application.Listen(port, callback);
 }
 exports.Listen = Listen;
 /**
@@ -119,15 +66,10 @@ exports.Listen = Listen;
 function OnReady() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
-    args.forEach(function (callback) {
-        if (exports.State.Ready) {
-            callback();
-        }
-        else {
-            Event_1.Event.on("can-i:bootstrapped", callback);
-        }
+    args.forEach(function (cb) {
+        application.onReady(cb);
     });
 }
 exports.OnReady = OnReady;
@@ -136,15 +78,14 @@ exports.OnReady = OnReady;
  *
  */
 function Close() {
-    GetServer().close();
-    return this;
+    application.Close();
 }
 exports.Close = Close;
 /**
  * Gets the instance of the server that is running
  */
 function GetServer() {
-    return server;
+    return application.server_instance;
 }
 exports.GetServer = GetServer;
 //# sourceMappingURL=index.js.map

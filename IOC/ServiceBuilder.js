@@ -12,7 +12,14 @@ var ServiceBuilder = (function () {
         throw new Error(error);
     }
     ServiceBuilder.ConstructService = function (target) {
-        var needs = Reflect.getMetadata("design:paramtypes", target);
+        var access = Accessor_1.Accessor(target);
+        var needs;
+        if (access.provider) {
+            needs = access.provider.provide();
+        }
+        else {
+            needs = Reflect.getMetadata("design:paramtypes", target);
+        }
         if (!needs) {
             console.warn(metadata_error);
             needs = [];
@@ -32,8 +39,7 @@ var ServiceBuilder = (function () {
     };
     ServiceBuilder.BuildService = function (target) {
         if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
-            // throw new Error(`class ${target.name} is not injectable`)
-            return null;
+            return target;
         }
         if (ServiceBuilder.isSingletonConstruct(target)) {
             return ServiceBuilder.ConstructSingleton(target);
@@ -65,7 +71,7 @@ var ServiceBuilder = (function () {
     ServiceBuilder.InjectWith = function () {
         var _args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            _args[_i - 0] = arguments[_i];
+            _args[_i] = arguments[_i];
         }
         var target = _args[0], key = _args[1], args = _args[2];
         var access = Accessor_1.Accessor(target);

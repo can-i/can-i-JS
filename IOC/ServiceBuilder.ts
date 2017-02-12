@@ -40,7 +40,14 @@ export class ServiceBuilder {
     }
 
     static ConstructService(target: new (...args: any[]) => any) {
-        let needs: any[] = Reflect.getMetadata("design:paramtypes", target);
+        let access = Accessor(target);
+        
+        let needs: any[];
+        if(access.provider){
+            needs = access.provider.provide()
+        }else{
+            needs = Reflect.getMetadata("design:paramtypes", target);
+        }
         if (!needs) {
             console.warn(metadata_error);
             needs = []
@@ -60,11 +67,10 @@ export class ServiceBuilder {
         }
     }
 
-    static BuildService<T>(target: new (...args: any[]) => T):T|null {
+    static BuildService<T>(target: new (...args: any[]) => T):T{
         
         if (!ServiceBuilder.isManual(target) && !ServiceBuilder.isIOCCLASS(target)) {
-            // throw new Error(`class ${target.name} is not injectable`)
-            return null;
+            return <T><any>target;
         }
 
         if (ServiceBuilder.isSingletonConstruct(target)) {

@@ -86,8 +86,7 @@ describe("Can-I", function () {
             return ItemService;
         }());
         ItemService = __decorate([
-            IOC_1.Injectable,
-            __metadata("design:paramtypes", [])
+            IOC_1.Injectable
         ], ItemService);
         var UserController = (function (_super) {
             __extends(UserController, _super);
@@ -153,7 +152,7 @@ describe("Can-I", function () {
         var CanPost = (function (_super) {
             __extends(CanPost, _super);
             function CanPost() {
-                return _super.apply(this, arguments) || this;
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             CanPost.prototype.test = function () {
                 if (Object.keys(this.req.body).length) {
@@ -196,8 +195,7 @@ describe("Can-I", function () {
         ], CanPost.prototype, "CronTask", null);
         CanPost = __decorate([
             MiddleWare_1.MiddleWare(BaseApi),
-            Route_1.Route("/test"),
-            __metadata("design:paramtypes", [])
+            Route_1.Route("/test")
         ], CanPost);
         return new Promise(function (resolve) {
             var keep_going = function () {

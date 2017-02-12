@@ -4,7 +4,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
@@ -154,6 +154,7 @@ function unsubscribe(route) {
 }
 exports.unsubscribe = unsubscribe;
 function ExtendRequest(route, type) {
+    //TODO clean up this mess
     return function (target, key, d) {
         var constructor = target.constructor;
         var access = Accessor_1.Accessor(constructor);
@@ -163,17 +164,18 @@ function ExtendRequest(route, type) {
             route_name: route,
             route_function: function (req, res, next) {
                 return __awaiter(this, void 0, void 0, function () {
-                    var constructor_1, access_1, middleware_1, controller_instance, setter, middleware_2, params, e_1, e_2, _a;
+                    var constructor_1, access_1, middleware_1, controller_instance, args, setter, middleware_2, params, e_1, e_2, _a;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
                             case 0:
-                                _b.trys.push([0, 9, , 10]);
+                                _b.trys.push([0, 10, , 11]);
                                 constructor_1 = target.constructor;
                                 access_1 = Accessor_1.Accessor(constructor_1);
-                                if (!(access_1.middleware && access_1.middleware.global && access_1.middleware.global.length))
-                                    return [3 /*break*/, 2];
+                                if (!(access_1.middleware && access_1.middleware.global && access_1.middleware.global.length)) return [3 /*break*/, 2];
                                 middleware_1 = Stack_1.Stack.apply(this, access_1.middleware.global);
+                                //TODO why the reject
                                 return [4 /*yield*/, new Promise(function (reject, resolve) {
+                                        //TODO next with a string is an error, don't know why i did that
                                         middleware_1(req, res, function (response) {
                                             if (response instanceof String) {
                                                 next(response);
@@ -184,49 +186,61 @@ function ExtendRequest(route, type) {
                                         });
                                     })];
                             case 1:
+                                //TODO why the reject
                                 _b.sent();
                                 _b.label = 2;
                             case 2:
-                                controller_instance = ServiceBuilder_1.ServiceBuilder.ConstructService(constructor_1);
+                                controller_instance = void 0;
+                                if (access_1.provider) {
+                                    args = access_1.provider.provide();
+                                    controller_instance = new (constructor_1.bind.apply(constructor_1, [void 0].concat(args)))();
+                                }
+                                else {
+                                    controller_instance = ServiceBuilder_1.ServiceBuilder.ConstructService(constructor_1);
+                                }
                                 setter = new Controller_1.ControllerConfig();
                                 setter.set_up_controller(controller_instance, req, res, next);
-                                controller_instance.onInit();
-                                if (!(access_1.middleware && access_1.middleware.route && access_1.middleware.route[key] && access_1.middleware.route[key].length))
-                                    return [3 /*break*/, 4];
+                                //Allow Async for init function
+                                return [4 /*yield*/, Promise.resolve(controller_instance.onInit())];
+                            case 3:
+                                //Allow Async for init function
+                                _b.sent();
+                                if (!(access_1.middleware && access_1.middleware.route && access_1.middleware.route[key] && access_1.middleware.route[key].length)) return [3 /*break*/, 5];
                                 middleware_2 = Stack_1.Stack.apply(this, access_1.middleware.route[key]);
-                                return [4 /*yield*/, new Promise(function (reject, resolve) {
+                                return [4 /*yield*/, new Promise(function (resolve, reject) {
                                         middleware_2(req, res, function (response) {
                                             if (response instanceof String) {
                                                 next(response);
                                             }
                                             else {
-                                                reject(response);
+                                                resolve(response);
                                             }
                                         });
                                     })];
-                            case 3:
-                                _b.sent();
-                                _b.label = 4;
                             case 4:
-                                params = [];
-                                params = ServiceBuilder_1.ServiceBuilder.getServiceMethodNeeds(target, key);
+                                _b.sent();
                                 _b.label = 5;
                             case 5:
-                                _b.trys.push([5, 7, , 8]);
-                                return [4 /*yield*/, Promise.resolve(((_a = controller_instance)[key].apply(_a, params)))];
+                                params = [];
+                                //Dependency injection
+                                params = ServiceBuilder_1.ServiceBuilder.getServiceMethodNeeds(target, key);
+                                _b.label = 6;
                             case 6:
-                                _b.sent();
-                                return [3 /*break*/, 8];
+                                _b.trys.push([6, 8, , 9]);
+                                return [4 /*yield*/, Promise.resolve(((_a = controller_instance)[key].apply(_a, params)))];
                             case 7:
+                                _b.sent();
+                                return [3 /*break*/, 9];
+                            case 8:
                                 e_1 = _b.sent();
                                 next(e_1);
-                                return [3 /*break*/, 8];
-                            case 8: return [3 /*break*/, 10];
-                            case 9:
+                                return [3 /*break*/, 9];
+                            case 9: return [3 /*break*/, 11];
+                            case 10:
                                 e_2 = _b.sent();
                                 next(e_2);
-                                return [3 /*break*/, 10];
-                            case 10: return [2 /*return*/];
+                                return [3 /*break*/, 11];
+                            case 11: return [2 /*return*/];
                         }
                     });
                 });

@@ -4,45 +4,40 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var Event_1 = require("./../Event");
-var Singleton_1 = require("../IOC/Singleton");
 var AppGetter_1 = require("./AppGetter");
-var get_set_box = {};
+var Log_1 = require("../Utility/Log");
+var Constant_1 = require("../Win/Constant");
+var get_set_box = Constant_1.Constant.set("GLOBAL_KEY_GET_SET_BOX", {});
 var Feature = (function (_super) {
     __extends(Feature, _super);
-    function Feature() {
-        return _super.call(this) || this;
+    function Feature(enablerdisabler) {
+        var _this = _super.call(this) || this;
+        _this.enablerdisabler = enablerdisabler;
+        Log_1.AppLog.debug("Booting Feature class");
+        return _this;
     }
     Feature.prototype.convert = function (f) {
         return "can-i feature " + f;
     };
     Feature.prototype.enable = function (f) {
-        this.app.enable(this.convert(f));
+        this.enablerdisabler.enable(this.convert(f));
         return this;
     };
     Feature.prototype.enabled = function (f) {
-        return this.app.enabled(this.convert(f));
+        return this.enablerdisabler.enabled(this.convert(f));
     };
     Feature.prototype.disable = function (f) {
-        this.app.disable(this.convert(f));
+        this.enablerdisabler.disable(this.convert(f));
         return this;
     };
     Feature.prototype.disabled = function (f) {
-        return this.app.disabled(this.convert(f));
+        return this.enablerdisabler.disabled(this.convert(f));
     };
     Feature.prototype.on = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
+            args[_i] = arguments[_i];
         }
         return Event_1.Event.on.apply(Event_1.Event, args);
     };
@@ -61,9 +56,55 @@ var Feature = (function (_super) {
     };
     return Feature;
 }(AppGetter_1.AppGetter));
-Feature = __decorate([
-    Singleton_1.Singleton,
-    __metadata("design:paramtypes", [])
-], Feature);
 exports.Feature = Feature;
+var ExpressSettingsEnableDisable = (function (_super) {
+    __extends(ExpressSettingsEnableDisable, _super);
+    function ExpressSettingsEnableDisable() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ExpressSettingsEnableDisable.prototype.enable = function (settings) {
+        this.app.enable(settings);
+    };
+    ExpressSettingsEnableDisable.prototype.disable = function (settings) {
+        this.app.disable(settings);
+    };
+    ExpressSettingsEnableDisable.prototype.enabled = function (settings) {
+        return this.app.enabled(settings);
+    };
+    ExpressSettingsEnableDisable.prototype.disabled = function (settings) {
+        return this.app.disabled(settings);
+    };
+    return ExpressSettingsEnableDisable;
+}(AppGetter_1.AppGetter));
+exports.ExpressSettingsEnableDisable = ExpressSettingsEnableDisable;
+var ExpressSettingsEnableDisableLogger = (function (_super) {
+    __extends(ExpressSettingsEnableDisableLogger, _super);
+    function ExpressSettingsEnableDisableLogger() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ExpressSettingsEnableDisableLogger.prototype.enable = function (settings) {
+        console.log("enabling " + settings);
+        _super.prototype.enable.call(this, settings);
+    };
+    ExpressSettingsEnableDisableLogger.prototype.enabled = function (settings) {
+        var r = _super.prototype.enabled.call(this, settings);
+        console.log(settings + " is " + (r ? 'enabled' : 'disabled'));
+        return r;
+    };
+    ExpressSettingsEnableDisableLogger.prototype.disable = function (settings) {
+        console.log("disabling " + settings);
+        _super.prototype.disable.call(this, settings);
+    };
+    return ExpressSettingsEnableDisableLogger;
+}(ExpressSettingsEnableDisable));
+exports.ExpressSettingsEnableDisableLogger = ExpressSettingsEnableDisableLogger;
+var FeatureFactory = (function () {
+    function FeatureFactory() {
+    }
+    FeatureFactory.ExpressFeature = function () {
+        return new Feature(new ExpressSettingsEnableDisable());
+    };
+    return FeatureFactory;
+}());
+exports.FeatureFactory = FeatureFactory;
 //# sourceMappingURL=Feature.js.map
