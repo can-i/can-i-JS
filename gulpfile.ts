@@ -13,8 +13,7 @@ import * as rs from "run-sequence";
 
 
 async function RunProcess(program: string, args: string[] = []) {
-
-    console.log();
+    
     let {spawn} = child_process;
 
     let child = spawn(program, args, {
