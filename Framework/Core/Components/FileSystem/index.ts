@@ -1,5 +1,10 @@
-import { FileCreator } from "./FileCreator";
-import { FileNode } from "./FileNode";
-import { FileRemover } from "./FileRemover";
 
-export default { FileCreator, FileNode, FileRemover };
+            import * as FileCreator from './FileCreator'
+        
+            import * as FileNode from './FileNode'
+        
+            import * as FileRemover from './FileRemover'
+        
+export default {FileCreator,
+FileNode,
+FileRemover};
