@@ -1,10 +1,2 @@
-.vscode/
-
-# Compile files
-**/*.map
-
-# Configuration
-
-
-
-/yarn.lock
+/**/*.ts
+/**/*.d.ts

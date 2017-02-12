@@ -1,5 +1,3 @@
-# Can I JS
+# Can-I
 
-*The yes framework!!*
-
-[Documentation](https://can-i.github.io/can-i-JS/)
+The Yes! Framework.
