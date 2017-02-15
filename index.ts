@@ -1,13 +1,10 @@
-import { Controller } from './lib/Controller/Controller';
-import { BaseController } from './lib/Controller/BaseController';
-
+import { MainController } from './Framework/Core/Components/Controllers/MainController';
 
 
 export module CanIWin {
 
     export const Controllers = {
-        BaseController,
-        Controller
+        MainController
     }
 }
 

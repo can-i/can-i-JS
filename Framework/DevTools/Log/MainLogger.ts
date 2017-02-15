@@ -16,7 +16,7 @@ export const MainLogger = LimberJack("can-i",{
     file:loggerpath,
     level:LOGLEVEL.DEBUG,
     tags:["main"]
-})
+}) as ILimberJack;
 
 
 export const StartLogger = MainLogger.extend("start",{

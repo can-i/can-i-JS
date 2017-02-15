@@ -3,119 +3,92 @@
   "version": "1.1.0",
   "author": "Shavauhn Gabay",
   "bugs": {
-    "url": "https://github.com/can-i/can-i-JS/issues",
-    "main": "index.js",
-    "directories": {
-      "test": "test"
+    "url": "https://github.com/can-i/can-i-JS/issues"
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "mkdirp": "^0.5.1",
+    "promise-lib": "^0.1.3",
+    "require-dir": "^0.3.1",
+    "ts-glob": "0.0.9",
+    "tslib": "^1.5.0",
+    "unhandled-rejection": "^1.0.0",
+    "uuid": "^3.0.1",
+    "@types/express": "^4.0.34",
+    "@types/glob": "^5.0.30",
+    "body-parser": "^1.15.2",
+    "bunyan": "^1.8.5",
+    "consolidate": "^0.14.1",
+    "core-js": "^2.4.1",
+    "cron": "^1.1.1",
+    "glob": "^7.1.1",
+    "limberjack": "^2.2.9",
+    "lodash": "^4.16.6",
+    "node-cron": "^1.1.3",
+    "reflect-metadata": "^0.1.8",
+    "require-guard": "^1.0.1",
+    "source-map-support": "^0.4.10",
+    "tiny-emitter": "^1.1.0",
+    "typescript": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/express": "^4.0.35",
+    "@types/gulp": "^3.8.32",
+    "@types/mkdirp": "^0.3.29",
+    "@types/mocha": "^2.2.39",
+    "@types/node": "^7.0.4",
+    "@types/sinon": "^1.16.35",
+    "@types/superagent": "^2.0.35",
+    "auto-install": "^1.7.3",
+    "betterunit": "^1.2.4",
+    "body-parser": "^1.16.0",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "mocha": "^3.2.0",
+    "pump": "^1.0.2",
+    "run-sequence": "^1.2.2",
+    "source-map-support": "^0.4.11",
+    "ts-glob": "0.0.9",
+    "typedoc": "^0.5.5",
+    "typescript": "^2.1.6",
+    "typings": "^2.0.0"
+  },
+  "homepage": "https://github.com/can-i/can-i-JS#readme",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/can-i/can-i-JS.git"
+  },
+  "scripts": {
+    "build": "gulp",
+    "doc:generation": "typedoc --tsconfig doc.json --ignoreCompilerErrors --out _book/classes  --excludeExternals --excludePrivate --mode file",
+    "test": "mocha"
+  },
+  "ts": [
+    {
+      "config": "tsconfig.json",
+      "files": [
+        "gulpfile.ts",
+        "index.ts",
+        "Framework/**/*.ts",
+        "scripts/**/*.ts",
+        "test/**/*.ts"
+      ],
+      "exclude": "/d\\.ts$/"
     },
-    "devDependencies": {
-      "@types/core-js": "^0.9.34",
-      "@types/lodash": "^4.14.38",
-      "@types/mocha": "^2.2.32",
-      "@types/sinon": "^1.16.31",
-      "@types/superagent": "^2.0.35",
-      "babel-cli": "^6.18.0",
-      "babel-plugin-transform-runtime": "^6.15.0",
-      "babel-preset-es2015": "^6.18.0",
-      "babel-preset-stage-0": "^6.16.0",
-      "betterunit": "^1.2.4",
-      "body-parser": "^1.15.2",
-      "gh-pages": "^0.12.0",
-      "gitbook": "^3.2.2",
-      "gitbook-cli": "^2.3.0",
-      "mocha": "^3.2.0",
-      "must": "^0.13.2",
-      "sinon": "^1.17.6",
-      "source-map-support": "^0.4.6",
-      "superagent": "^3.1.0",
-      "typedoc": "https://github.com/DatenMetzgerX/typedoc/tarball/typescript-2-build",
-      "typescript": "rc",
-      "typings": "^2.1.0"
-    },
-    "dependencies": {
-      "express": "^4.14.0",
-      "mkdirp": "^0.5.1",
-      "promise-lib": "^0.1.3",
-      "require-dir": "^0.3.1",
-      "ts-glob": "0.0.9",
-      "tslib": "^1.5.0",
-      "unhandled-rejection": "^1.0.0",
-      "uuid": "^3.0.1",
-      "@types/express": "^4.0.34",
-      "@types/glob": "^5.0.30",
-      "body-parser": "^1.15.2",
-      "bunyan": "^1.8.5",
-      "consolidate": "^0.14.1",
-      "core-js": "^2.4.1",
-      "cron": "^1.1.1",
-      "glob": "^7.1.1",
-      "limberjack": "^2.2.9",
-      "lodash": "^4.16.6",
-      "node-cron": "^1.1.2",
-      "reflect-metadata": "^0.1.8",
-      "require-guard": "^1.0.1",
-      "source-map-support": "^0.4.10",
-      "tiny-emitter": "^1.1.0",
-      "typescript": "^2.1.5"
-    },
-    "devDependencies": {
-      "@types/chai": "^3.4.34",
-      "@types/express": "^4.0.35",
-      "@types/gulp": "^3.8.32",
-      "@types/mkdirp": "^0.3.29",
-      "@types/mocha": "^2.2.38",
-      "@types/node": "^7.0.4",
-      "@types/sinon": "^1.16.33",
-      "@types/superagent": "^2.0.35",
-      "auto-install": "^1.7.3",
-      "betterunit": "^1.2.4",
-      "body-parser": "^1.16.0",
-      "chai": "^3.5.0",
-      "gulp": "^3.9.1",
-      "gulp-concat": "^2.6.1",
-      "mocha": "^3.2.0",
-      "pump": "^1.0.2",
-      "run-sequence": "^1.2.2",
-      "source-map-support": "^0.4.11",
-      "ts-glob": "0.0.9",
-      "typedoc": "^0.5.5",
-      "typescript": "^2.1.6",
-      "typings": "^2.0.0"
-    },
-    "directories": {
-      "test": "test"
-    },
-    "homepage": "https://github.com/can-i/can-i-JS#readme",
-    "license": "ISC",
-    "main": "index.js",
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/can-i/can-i-JS.git"
-    },
-    "scripts": {
-      "build": "gulp",
-      "doc:generation": "typedoc --tsconfig doc.json --ignoreCompilerErrors --out _book/classes  --excludeExternals --excludePrivate --mode file",
-      "test": "mocha"
-    },
-    "ts": [
-      {
-        "config": "tsconfig.json",
-        "files": [
-          "gulpfile.ts",
-          "index.ts",
-          "Framework/**/*.ts",
-          "scripts/**/*.ts",
-          "test/**/*.ts"
-        ],
-        "exclude": "/d\\.ts$/"
-      },
-      {
-        "config": "doc.json",
-        "files": [
-          "index.ts",
-          "Framework/**/*.ts"
-        ],
-        "exclude": "/d\\.ts$/"
-      }
-    ]
-  }
+    {
+      "config": "doc.json",
+      "files": [
+        "index.ts",
+        "Framework/**/*.ts"
+      ],
+      "exclude": "/d\\.ts$/"
+    }
+  ]
+}
