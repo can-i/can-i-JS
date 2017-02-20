@@ -10,7 +10,7 @@
     "test": "test"
   },
   "dependencies": {
-    "express": "^4.14.0",
+    "express": "^4.14.1",
     "mkdirp": "^0.5.1",
     "promise-lib": "^0.1.3",
     "require-dir": "^0.3.1",
